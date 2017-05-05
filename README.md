@@ -1,6 +1,6 @@
 # SpaceGamev2 - Android Game
 
-##Allgemeine Ideen / Grundanforderungen
+## Allgemeine Ideen / Grundanforderungen
 
 * Space Game mit den bekannten Texturen
 * Steuerung des Raumschiffes erfolgt über Joystick am Touchscreen (In alle Richtungen)
@@ -15,10 +15,10 @@
 * Highscore speichern
 * Menü & Erklärung
 
-##Zusatz:
+## Zusatz:
 
 * 
 
-##TODO:
+## TODO:
 
 * 
