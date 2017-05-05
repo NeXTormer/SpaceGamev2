@@ -1,5 +1,7 @@
 # SpaceGamev2 - Android Game
 
+Bessere Version des SpaceGames. Mit Android kompatibel.
+
 ## Allgemeine Ideen / Grundanforderungen
 
 * Space Game mit den bekannten Texturen
