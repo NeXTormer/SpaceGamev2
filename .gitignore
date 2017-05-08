@@ -14,7 +14,7 @@ gen/
 out/
 
 # Gradle files
-.gradle/
+#.gradle/
 build/
 
 # Local configuration file (sdk path, etc)
@@ -33,8 +33,7 @@ proguard/
 captures/
 
 # Intellij
-*.iml
-.idea/
+#*.iml
 
 # Keystore files
 *.jks
