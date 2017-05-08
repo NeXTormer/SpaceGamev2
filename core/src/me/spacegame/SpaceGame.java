@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.spacegame.screens.MainMenuScreen;
+
 public class SpaceGame extends Game {
 
 	SpriteBatch batch;
@@ -14,24 +16,17 @@ public class SpaceGame extends Game {
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-
-
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 0, 1);
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 100, 0);
-		batch.end();
+		getScreen().render(Gdx.graphics.getDeltaTime());
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
 	}
 }
