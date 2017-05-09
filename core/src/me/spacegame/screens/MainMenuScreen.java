@@ -55,8 +55,7 @@ public class MainMenuScreen implements Screen {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        startbtn.setPosition(180, 100);
-        startbtn.setSize(startbtn.getWidth()/3, startbtn.getHeight()/3);
+        startbtn.setPosition(580, 250);
 
         stage = new Stage();
         stage.addActor(startbtn);
@@ -71,6 +70,12 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if(startbtn.isPressed())
+        {
+            game.setScreen(new GameScreen(game));
+            dispose();
+        }
 
         batch.setProjectionMatrix(camera.combined);
         //stage.getBatch().setProjectionMatrix(camera.combined);
