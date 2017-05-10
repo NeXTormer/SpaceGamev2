@@ -32,7 +32,7 @@ public class Meteor {
     public Meteor()
     {
         radius = random.nextInt(50)+50;
-        health = random.nextInt(70)+30;
+        health = random.nextInt(90)+10;
         mtfull = new Texture(Gdx.files.internal("Meteor_01.png"));
         mthalf = new Texture(Gdx.files.internal("Meteor_02.png"));
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
@@ -46,7 +46,7 @@ public class Meteor {
     {
 
         x -= speed;
-        if(health>50)
+        if(health>30)
         {
             batch.draw(mtfull, x, y, radius*2, radius*2);
         }
