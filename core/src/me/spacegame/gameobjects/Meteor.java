@@ -18,20 +18,23 @@ import me.spacegame.SpaceGame;
 public class Meteor {
 
 
-    private Texture mt;
+    private Texture mtfull;
+    private Texture mthalf;
     private int speed;
     private float x;
     private float y;
     private float radius;
     private int rotateSpeed;
-    private int health = 100;
+    private int health;
     private Circle box;
     private static Random random = new Random();
 
     public Meteor()
     {
         radius = random.nextInt(50)+50;
-        mt = new Texture(Gdx.files.internal("Meteor_01.png"));
+        health = random.nextInt(70)+30;
+        mtfull = new Texture(Gdx.files.internal("Meteor_01.png"));
+        mthalf = new Texture(Gdx.files.internal("Meteor_02.png"));
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
         y = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
         box = new Circle(x, y, radius);
@@ -43,12 +46,20 @@ public class Meteor {
     {
 
         x -= speed;
-        batch.draw(mt, x, y, radius*2, radius*2);
+        if(health>50)
+        {
+            batch.draw(mtfull, x, y, radius*2, radius*2);
+        }
+        else
+        {
+            batch.draw(mthalf, x, y, radius*2, radius*2);
+        }
 
     }
 
     public void dispose()
     {
-        mt.dispose();
+        mthalf.dispose();
+        mtfull.dispose();
     }
 }
