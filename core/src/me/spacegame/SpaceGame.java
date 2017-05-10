@@ -11,9 +11,13 @@ import me.spacegame.screens.MainMenuScreen;
 
 public class SpaceGame extends Game {
 
+	public final static int VIEWPORTWIDTH = 1920;
+	public final static int VIEWPORTHEIGHT = 1080;
+
 	SpriteBatch batch;
 	Texture img;
-	
+
+
 	@Override
 	public void create () {
 		Gdx.gl.glClearColor(1, 1, 0, 1);

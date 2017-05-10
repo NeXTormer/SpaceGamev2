@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.gameobjects.Background;
+import me.spacegame.gameobjects.Meteor;
 
 /**
  * Created by Felix on 09-May-17.
@@ -21,11 +22,13 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 
     private Background background;
+    private Meteor meteor;
 
     public GameScreen(SpaceGame game)
     {
         this.game = game;
         background = new Background("background.png");
+        meteor = new Meteor();
         batch = new SpriteBatch(20);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -46,6 +49,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         background.render(delta, batch);
+        meteor.render(delta, batch);
         batch.end();
     }
 
@@ -74,5 +78,6 @@ public class GameScreen implements Screen {
     {
         batch.dispose();
         background.dispose();
+        meteor.dispose();
     }
 }
