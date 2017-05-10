@@ -78,7 +78,6 @@ public class MainMenuScreen implements Screen {
         }
 
         batch.setProjectionMatrix(camera.combined);
-        //stage.getBatch().setProjectionMatrix(camera.combined);
 
         batch.begin();
         batch.draw(background, 0, 0);
