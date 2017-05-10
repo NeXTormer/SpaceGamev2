@@ -117,6 +117,7 @@ public class MainMenuScreen implements Screen {
         logo.dispose();
         startbuttonup.dispose();
         startbuttondown.dispose();
+        stage.dispose();
     }
 
 

@@ -1,6 +1,8 @@
 package me.spacegame.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.spacegame.SpaceGame;
@@ -16,6 +18,7 @@ public class GameScreen implements Screen {
     private SpaceGame game;
 
     private SpriteBatch batch;
+    private OrthographicCamera camera;
 
     private Background background;
 
@@ -23,7 +26,9 @@ public class GameScreen implements Screen {
     {
         this.game = game;
         background = new Background("background.png");
-        batch = new SpriteBatch();
+        batch = new SpriteBatch(20);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1920, 1080);
     }
 
 
@@ -35,6 +40,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        System.err.println(Gdx.gl.glGetError());
+
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         background.render(delta, batch);
         batch.end();

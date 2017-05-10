@@ -1,6 +1,7 @@
 package me.spacegame.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -23,7 +24,8 @@ public class Background {
 
     public void render(float delta, SpriteBatch batch)
     {
-        x -= 200 * delta;
+
+        x -= 10;
 
         if(x <= -bg.getWidth())
         {
@@ -31,7 +33,7 @@ public class Background {
         }
 
         batch.draw(bg, x, 0);
-        batch.draw(bg, x - (bg.getWidth()), 0);
+        batch.draw(bg, x + (bg.getWidth()), 0);
 
     }
 
