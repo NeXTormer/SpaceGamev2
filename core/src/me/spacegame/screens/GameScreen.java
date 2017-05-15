@@ -39,10 +39,11 @@ public class GameScreen implements Screen {
     public GameScreen(SpaceGame game)
     {
         this.game = game;
-        background = new Background("background.png");
+        background = new Background("gameobjects/background.png");
 
         meteor = new Meteor();
         batch = new SpriteBatch();
+        stage = new Stage();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
@@ -51,8 +52,8 @@ public class GameScreen implements Screen {
         touchpadskin = new Skin();
         touchpadStyle = new Touchpad.TouchpadStyle();
 
-        touchpadskin.add("touchBackground", new Texture("touchbackground.png"));
-        touchpadskin.add("touchKnob", new Texture("touchknob2.png"));
+        touchpadskin.add("touchBackground", new Texture("touchpad/touchbackground.png"));
+        touchpadskin.add("touchKnob", new Texture("touchpad/touchknob.png"));
 
         touchbackground = touchpadskin.getDrawable("touchBackground");
         touchknob = touchpadskin.getDrawable("touchKnob");

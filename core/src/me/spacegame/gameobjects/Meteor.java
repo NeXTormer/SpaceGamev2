@@ -33,8 +33,8 @@ public class Meteor {
     {
         radius = random.nextInt(50)+50;
         health = random.nextInt(90)+10;
-        mtfull = new Texture(Gdx.files.internal("Meteor_01.png"));
-        mthalf = new Texture(Gdx.files.internal("Meteor_02.png"));
+        mtfull = new Texture(Gdx.files.internal("gameobjects/Meteor_01.png"));
+        mthalf = new Texture(Gdx.files.internal("gameobjects/Meteor_02.png"));
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
         y = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
         box = new Circle(x, y, radius);
