@@ -20,13 +20,13 @@ public class Rocket {
     private Circle box;
     private int speed;
 
-    public Rocket(float x, float y)
+    public Rocket(Player p)
     {
-        this.y = y;
-        this.x = x;
         speed = 5;
         width = 30;
         height = 20;
+        this.y = p.y+(p.height/2)-(height/2);
+        this.x = p.x+p.width;
         texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
         box = new Circle(x, y, height);
     }

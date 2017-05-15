@@ -39,7 +39,7 @@ public class Meteor {
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
         y = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
         box = new Circle(x, y, radius);
-        speed = random.nextInt(15)+5;
+        speed = random.nextInt(12)+5;
         rotateSpeed = random.nextInt(5);
     }
 

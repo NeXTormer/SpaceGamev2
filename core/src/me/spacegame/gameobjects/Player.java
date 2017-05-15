@@ -15,10 +15,10 @@ import me.spacegame.SpaceGame;
 public class Player {
 
     private int baseSpeed = 12;
-    private float x;
-    private float y;
-    private int height;
-    private int width;
+    public float x;
+    public float y;
+    public int height;
+    public int width;
     private Circle box;
     private int health = 100;
     private Texture texture;
