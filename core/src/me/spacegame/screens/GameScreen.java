@@ -10,9 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.spacegame.SpaceGame;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Meteor;
+import me.spacegame.gameobjects.Player;
 
 /**
  * Created by Felix on 09-May-17.
@@ -27,21 +31,25 @@ public class GameScreen implements Screen {
     private Stage stage;
     private OrthographicCamera camera;
 
+    private List<Meteor> meteors = new ArrayList<Meteor>();
+
+
     private Background background;
-    private Meteor meteor;
 
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadskin;
     private Drawable touchknob;
     private Drawable touchbackground;
+    private Player player;
+
 
     public GameScreen(SpaceGame game)
     {
         this.game = game;
         background = new Background("gameobjects/background.png");
 
-        meteor = new Meteor();
+
         batch = new SpriteBatch();
         stage = new Stage();
         camera = new OrthographicCamera();
@@ -62,13 +70,18 @@ public class GameScreen implements Screen {
         touchpadStyle.background = touchbackground;
         touchpadStyle.knob = touchknob;
 
-
-
-
         touchpad = new Touchpad(0, touchpadStyle);
         touchpad.setBounds(90, 90, 400, 400);
 
         stage.addActor(touchpad);
+
+        for(int i = 0; i < 10; i++)
+        {
+            meteors.add(new Meteor());
+        }
+
+
+        player = new Player();
     }
 
 
@@ -80,10 +93,29 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        //update
         batch.setProjectionMatrix(camera.combined);
+        player.updatePosition(touchpad);
+
+        for(int i = 0; i < meteors.size(); i++)
+        {
+            if(meteors.get(i).x < -meteors.get(i).radius)
+            {
+                meteors.get(i).dispose();
+                meteors.remove(i);
+                meteors.add(new Meteor());
+            }
+        }
+
+
+        //render
         batch.begin();
         background.render(delta, batch);
-        meteor.render(delta, batch);
+        for(Meteor m : meteors)
+        {
+            m.render(delta, batch);
+        }
+        player.render(delta, batch);
         batch.end();
 
         stage.act(delta);
@@ -115,6 +147,10 @@ public class GameScreen implements Screen {
     {
         batch.dispose();
         background.dispose();
-        meteor.dispose();
+
+        for(int i = 0; i < meteors.size(); i++)
+        {
+            meteors.get(i).dispose();
+        }
     }
 }

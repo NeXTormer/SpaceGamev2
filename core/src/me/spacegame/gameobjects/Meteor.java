@@ -18,12 +18,13 @@ import me.spacegame.SpaceGame;
 public class Meteor {
 
 
+    public float x;
+    public float radius;
+
     private Texture mtfull;
     private Texture mthalf;
     private int speed;
-    private float x;
     private float y;
-    private float radius;
     private int rotateSpeed;
     private int health;
     private Circle box;
@@ -48,6 +49,7 @@ public class Meteor {
         x -= speed;
         box.setX(x);
         box.setY(y);
+
         if(health>30)
         {
             batch.draw(mtfull, x, y, radius*2, radius*2);
