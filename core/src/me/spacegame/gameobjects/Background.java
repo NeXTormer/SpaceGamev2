@@ -25,7 +25,7 @@ public class Background {
     public void render(float delta, SpriteBatch batch)
     {
 
-        x -= 10;
+        x -= speed;
 
         if(x <= -bg.getWidth())
         {

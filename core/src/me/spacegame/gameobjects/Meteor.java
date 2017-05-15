@@ -46,6 +46,8 @@ public class Meteor {
     {
 
         x -= speed;
+        box.setX(x);
+        box.setY(y);
         if(health>30)
         {
             batch.draw(mtfull, x, y, radius*2, radius*2);
