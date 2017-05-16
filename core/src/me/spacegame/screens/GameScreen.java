@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -29,26 +31,28 @@ import me.spacegame.gameobjects.Rocket;
 public class GameScreen implements Screen, InputProcessor {
 
 
-    private SpaceGame game;
+    private static final int SHAKETIME = 45;
 
+    private SpaceGame game;
     private SpriteBatch batch;
     private Stage stage;
-    private OrthographicCamera camera;
 
+    private OrthographicCamera camera;
     private List<Meteor> meteors = new ArrayList<Meteor>();
+
+
     private List<Rocket> rockets = new ArrayList<Rocket>();
 
-
     private Background background;
-
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadskin;
     private Drawable touchknob;
     private Drawable touchbackground;
     private Player player;
-    InputMultiplexer inputMultiplexer;
 
+    private InputMultiplexer inputMultiplexer;
+    private long shakeCamTimer = 0;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -101,13 +105,23 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         //update
-        batch.setProjectionMatrix(camera.combined);
+        if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
+        {
+            float dx = (float) Math.sin(System.currentTimeMillis());
+            float dy = (float) Math.sin(2 * System.currentTimeMillis());
+
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
+            camera.update();
+            batch.setProjectionMatrix(camera.combined);
+        }
+
         player.updatePosition(touchpad);
 
 
         for (int i = 0; i < meteors.size(); i++) {
             if (Intersector.overlaps(meteors.get(i).box, player.box)) {
                 player.health -= meteors.get(i).damage;
+                shakeCam();
                 if (player.health <= 0) {
                     gameOver();
                 }
@@ -140,8 +154,8 @@ public class GameScreen implements Screen, InputProcessor {
                     break;
                 }
             }
-        }
 
+        }
 
         //render
         batch.begin();
@@ -246,6 +260,6 @@ public class GameScreen implements Screen, InputProcessor {
 
     public void shakeCam()
     {
-        double x = Math.sin(System.currentTimeMillis());
+        shakeCamTimer = System.currentTimeMillis();
     }
 }

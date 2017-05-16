@@ -20,7 +20,7 @@ public class SpaceGame extends Game {
 
 	@Override
 	public void create () {
-		Gdx.gl.glClearColor(1, 1, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		setScreen(new MainMenuScreen(this));
 	}
 
