@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
 import me.spacegame.SpaceGame;
@@ -14,15 +15,16 @@ import me.spacegame.SpaceGame;
 
 public class Player {
 
-    private int baseSpeed = 12;
     public float x;
     public float y;
     public int height;
     public int width;
-    private Circle box;
+    public Rectangle box;
+    public int health = 100;
+
+    private int baseSpeed = 12;
     private float newx;
     private float newy;
-    private int health = 100;
     private Texture texture;
 
     public Player()
@@ -31,7 +33,7 @@ public class Player {
         height = 150;
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
-        box = new Circle(x, y, width);
+        box = new Rectangle(x, y, width, height);
         texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_01.png"));
     }
 
@@ -52,6 +54,7 @@ public class Player {
         {
             y = newy;
         }
+        box.setPosition(x, y);
     }
 
     public void dispose()

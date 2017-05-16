@@ -50,9 +50,7 @@ public class GameScreen implements Screen, InputProcessor {
     InputMultiplexer inputMultiplexer;
 
 
-
-    public GameScreen(SpaceGame game)
-    {
+    public GameScreen(SpaceGame game) {
         this.game = game;
         background = new Background("gameobjects/background.png");
 
@@ -86,15 +84,13 @@ public class GameScreen implements Screen, InputProcessor {
 
         stage.addActor(touchpad);
 
-        for(int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             meteors.add(new Meteor());
         }
 
 
         player = new Player();
     }
-
 
 
     @Override
@@ -109,35 +105,34 @@ public class GameScreen implements Screen, InputProcessor {
         player.updatePosition(touchpad);
 
 
-        for(int i = 0; i < meteors.size(); i++)
-        {
-            if(meteors.get(i).x < -meteors.get(i).radius)
-            {
+        for (int i = 0; i < meteors.size(); i++) {
+            if (Intersector.overlaps(meteors.get(i).box, player.box)) {
+                player.health -= meteors.get(i).damage;
+                if (player.health <= 0) {
+                    gameOver();
+                }
+            }
+
+            if (meteors.get(i).x < -meteors.get(i).radius) {
                 meteors.get(i).dispose();
                 meteors.remove(i);
                 meteors.add(new Meteor());
             }
         }
-        for(int i = 0; i<rockets.size();i++)
-        {
-            if(rockets.get(i).x>=SpaceGame.VIEWPORTWIDTH)
-            {
+        for (int i = 0; i < rockets.size(); i++) {
+            if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
                 rockets.get(i).dispose();
                 rockets.remove(rockets.get(i));
             }
         }
 
-        for(int i = 0; i<rockets.size(); i++)
-        {
-            for(int j = 0; j<meteors.size(); j++)
-            {
-                if(Intersector.overlaps(meteors.get(j).box, rockets.get(i).box))
-                {
+        for (int i = 0; i < rockets.size(); i++) {
+            for (int j = 0; j < meteors.size(); j++) {
+                if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
                     rockets.get(i).dispose();
                     rockets.remove(rockets.get(i));
-                    meteors.get(j).health-=30;
-                    if(meteors.get(j).health<=0)
-                    {
+                    meteors.get(j).health -= 30;
+                    if (meteors.get(j).health <= 0) {
                         meteors.get(j).dispose();
                         meteors.remove(j);
                         meteors.add(new Meteor());
@@ -148,18 +143,14 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
 
-
-
         //render
         batch.begin();
         background.render(delta, batch);
-        for(Meteor m : meteors)
-        {
+        for (Meteor m : meteors) {
             m.render(delta, batch);
         }
-        for(Rocket r : rockets)
-        {
-                r.render(delta, batch);
+        for (Rocket r : rockets) {
+            r.render(delta, batch);
 
         }
         player.render(delta, batch);
@@ -167,6 +158,12 @@ public class GameScreen implements Screen, InputProcessor {
 
         stage.act(delta);
         stage.draw();
+    }
+
+    private void gameOver() {
+        System.err.println("Game Over!");
+
+
     }
 
     @Override
@@ -186,10 +183,8 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(screenX>=SpaceGame.VIEWPORTWIDTH/2)
-        {
-            if(rockets.size()<5)
-            {
+        if (screenX >= SpaceGame.VIEWPORTWIDTH / 2) {
+            if (rockets.size() < 5) {
                 rockets.add(new Rocket(player));
             }
         }
@@ -237,18 +232,20 @@ public class GameScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         batch.dispose();
         background.dispose();
 
-        for(int i = 0; i < meteors.size(); i++)
-        {
+        for (int i = 0; i < meteors.size(); i++) {
             meteors.get(i).dispose();
         }
-        for(int i = 0; i < rockets.size(); i++)
-        {
+        for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }
+    }
+
+    public void shakeCam()
+    {
+        double x = Math.sin(System.currentTimeMillis());
     }
 }
