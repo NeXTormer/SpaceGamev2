@@ -20,6 +20,8 @@ public class Player {
     public int height;
     public int width;
     private Circle box;
+    private float newx;
+    private float newy;
     private int health = 100;
     private Texture texture;
 
@@ -40,8 +42,16 @@ public class Player {
 
     public void updatePosition(Touchpad touchpad)
     {
-        x += touchpad.getKnobPercentX() * baseSpeed;
-        y += touchpad.getKnobPercentY() * baseSpeed;
+        newx=touchpad.getKnobPercentX() * baseSpeed+x;
+        newy=touchpad.getKnobPercentY() * baseSpeed+y;
+        if(newx+width<SpaceGame.VIEWPORTWIDTH && newx>0)
+        {
+            x = newx;
+        }
+        if(newy+height<SpaceGame.VIEWPORTHEIGHT && newy>0)
+        {
+            y = newy;
+        }
     }
 
     public void dispose()

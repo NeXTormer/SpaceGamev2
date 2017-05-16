@@ -26,19 +26,23 @@ public class Meteor {
     private int speed;
     private float y;
     private int rotateSpeed;
-    private int health;
-    private Circle box;
+    public int health;
+    public Circle box;
     private static Random random = new Random();
 
     public Meteor()
     {
-        radius = random.nextInt(50)+50;
+       // radius = random.nextInt(50)+50;
+        radius=50;
         health = random.nextInt(90)+10;
         mtfull = new Texture(Gdx.files.internal("gameobjects/Meteor_01.png"));
         mthalf = new Texture(Gdx.files.internal("gameobjects/Meteor_02.png"));
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
         y = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
-        box = new Circle(x, y, radius);
+        box = new Circle();
+        box.setX(x+radius);
+        box.setY(y+radius);
+        box.setRadius(radius);
         speed = random.nextInt(12)+5;
         rotateSpeed = random.nextInt(5);
     }
@@ -47,8 +51,8 @@ public class Meteor {
     {
 
         x -= speed;
-        box.setX(x);
-        box.setY(y);
+        box.setX(x+radius);
+        box.setY(y+radius);
 
         if(health>30)
         {

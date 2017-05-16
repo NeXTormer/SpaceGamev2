@@ -1,10 +1,13 @@
 package me.spacegame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -17,12 +20,13 @@ import me.spacegame.SpaceGame;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
+import me.spacegame.gameobjects.Rocket;
 
 /**
  * Created by Felix on 09-May-17.
  */
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, InputProcessor {
 
 
     private SpaceGame game;
@@ -32,6 +36,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 
     private List<Meteor> meteors = new ArrayList<Meteor>();
+    private List<Rocket> rockets = new ArrayList<Rocket>();
 
 
     private Background background;
@@ -42,6 +47,8 @@ public class GameScreen implements Screen {
     private Drawable touchknob;
     private Drawable touchbackground;
     private Player player;
+    InputMultiplexer inputMultiplexer;
+
 
 
     public GameScreen(SpaceGame game)
@@ -55,7 +62,11 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
-        Gdx.input.setInputProcessor(stage);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
 
         touchpadskin = new Skin();
         touchpadStyle = new Touchpad.TouchpadStyle();
@@ -97,6 +108,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         player.updatePosition(touchpad);
 
+
         for(int i = 0; i < meteors.size(); i++)
         {
             if(meteors.get(i).x < -meteors.get(i).radius)
@@ -106,6 +118,36 @@ public class GameScreen implements Screen {
                 meteors.add(new Meteor());
             }
         }
+        for(int i = 0; i<rockets.size();i++)
+        {
+            if(rockets.get(i).x>=SpaceGame.VIEWPORTWIDTH)
+            {
+                rockets.get(i).dispose();
+                rockets.remove(rockets.get(i));
+            }
+        }
+
+        for(int i = 0; i<rockets.size(); i++)
+        {
+            for(int j = 0; j<meteors.size(); j++)
+            {
+                if(Intersector.overlaps(meteors.get(j).box, rockets.get(i).box))
+                {
+                    rockets.get(i).dispose();
+                    rockets.remove(rockets.get(i));
+                    meteors.get(j).health-=30;
+                    if(meteors.get(j).health<=0)
+                    {
+                        meteors.get(j).dispose();
+                        meteors.remove(j);
+                        meteors.add(new Meteor());
+                    }
+                    break;
+                }
+            }
+        }
+
+
 
 
         //render
@@ -115,11 +157,63 @@ public class GameScreen implements Screen {
         {
             m.render(delta, batch);
         }
+        for(Rocket r : rockets)
+        {
+                r.render(delta, batch);
+
+        }
         player.render(delta, batch);
         batch.end();
 
         stage.act(delta);
         stage.draw();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(screenX>=SpaceGame.VIEWPORTWIDTH/2)
+        {
+            if(rockets.size()<5)
+            {
+                rockets.add(new Rocket(player));
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 
     @Override
@@ -151,6 +245,10 @@ public class GameScreen implements Screen {
         for(int i = 0; i < meteors.size(); i++)
         {
             meteors.get(i).dispose();
+        }
+        for(int i = 0; i < rockets.size(); i++)
+        {
+            rockets.get(i).dispose();
         }
     }
 }
