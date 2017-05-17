@@ -59,5 +59,6 @@ public class Player {
 
     public void dispose()
     {
+        texture.dispose();
     }
 }
