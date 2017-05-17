@@ -30,7 +30,7 @@ public class Player {
     public Player()
     {
         width = 150;
-        height = 150;
+        height = 120;
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
         box = new Rectangle(x, y, width, height);
@@ -39,7 +39,7 @@ public class Player {
 
     public void render(float delta, SpriteBatch batch)
     {
-        batch.draw(texture, x, y, height, width);
+        batch.draw(texture, x, y, width, height);
     }
 
     public void updatePosition(Touchpad touchpad)

@@ -23,7 +23,7 @@ public class Enemy {
     public Rectangle box;
     public int health = 100;
 
-    private int baseSpeed = 20;
+    private int baseSpeed;
     private static Texture enemyTexture;
     private static Random random = new Random();
 
@@ -35,17 +35,21 @@ public class Enemy {
 
     static
     {
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
-        warningTexture = new Texture(Gdx.files.internal("gameobjects/Warning_01.png"));
+
     }
 
     public Enemy()
     {
-        health = random.nextInt(90)+10;
-        enemyX = random.nextInt(400)+ SpaceGame.VIEWPORTWIDTH;
-        enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)enemyHeight);
+        enemyX = random.nextInt(1000)+ SpaceGame.VIEWPORTWIDTH+2000;
+        enemyWidth=150;
+        enemyHeight=150;
+        enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
-        baseSpeed = random.nextInt(12)+5;
+        baseSpeed = 32
+        ;
+
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
+        warningTexture = new Texture(Gdx.files.internal("gameobjects/Warning_01.png"));
 
         warningX = SpaceGame.VIEWPORTWIDTH-50;
         warningY = enemyY;
@@ -60,7 +64,7 @@ public class Enemy {
 
 
         batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
-        if(enemyX>1920)
+        if(enemyX>SpaceGame.VIEWPORTWIDTH)
         {
             batch.draw(warningTexture, warningX, warningY, warningWidth, warningHeight);
         }

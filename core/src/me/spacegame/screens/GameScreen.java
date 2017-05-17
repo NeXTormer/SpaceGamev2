@@ -20,6 +20,7 @@ import java.util.List;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.gameobjects.Background;
+import me.spacegame.gameobjects.Enemy;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Drawable touchknob;
     private Drawable touchbackground;
     private Player player;
+    private Enemy enemy;
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -95,6 +97,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 
         player = new Player();
+        enemy = new Enemy();
     }
 
 
@@ -118,6 +121,10 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.updatePosition(touchpad);
 
+        if(enemy.enemyX<=-enemy.enemyWidth)
+        {
+            enemy = new Enemy();
+        }
 
         for (int i = 0; i < meteors.size(); i++) {
             if (Intersector.overlaps(meteors.get(i).box, player.box)) {
@@ -173,6 +180,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         }
         player.render(delta, batch);
+        enemy.render(delta, batch);
         batch.end();
 
         stage.act(delta);
