@@ -37,6 +37,7 @@ public class GameScreen implements Screen, InputProcessor {
     private SpriteBatch batch;
     private Stage stage;
 
+
     private OrthographicCamera camera;
     private List<Meteor> meteors = new ArrayList<Meteor>();
 
@@ -261,5 +262,7 @@ public class GameScreen implements Screen, InputProcessor {
     public void shakeCam()
     {
         shakeCamTimer = System.currentTimeMillis();
+        Gdx.input.vibrate(SHAKETIME);
     }
+
 }
