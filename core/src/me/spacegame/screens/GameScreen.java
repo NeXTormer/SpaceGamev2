@@ -31,7 +31,7 @@ import me.spacegame.gameobjects.Rocket;
 public class GameScreen implements Screen, InputProcessor {
 
 
-    private static final int SHAKETIME = 45;
+    private static final int SHAKETIME = 150;
 
     private SpaceGame game;
     private SpriteBatch batch;
@@ -121,22 +121,27 @@ public class GameScreen implements Screen, InputProcessor {
 
         for (int i = 0; i < meteors.size(); i++) {
             if (Intersector.overlaps(meteors.get(i).box, player.box)) {
-                player.health -= meteors.get(i).damage;
-                shakeCam();
+                System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
+                if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
+                {
+                    meteors.get(i).lastTimeHit = System.currentTimeMillis();
+                    player.health -= meteors.get(i).damage;
+                    shakeCam();
+                }
+
+
                 if (player.health <= 0) {
                     gameOver();
                 }
             }
 
             if (meteors.get(i).x < -meteors.get(i).radius) {
-                meteors.get(i).dispose();
                 meteors.remove(i);
                 meteors.add(new Meteor());
             }
         }
         for (int i = 0; i < rockets.size(); i++) {
             if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
-                rockets.get(i).dispose();
                 rockets.remove(rockets.get(i));
             }
         }
@@ -144,11 +149,10 @@ public class GameScreen implements Screen, InputProcessor {
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j < meteors.size(); j++) {
                 if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
-                    rockets.get(i).dispose();
                     rockets.remove(rockets.get(i));
                     meteors.get(j).health -= 30;
+                    meteors.get(j).updateTexture();
                     if (meteors.get(j).health <= 0) {
-                        meteors.get(j).dispose();
                         meteors.remove(j);
                         meteors.add(new Meteor());
                     }
@@ -250,13 +254,13 @@ public class GameScreen implements Screen, InputProcessor {
     public void dispose() {
         batch.dispose();
         background.dispose();
+        Meteor.dispose();
+        Rocket.dispose();
 
-        for (int i = 0; i < meteors.size(); i++) {
-            meteors.get(i).dispose();
-        }
         for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }
+
     }
 
     public void shakeCam()

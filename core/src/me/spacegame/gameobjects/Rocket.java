@@ -13,13 +13,19 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Rocket {
 
+    private static Texture texture;
+
     public float x;
     private float y;
     private int width;
     private int height;
-    private Texture texture;
     public Rectangle box;
     private int speed;
+
+    static
+    {
+        texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
+    }
 
     public Rocket(Player p)
     {
@@ -28,7 +34,7 @@ public class Rocket {
         height = 40;
         this.y = p.y+(p.height/2)-(height/2);
         this.x = p.x+p.width;
-        texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
+
         box = new Rectangle(x-5, y, width, height);
     }
 
@@ -40,7 +46,7 @@ public class Rocket {
         batch.draw(texture, x, y, width, height);
     }
 
-    public void dispose()
+    public static void dispose()
     {
         texture.dispose();
     }
