@@ -98,6 +98,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         player = new Player();
         enemy = new Enemy();
+
     }
 
 
