@@ -61,6 +61,7 @@ public class GameScreen implements Screen, InputProcessor {
         this.game = game;
         background = new Background("gameobjects/background.png");
 
+        enemy = new Enemy();
 
         batch = new SpriteBatch();
         stage = new Stage();
@@ -172,6 +173,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         //render
         batch.begin();
+        enemy.render(delta, batch);
         background.render(delta, batch);
         for (Meteor m : meteors) {
             m.render(delta, batch);
