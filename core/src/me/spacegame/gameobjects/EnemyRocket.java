@@ -30,7 +30,7 @@ public class EnemyRocket {
 
     public EnemyRocket(Enemy p)
     {
-        damage=45;
+        damage=30;
         speed = 40;
         width = 50;
         height = 40;

@@ -24,7 +24,7 @@ public class Enemy {
     public int enemyWidth;
     public int enemyHeight;
     public Rectangle box;
-    public int health = 100;
+    public int health;
     public int damage;
 
     private int baseSpeed;
@@ -55,7 +55,8 @@ public class Enemy {
         enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
-        damage=60;
+        damage=40;
+        health = 100;
 
 
 

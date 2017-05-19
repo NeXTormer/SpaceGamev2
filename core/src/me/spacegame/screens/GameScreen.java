@@ -185,16 +185,15 @@ public class GameScreen implements Screen, InputProcessor {
 
         }
 
-        //Meteor   -  Enemy Collision
+        //Rocket   -  Enemy Collision
         for (int i = 0; i < rockets.size(); i++) {
             for (Enemy e : enemies) {
                 if (Intersector.overlaps(rockets.get(i).box, e.box)) {
                     rockets.remove(rockets.get(i));
                     e.health -= 50;
                     explosions.add(new Explosion((int) e.enemyX - 70, (int) (e.enemyY - 20)));
-                    if (e.health <= 100) {
+                    if (e.health <= 0) {
                         enemies.remove(e);
-                        shakeCam();
                         enemies.add(new Enemy());
                         break;
                     }
