@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.animations.ExclaimationPoint;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Enemy;
@@ -343,6 +344,7 @@ public class GameScreen implements Screen, InputProcessor {
         Meteor.dispose();
         Rocket.dispose();
         Explosion.dispose();
+        ExclaimationPoint.dispose();
         for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }

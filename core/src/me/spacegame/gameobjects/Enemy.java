@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.animations.ExclaimationPoint;
 
 /**
  * Created by Michi on 17.05.2017.
@@ -32,7 +33,6 @@ public class Enemy {
     private int rocket1;
     private int rocket2;
 
-    private static Texture warningTexture;
     public float warningX;
     public float warningY;
     public float warningWidth;
@@ -40,10 +40,11 @@ public class Enemy {
 
     private ArrayList<EnemyRocket> rockets;
 
+    ExclaimationPoint ep;
 
     static
     {
-
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
     }
 
     public Enemy()
@@ -56,14 +57,14 @@ public class Enemy {
         baseSpeed = 22;
         damage=60;
 
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
-        warningTexture = new Texture(Gdx.files.internal("gameobjects/Warning_01.png"));
+
 
         warningX = SpaceGame.VIEWPORTWIDTH-50;
         warningY = enemyY;
         warningHeight = enemyHeight;
         warningWidth = 40;
 
+        ep = new ExclaimationPoint((int) warningX, (int) warningY);
         rockets = new ArrayList<EnemyRocket>();
         rocket1 = random.nextInt(SpaceGame.VIEWPORTWIDTH-200)+200;
         rocket2 = random.nextInt(SpaceGame.VIEWPORTWIDTH-400)+400;
@@ -78,7 +79,7 @@ public class Enemy {
         batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
         if(enemyX>SpaceGame.VIEWPORTWIDTH)
         {
-            batch.draw(warningTexture, warningX, warningY, warningWidth, warningHeight);
+            ep.draw(delta, batch);
         }
 
         if(enemyX>=1800 && enemyX <=1850)
@@ -116,7 +117,7 @@ public class Enemy {
     public static void dispose()
     {
         enemyTexture.dispose();
-        warningTexture.dispose();
+
     }
 
     public ArrayList<EnemyRocket> getRockets()
