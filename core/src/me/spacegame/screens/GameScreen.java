@@ -166,7 +166,7 @@ public class GameScreen implements Screen, InputProcessor {
             }
         }
 
-        //Rocket  -  Meteor/Enemy collision
+        //Rocket  -  Meteor collision
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j < meteors.size(); j++) {
                 if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
@@ -181,15 +181,17 @@ public class GameScreen implements Screen, InputProcessor {
                     break;
                 }
             }
-            for(Enemy e : enemies)
-            {
-                if(Intersector.overlaps(rockets.get(i).box, e.box))
-                {
+
+        }
+
+        //Meteor   -  Enemy Collision
+        for (int i = 0; i < rockets.size(); i++) {
+            for (Enemy e : enemies) {
+                if (Intersector.overlaps(rockets.get(i).box, e.box)) {
                     rockets.remove(rockets.get(i));
-                    e.health-=50;
+                    e.health -= 50;
                     explosions.add(new Explosion((int) e.enemyX - 70, (int) (e.enemyY - 20)));
-                    if(e.health<=100)
-                    {
+                    if (e.health <= 100) {
                         enemies.remove(e);
                         shakeCam();
                         enemies.add(new Enemy());
