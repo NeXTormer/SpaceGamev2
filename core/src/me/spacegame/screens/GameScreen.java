@@ -23,6 +23,7 @@ import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Enemy;
+import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
@@ -45,6 +46,7 @@ public class GameScreen implements Screen, InputProcessor {
     private List<Meteor> meteors = new ArrayList<Meteor>();
     private List<Rocket> rockets = new ArrayList<Rocket>();
     private List<Explosion> explosions = new ArrayList<Explosion>();
+    private List<Enemy> enemies = new ArrayList<Enemy>();
 
     private Background background;
     private Touchpad touchpad;
@@ -104,6 +106,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         player = new Player();
         enemy = new Enemy();
+        enemies.add(enemy);
 
     }
 
@@ -128,9 +131,14 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.updatePosition(touchpad);
 
-        if(enemy.enemyX<=-enemy.enemyWidth)
+        //Remove offscreen enemies
+        for(Enemy e : enemies)
         {
-            enemy = new Enemy();
+            if(e.enemyX<=-e.enemyWidth)
+            {
+                enemies.remove(e);
+                enemies.add(new Enemy());
+            }
         }
 
 
@@ -141,13 +149,7 @@ public class GameScreen implements Screen, InputProcessor {
                 if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
                 {
                     meteors.get(i).lastTimeHit = System.currentTimeMillis();
-                    player.health -= meteors.get(i).damage;
-                    shakeCam();
-                }
-
-
-                if (player.health <= 0) {
-                    gameOver();
+                    damagePlayer(meteors.get(i).damage);
                 }
             }
 
@@ -164,7 +166,7 @@ public class GameScreen implements Screen, InputProcessor {
             }
         }
 
-        //Rocket  -  Meteor collision
+        //Rocket  -  Meteor/Enemy collision
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j < meteors.size(); j++) {
                 if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
@@ -179,14 +181,58 @@ public class GameScreen implements Screen, InputProcessor {
                     break;
                 }
             }
+            for(Enemy e : enemies)
+            {
+                if(Intersector.overlaps(rockets.get(i).box, e.box))
+                {
+                    rockets.remove(rockets.get(i));
+                    e.health-=50;
+                    explosions.add(new Explosion((int) e.enemyX - 70, (int) (e.enemyY - 20)));
+                    if(e.health<=100)
+                    {
+                        enemies.remove(e);
+                        shakeCam();
+                        enemies.add(new Enemy());
+                        break;
+                    }
 
+                }
+            }
+        }
+
+        //Enemy  -  Player/Meteor collision
+        for(Enemy e : enemies)
+        {
+            for(EnemyRocket er : e.getRockets())
+            {
+                if(Intersector.overlaps(er.box, player.box) )
+                {
+                    damagePlayer(er.damage);
+                }
+                for (int j = 0; j < meteors.size(); j++)
+                {
+                    if (Intersector.overlaps(meteors.get(j).box, er.box))
+                    {
+                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
+                        meteors.remove(j);
+                        meteors.add(new Meteor());
+                    }
+                }
+            }
+            if(Intersector.overlaps(e.box, player.box))
+            {
+                damagePlayer(e.damage);
+            }
         }
 
         //render
         batch.begin();
-        enemy.render(delta, batch);
         background.render(delta, batch);
 
+        for(Enemy e : enemies)
+        {
+            e.render(delta, batch);
+        }
         for (Meteor m : meteors) {
             m.render(delta, batch);
         }
@@ -202,11 +248,19 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         player.render(delta, batch);
-        enemy.render(delta, batch);
         batch.end();
 
         stage.act(delta);
         stage.draw();
+    }
+
+    private void damagePlayer(int damage)
+    {
+        player.health -= damage;
+        shakeCam();
+        if (player.health <= 0) {
+            gameOver();
+        }
     }
 
     private void gameOver() {

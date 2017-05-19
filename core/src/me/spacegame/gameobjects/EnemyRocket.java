@@ -21,6 +21,7 @@ public class EnemyRocket {
     private int height;
     public Rectangle box;
     private int speed;
+    public int damage;
 
     static
     {
@@ -29,7 +30,8 @@ public class EnemyRocket {
 
     public EnemyRocket(Enemy p)
     {
-        speed = 45;
+        damage=45;
+        speed = 40;
         width = 50;
         height = 40;
         this.y = p.enemyY+(p.enemyHeight/2)-(height/2);

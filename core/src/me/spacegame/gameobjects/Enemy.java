@@ -24,6 +24,7 @@ public class Enemy {
     public int enemyHeight;
     public Rectangle box;
     public int health = 100;
+    public int damage;
 
     private int baseSpeed;
     private static Texture enemyTexture;
@@ -52,7 +53,8 @@ public class Enemy {
         enemyHeight=150;
         enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
-        baseSpeed = 26;
+        baseSpeed = 22;
+        damage=60;
 
         enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
         warningTexture = new Texture(Gdx.files.internal("gameobjects/Warning_01.png"));
