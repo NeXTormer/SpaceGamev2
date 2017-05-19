@@ -20,17 +20,17 @@ public class Meteor {
 
 
     public float x;
+    public float y;
     public float radius;
     public int damage;
     public int health;
     public long lastTimeHit = 0;
-    public Circle box;
 
+    public Circle box;
     private static Texture mtfull;
     private static Texture mthalf;
     private Sprite meteorsprite;
     private int speed;
-    private float y;
     private int rotateSpeed;
     private static Random random = new Random();
 

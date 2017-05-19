@@ -15,10 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Enemy;
 import me.spacegame.gameobjects.Meteor;
@@ -41,9 +43,8 @@ public class GameScreen implements Screen, InputProcessor {
 
     private OrthographicCamera camera;
     private List<Meteor> meteors = new ArrayList<Meteor>();
-
-
     private List<Rocket> rockets = new ArrayList<Rocket>();
+    private List<Explosion> explosions = new ArrayList<Explosion>();
 
     private Background background;
     private Touchpad touchpad;
@@ -57,6 +58,8 @@ public class GameScreen implements Screen, InputProcessor {
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
 
+    private Explosion ex;
+
     public GameScreen(SpaceGame game) {
         this.game = game;
         background = new Background("gameobjects/background.png");
@@ -67,6 +70,8 @@ public class GameScreen implements Screen, InputProcessor {
         stage = new Stage();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
+
+        ex = new Explosion(300, 300);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -128,6 +133,8 @@ public class GameScreen implements Screen, InputProcessor {
             enemy = new Enemy();
         }
 
+
+        //Meteor  -  Player Collision
         for (int i = 0; i < meteors.size(); i++) {
             if (Intersector.overlaps(meteors.get(i).box, player.box)) {
                 System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
@@ -149,18 +156,22 @@ public class GameScreen implements Screen, InputProcessor {
                 meteors.add(new Meteor());
             }
         }
+
+        //Remove offscreen rockets
         for (int i = 0; i < rockets.size(); i++) {
             if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
                 rockets.remove(rockets.get(i));
             }
         }
 
+        //Rocket  -  Meteor collision
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j < meteors.size(); j++) {
                 if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
                     rockets.remove(rockets.get(i));
                     meteors.get(j).health -= 30;
                     meteors.get(j).updateTexture();
+                    explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                     if (meteors.get(j).health <= 0) {
                         meteors.remove(j);
                         meteors.add(new Meteor());
@@ -175,13 +186,21 @@ public class GameScreen implements Screen, InputProcessor {
         batch.begin();
         enemy.render(delta, batch);
         background.render(delta, batch);
+
         for (Meteor m : meteors) {
             m.render(delta, batch);
         }
         for (Rocket r : rockets) {
             r.render(delta, batch);
-
         }
+        for(int i = 0; i < explosions.size(); i++)
+        {
+            if(explosions.get(i).draw(delta, batch))
+            {
+                explosions.remove(i);
+            }
+        }
+
         player.render(delta, batch);
         enemy.render(delta, batch);
         batch.end();
@@ -267,7 +286,7 @@ public class GameScreen implements Screen, InputProcessor {
         background.dispose();
         Meteor.dispose();
         Rocket.dispose();
-
+        Explosion.dispose();
         for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }
