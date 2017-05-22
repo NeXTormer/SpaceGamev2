@@ -250,10 +250,12 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         player.render(delta, batch);
+        batch.draw(SpaceGame.fbo.getColorBufferTexture(), 100f, 850f);
         batch.end();
 
         stage.act(delta);
         stage.draw();
+
     }
 
     private void damagePlayer(int damage)

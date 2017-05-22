@@ -19,29 +19,41 @@ import me.spacegame.SpaceGame;
 public class Meteor {
 
 
+    private static Texture[] meteorFull;
+    private static Texture[] meteorDamaged;
+
+    private static final int METEOR_TEXTURES = 5;
+
     public float x;
     public float y;
     public float radius;
     public int damage;
     public int health;
-    public long lastTimeHit = 0;
 
+
+    public long lastTimeHit = 0;
     public Circle box;
-    private static Texture mtfull;
-    private static Texture mthalf;
     private Sprite meteorsprite;
     private int speed;
     private int rotateSpeed;
+    private int texture;
     private static Random random = new Random();
 
     static
     {
-        mtfull = new Texture(Gdx.files.internal("gameobjects/Meteor_01.png"));
-        mthalf = new Texture(Gdx.files.internal("gameobjects/Meteor_02.png"));
+        meteorFull = new Texture[METEOR_TEXTURES];
+        meteorDamaged = new Texture[METEOR_TEXTURES];
+
+        for(int i = 0; i < METEOR_TEXTURES; i++)
+        {
+            meteorFull[i] = new Texture(Gdx.files.internal("gameobjects/meteors/meteor" + (i + 1) + ".png"));
+            meteorDamaged[i] = new Texture(Gdx.files.internal("gameobjects/meteors/meteor" + (i + 1) + "_damaged.png"));
+        }
     }
 
     public Meteor()
     {
+        texture = random.nextInt(METEOR_TEXTURES);
         radius = random.nextInt(50)+50;
         health = random.nextInt(90)+10;
         x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
@@ -54,15 +66,13 @@ public class Meteor {
         rotateSpeed = random.nextInt(2);
         damage = (int) radius / 2;
 
-        meteorsprite = new Sprite(health < 30 ? mthalf : mtfull);
+        meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
         meteorsprite.setSize(radius * 2, radius * 2);
         meteorsprite.setOrigin(radius, radius);
     }
 
     public void render(float delta, SpriteBatch batch)
     {
-
-
         x -= speed;
         box.setX(x+radius);
         box.setY(y+radius);
@@ -71,17 +81,19 @@ public class Meteor {
         meteorsprite.setPosition(x, y);
 
         meteorsprite.draw(batch);
-
     }
 
     public void updateTexture()
     {
-        meteorsprite.setTexture(health < 30 ? mthalf : mtfull);
+        meteorsprite.setTexture(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
     }
 
     public static void dispose()
     {
-        mthalf.dispose();
-        mtfull.dispose();
+        for(int i = 0; i < METEOR_TEXTURES; i++)
+        {
+            meteorFull[i].dispose();
+            meteorDamaged[i].dispose();
+        }
     }
 }
