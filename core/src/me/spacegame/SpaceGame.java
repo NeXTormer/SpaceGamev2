@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -54,16 +55,18 @@ public class SpaceGame extends Game {
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(10f, 10f, 10f);
+		cam = new PerspectiveCamera(100, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		cam.position.set(14f, -2f, 0);
 		cam.lookAt(0,0,0);
 		cam.near = 1f;
 		cam.far = 300f;
 		cam.update();
 
-		model = loader.loadModel(Gdx.files.internal("ui/fern.obj"));
+		model = loader.loadModel(Gdx.files.internal("ui/fragezeichen.obj"));
 
 		instance = new ModelInstance(model);
+		instance.transform.scl(4);
+		instance.transform.rotate(0, 0, 1, 180);
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class SpaceGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, 200, 200);
 
-		instance.transform.rotate(new Vector3(0, 1, 0), 1f);
+		instance.transform.rotate(new Vector3(0, 1, 0), 1.8f);
 		modelBatch.begin(cam);
 		modelBatch.render(instance);
 		modelBatch.end();
