@@ -44,7 +44,7 @@ public class Enemy {
 
     static
     {
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
     }
 
     public Enemy()

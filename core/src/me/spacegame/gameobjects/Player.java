@@ -34,7 +34,7 @@ public class Player {
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
         box = new Rectangle(x, y, width, height);
-        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_01.png"));
+        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
     }
 
     public void render(float delta, SpriteBatch batch)
