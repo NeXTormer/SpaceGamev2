@@ -16,11 +16,11 @@ public class EnemyRocket {
     private static Texture texture;
 
     public float x;
-    private float y;
+    public float y;
     private int width;
     private int height;
     public Rectangle box;
-    private int speed;
+    public int speed;
     public int damage;
 
     static
