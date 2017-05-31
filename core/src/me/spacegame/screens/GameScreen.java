@@ -28,12 +28,16 @@ import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
+import me.spacegame.ui.HealthBar;
 
 /**
  * Created by Felix on 09-May-17.
  */
 
 public class GameScreen implements Screen, InputProcessor {
+
+    //TEMP
+    private HealthBar hb = new HealthBar();
 
 
     private static final int SHAKETIME = 150;
