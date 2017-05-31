@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +29,7 @@ import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
+import me.spacegame.ui.HealthBar;
 
 /**
  * Created by Felix on 09-May-17.
@@ -35,6 +37,8 @@ import me.spacegame.gameobjects.Rocket;
 
 public class GameScreen implements Screen, InputProcessor {
 
+    //TMP
+    HealthBar hb;
 
     private static final int SHAKETIME = 150;
 
@@ -125,6 +129,11 @@ public class GameScreen implements Screen, InputProcessor {
         //enemy1 = new Enemy(1, player);
         //enemies.add(enemy0);
         //enemies.add(enemy1);
+
+        hb = new HealthBar();
+
+        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
     }
 
@@ -300,6 +309,7 @@ public class GameScreen implements Screen, InputProcessor {
         batch.begin();
         background.render(delta, batch);
 
+
         for(Enemy e : enemies)
         {
             e.render(delta, batch);
@@ -319,8 +329,10 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         player.render(delta, batch);
-        batch.draw(SpaceGame.fbo.getColorBufferTexture(), 100f, 850f);
+
         batch.end();
+
+        hb.draw(delta, batch);
 
         stage.act(delta);
         stage.draw();
