@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,9 +37,8 @@ import me.spacegame.ui.HealthBar;
 
 public class GameScreen implements Screen, InputProcessor {
 
-    //TEMP
-    private HealthBar hb = new HealthBar();
-
+    //TMP
+    HealthBar hb;
 
     private static final int SHAKETIME = 150;
 
@@ -112,6 +112,11 @@ public class GameScreen implements Screen, InputProcessor {
         player = new Player();
         enemy = new Enemy();
         enemies.add(enemy);
+
+        hb = new HealthBar();
+
+        Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
     }
 
@@ -235,6 +240,7 @@ public class GameScreen implements Screen, InputProcessor {
         batch.begin();
         background.render(delta, batch);
 
+
         for(Enemy e : enemies)
         {
             e.render(delta, batch);
@@ -254,8 +260,10 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         player.render(delta, batch);
-        batch.draw(SpaceGame.fbo.getColorBufferTexture(), 100f, 850f);
+
         batch.end();
+
+        hb.draw(delta, batch);
 
         stage.act(delta);
         stage.draw();

@@ -35,54 +35,17 @@ public class SpaceGame extends Game {
 	SpriteBatch batch;
 	Texture img;
 
-	//TEMP
-	public PerspectiveCamera cam;
-	public ModelBatch modelBatch;
-	public Model model;
-	public ModelInstance instance;
-	private ModelLoader loader = new ObjLoader();
-	public static FrameBuffer fbo;
-	public static Environment environment;
 
 
 	@Override
 	public void create () {
-		fbo = new FrameBuffer(Pixmap.Format.RGBA8888, 200, 200, true);
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		setScreen(new MainMenuScreen(this));
-		modelBatch = new ModelBatch();
-		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-		cam = new PerspectiveCamera(100, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(14f, -2f, 0);
-		cam.lookAt(0,0,0);
-		cam.near = 1f;
-		cam.far = 300f;
-		cam.update();
-
-		model = loader.loadModel(Gdx.files.internal("ui/fragezeichen.obj"));
-
-		instance = new ModelInstance(model);
-		instance.transform.scl(4);
-		instance.transform.rotate(0, 0, 1, 180);
 	}
 
 	@Override
 	public void render () {
-
-		//render to fbo
-		fbo.begin();
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl.glViewport(0, 0, 200, 200);
-
-		instance.transform.rotate(new Vector3(0, 1, 0), 1.8f);
-		modelBatch.begin(cam);
-		modelBatch.render(instance);
-		modelBatch.end();
-		fbo.end();
-
 		//render to screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -92,7 +55,6 @@ public class SpaceGame extends Game {
 	
 	@Override
 	public void dispose () {
-		model.dispose();
-		modelBatch.dispose();
+
 	}
 }
