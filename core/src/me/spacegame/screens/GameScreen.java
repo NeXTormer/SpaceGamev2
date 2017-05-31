@@ -164,11 +164,21 @@ public class GameScreen implements Screen, InputProcessor {
             enemy0SpawnTimer=System.currentTimeMillis();
         }
 
+        outerloop:
         if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
         {
+            for(int i = 0; i<enemies.size(); i++)
+            {
+                if(enemies.get(i).type==1)
+                {
+                    enemy1SpawnTimer=System.currentTimeMillis();
+                    break outerloop;
+                }
+            }
             enemies.add(new Enemy(1, player));
             enemy1SpawnTimer=System.currentTimeMillis();
         }
+
 
         if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
         {
@@ -196,7 +206,7 @@ public class GameScreen implements Screen, InputProcessor {
             {
                 if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
                     enemies.get(j).health -= 50;
-                    explosions.add(new Explosion((int) enemies.get(j).enemyX + 70, (int) (enemies.get(j).enemyY + 20)));
+                    explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY)));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
                         break;
@@ -289,6 +299,7 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         //Enemy Rocket - Enemy Collision
+        outerloop:
         for(int i = 0; i<enemies.size(); i++)
         {
             for(int l = 0; l<enemies.size(); l++)
@@ -299,7 +310,7 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20)));
                         enemies.remove(i);
-                        break;
+                        break outerloop;
                     }
                 }
             }

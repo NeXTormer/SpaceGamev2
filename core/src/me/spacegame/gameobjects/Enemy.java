@@ -35,7 +35,7 @@ public class Enemy {
     //type = 1 --> Enemy from Left
 
     private int baseSpeed;
-    private static Texture enemyTexture;
+    private Texture enemyTexture;
     private static Random random = new Random();
     private int rocket1;
     private int rocket2;
@@ -202,7 +202,6 @@ public class Enemy {
 
     public static void dispose()
     {
-        enemyTexture.dispose();
 
     }
 
