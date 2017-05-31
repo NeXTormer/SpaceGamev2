@@ -39,30 +39,18 @@ public class SpaceGame extends Game {
 
 
 	@Override
-	public void create () {
+	public void create ()
+	{
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		setScreen(new MainMenuScreen(this));
 
-<<<<<<< HEAD
-		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(10f, 10f, 10f);
-		cam.lookAt(0,0,0);
-		cam.near = 1f;
-		cam.far = 300f;
-		cam.update();
-
-		model = loader.loadModel(Gdx.files.internal("ui/fern.obj"));
-
-		instance = new ModelInstance(model);
-
 		VIEWPORTWIDTH = Gdx.graphics.getWidth();
 		VIEWPORTHEIGHT = Gdx.graphics.getHeight();
-=======
->>>>>>> origin/master
 	}
 
 	@Override
-	public void render () {
+	public void render ()
+	{
 		//render to screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -71,7 +59,8 @@ public class SpaceGame extends Game {
 	}
 	
 	@Override
-	public void dispose () {
+	public void dispose ()
+	{
 
 	}
 }
