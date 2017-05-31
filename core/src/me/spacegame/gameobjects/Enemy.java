@@ -45,9 +45,10 @@ public class Enemy {
     public float warningWidth;
     public float warningHeight;
 
+
     private ArrayList<EnemyRocket> rockets;
 
-    ExclaimationPoint ep;
+    public ExclaimationPoint ep;
 
     static
     {
@@ -83,7 +84,7 @@ public class Enemy {
     public Enemy(int type, Player p)
     {
         enemyX = (random.nextInt(1000)*(-1))-1000;
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_03.png"));
         warningX = 50;
         this.type=type;
         player = p;
@@ -91,7 +92,7 @@ public class Enemy {
 
         enemyWidth=150;
         enemyHeight=150;
-        enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
+        enemyY = p.y;
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
         damage=40;
@@ -111,6 +112,8 @@ public class Enemy {
 
     public void render(float delta, SpriteBatch batch)
     {
+        ep.setPosition( (int) warningX, (int) enemyY);
+
         if(type==0)
         {
             enemyX-=baseSpeed;
@@ -148,6 +151,19 @@ public class Enemy {
         box.setX(enemyX);
         box.setY(enemyY);
 
+        for(int i = 0; i<rockets.size(); i++)
+        {
+            if(rockets.get(i).x<0 && type==0)
+            {
+                rockets.remove(rockets.get(i));
+            }
+            else if(rockets.get(i).x>SpaceGame.VIEWPORTWIDTH && type==1)
+            {
+                rockets.remove(rockets.get(i));
+            }
+        }
+
+        //render
         batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
         if(enemyX>SpaceGame.VIEWPORTWIDTH && type==0)
         {
@@ -179,17 +195,6 @@ public class Enemy {
             er.render(delta, batch);
         }
 
-        for(int i = 0; i<rockets.size(); i++)
-        {
-            if(rockets.get(i).x<0 && type==0)
-            {
-                rockets.remove(rockets.get(i));
-            }
-            else if(rockets.get(i).x>SpaceGame.VIEWPORTWIDTH && type==1)
-            {
-                rockets.remove(rockets.get(i));
-            }
-        }
 
 
     }

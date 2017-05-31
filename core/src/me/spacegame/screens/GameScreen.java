@@ -56,13 +56,20 @@ public class GameScreen implements Screen, InputProcessor {
     private Drawable touchknob;
     private Drawable touchbackground;
     private Player player;
-    private Enemy enemy;
-    private Enemy enemy2;
+    private Enemy enemy0;
+    private Enemy enemy1;
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
 
     private Explosion ex;
+
+    private double enemy0SpawnTimer;
+    private double enemy1SpawnTimer;
+    private double enemy0Spawner;
+    private double enemy1Spawner;
+    private double meteorSpawnTimer;
+    private double meteorSpawner;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -71,7 +78,7 @@ public class GameScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         stage = new Stage();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
+        camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
         ex = new Explosion(300, 300);
 
@@ -99,16 +106,25 @@ public class GameScreen implements Screen, InputProcessor {
 
         stage.addActor(touchpad);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             meteors.add(new Meteor());
         }
 
 
+        enemy0SpawnTimer = System.currentTimeMillis();
+        enemy1SpawnTimer = System.currentTimeMillis();
+        meteorSpawnTimer = System.currentTimeMillis();
+
+        enemy0Spawner = 7000;
+        enemy1Spawner = 10000;
+        meteorSpawner = 10000;
+
+
         player = new Player();
-        enemy = new Enemy(0);
-        enemy2 = new Enemy(1, player);
-        enemies.add(enemy);
-        enemies.add(enemy2);
+        //enemy0 = new Enemy(0);
+        //enemy1 = new Enemy(1, player);
+        //enemies.add(enemy0);
+        //enemies.add(enemy1);
 
     }
 
@@ -133,6 +149,25 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.updatePosition(touchpad);
 
+        if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
+        {
+            enemies.add(new Enemy(0));
+            enemy0SpawnTimer=System.currentTimeMillis();
+        }
+
+        if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
+        {
+            enemies.add(new Enemy(1, player));
+            enemy1SpawnTimer=System.currentTimeMillis();
+        }
+
+        if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
+        {
+            meteors.add(new Meteor());
+            meteorSpawnTimer=System.currentTimeMillis();
+        }
+
+
         //Remove offscreen enemies
             for(int i = 0; i<enemies.size(); i++)
             {
@@ -141,7 +176,6 @@ public class GameScreen implements Screen, InputProcessor {
                 if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
                 {
                     enemies.remove(enemies.get(i));
-                    enemies.add(new Enemy(0));
                 }
             }
         }
@@ -156,7 +190,6 @@ public class GameScreen implements Screen, InputProcessor {
                     explosions.add(new Explosion((int) enemies.get(j).enemyX + 70, (int) (enemies.get(j).enemyY + 20)));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        enemies.add(new Enemy(1, player));
                         break;
                     }
                 }
@@ -214,7 +247,6 @@ public class GameScreen implements Screen, InputProcessor {
                     explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        enemies.add(new Enemy(0));
                         break;
                     }
 
@@ -244,6 +276,23 @@ public class GameScreen implements Screen, InputProcessor {
             if(Intersector.overlaps(e.box, player.box))
             {
                 damagePlayer(e.damage);
+            }
+        }
+
+        //Enemy Rocket - Enemy Collision
+        for(int i = 0; i<enemies.size(); i++)
+        {
+            for(int l = 0; l<enemies.size(); l++)
+            {
+                for(int h = 0; h<enemies.get(l).getRockets().size(); h++)
+                {
+                    if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
+                    {
+                        explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20)));
+                        enemies.remove(i);
+                        break;
+                    }
+                }
             }
         }
 

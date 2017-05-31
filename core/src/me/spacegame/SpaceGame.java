@@ -28,8 +28,9 @@ import me.spacegame.screens.MainMenuScreen;
 
 public class SpaceGame extends Game {
 
-	public final static int VIEWPORTWIDTH = 1920;
-	public final static int VIEWPORTHEIGHT = 1080;
+
+	public static int VIEWPORTWIDTH;
+	public static int VIEWPORTHEIGHT;
 
 	SpriteBatch batch;
 	Texture img;
@@ -64,6 +65,9 @@ public class SpaceGame extends Game {
 		model = loader.loadModel(Gdx.files.internal("ui/fern.obj"));
 
 		instance = new ModelInstance(model);
+
+		VIEWPORTWIDTH = Gdx.graphics.getWidth();
+		VIEWPORTHEIGHT = Gdx.graphics.getHeight();
 	}
 
 	@Override

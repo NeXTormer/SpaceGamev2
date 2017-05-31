@@ -35,7 +35,7 @@ public class EnemyRocket {
         width = 50;
         height = 40;
         this.y = p.enemyY+(p.enemyHeight/2)-(height/2);
-        this.x = p.enemyX;
+        this.x = p.enemyX-(width+2);
 
         box = new Rectangle(x-5, y, width, height);
     }
@@ -45,6 +45,7 @@ public class EnemyRocket {
     {
         x-=speed;
         box.setX(x+5);
+        box.setY(y);
         batch.draw(texture, x, y, width, height);
     }
 
