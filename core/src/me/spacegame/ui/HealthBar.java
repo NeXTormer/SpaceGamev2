@@ -81,6 +81,12 @@ public class HealthBar {
 
     public void draw(float delta, SpriteBatch batch)
     {
+
+        healthbarProgram.begin();
+        healthbarProgram.setUniformf("health", 300);
+        healthbarProgram.setUniformf("origin", 200, 200, 0, 0);
+        healthbarProgram.end();
+
         //render to fbo
         fbo.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
