@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.spacegame.gameobjects.Player;
+import me.spacegame.gameobjects.Rocket;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Michi on 07.06.2017.
@@ -12,21 +14,37 @@ import me.spacegame.gameobjects.Player;
 
 public class PowerUpRapidFire extends PowerUp {
 
-    private Player player;
     private double duration;
+    private double durationStart;
+    private double rocketTimer;
+    private double rocketSpawn;
     private double x;
     private double y;
 
 
-    public PowerUpRapidFire(Player p)
+    public PowerUpRapidFire(Player p, GameScreen gameScreen)
     {
-        super(p);
+        super(p, gameScreen);
+        rocketTimer = System.currentTimeMillis();
+        rocketSpawn = 100;
+        duration = 5000;
+        durationStart = System.currentTimeMillis();
     }
 
 
     @Override
-    public void render(float delta, SpriteBatch batch)
+    public boolean render(float delta, SpriteBatch batch)
     {
+        if((durationStart-System.currentTimeMillis())<duration)
+        {
+            if((rocketTimer-System.currentTimeMillis())>rocketSpawn)
+            {
+                gameScreen.rockets.add(new Rocket(player));
+                rocketSpawn=System.currentTimeMillis();
+            }
+            return true;
+        }
+        return false;
 
     }
 
@@ -36,7 +54,8 @@ public class PowerUpRapidFire extends PowerUp {
     }
 
     @Override
-    public void start() {
+    public void start()
+    {
 
     }
 

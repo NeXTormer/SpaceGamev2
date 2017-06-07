@@ -49,7 +49,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     private OrthographicCamera camera;
     private List<Meteor> meteors = new ArrayList<Meteor>();
-    private List<Rocket> rockets = new ArrayList<Rocket>();
+    public List<Rocket> rockets = new ArrayList<Rocket>();
     private List<Explosion> explosions = new ArrayList<Explosion>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
 

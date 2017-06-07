@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.spacegame.gameobjects.Player;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Michi on 07.06.2017.
@@ -11,9 +12,11 @@ import me.spacegame.gameobjects.Player;
 
 public abstract class PowerUp {
     protected Player player;
+    protected GameScreen gameScreen;
 
-    public PowerUp(Player player)
+    public PowerUp(Player player, GameScreen gameScreen)
     {
+        this.gameScreen = gameScreen;
         this.player=player;
 
     }
@@ -22,7 +25,7 @@ public abstract class PowerUp {
 
     public abstract void stop();
 
-    public abstract void render(float delta, SpriteBatch batch);
+    public abstract boolean render(float delta, SpriteBatch batch);
 
     public abstract void dispose();
 }
