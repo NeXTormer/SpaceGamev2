@@ -17,7 +17,7 @@ void main()
 
     if(origin.x < health)
     {
-        gl_FragColor = v_color * texture2D(u_texture, v_texCoords) * vec4(0.5, 0.1, 1, 1.0);
+        gl_FragColor = v_color * texture2D(u_texture, v_texCoords) * vec4(0.5, 0.1, 1, 1.0) + vec4(0.6, 0.1, 0.1, 0);
 
     }
     else

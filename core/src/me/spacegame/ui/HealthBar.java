@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
+import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
@@ -42,8 +44,13 @@ public class HealthBar {
     public Model model;
     public ModelInstance instance;
     private ModelLoader loader = new ObjLoader();
-    public static FrameBuffer fbo;
-    public static Environment environment;
+    public FrameBuffer fbo;
+    public Environment environment;
+
+    //public Mesh healthBar = new Mesh();
+
+
+
 
     public HealthBar()
     {
@@ -76,6 +83,8 @@ public class HealthBar {
         instance = new ModelInstance(model);
         instance.transform.scl(4);
         instance.transform.rotate(0, 0, 1, 180);
+
+
 
     }
 
@@ -112,6 +121,8 @@ public class HealthBar {
         model.dispose();
         modelBatch.dispose();
         healthbarProgram.dispose();
+        fbo.dispose();
+
     }
 
 }
