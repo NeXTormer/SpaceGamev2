@@ -135,15 +135,19 @@ public class Enemy {
             if((System.currentTimeMillis()-shootTime) > 2000)
             {
                 shootTime = System.currentTimeMillis();
+
+                //bot rocket
                 EnemyRocket r1 = new EnemyRocket(this);
                 r1.speed*=-1;
-                r1.x=enemyX+enemyWidth;
-                r1.y=enemyY+(enemyHeight*2/7);
+                r1.x=enemyX+(enemyWidth/4*3);
+                r1.y=enemyY+(enemyHeight*2/28);
                 rockets.add(r1);
+
+                //top rocket
                 EnemyRocket r2 = new EnemyRocket(this);
                 r2.speed*=-1;
-                r2.x=enemyX+enemyWidth;
-                r2.y=enemyY+(enemyHeight*5/7);
+                r2.x=enemyX+(enemyWidth/4*3);
+                r2.y=enemyY+(enemyHeight*20/28);
                 rockets.add(r2);
             }
         }

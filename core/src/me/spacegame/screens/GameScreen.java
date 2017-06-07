@@ -74,6 +74,9 @@ public class GameScreen implements Screen, InputProcessor {
     private double enemy1Spawner;
     private double meteorSpawnTimer;
     private double meteorSpawner;
+    private double enemy0SpawnerSubtract;
+    private double enemy0SpawnSubtractTimer;
+    private double enemy0SpawnerSubtractValue;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -116,12 +119,20 @@ public class GameScreen implements Screen, InputProcessor {
 
 
         enemy0SpawnTimer = System.currentTimeMillis();
+        enemy0SpawnSubtractTimer = System.currentTimeMillis();
         enemy1SpawnTimer = System.currentTimeMillis();
         meteorSpawnTimer = System.currentTimeMillis();
 
+        //Timer, when a new Enemy0 will spawn
         enemy0Spawner = 7000;
+        //Timer, when the enemy0Spawner gets lower
+        enemy0SpawnerSubtract = 10000;
+        //Value, which is subtstracted form enemy0Spawner after enemy0SpawnerSubtract+enemy0Spawner
+        enemy0SpawnerSubtractValue = 500;
+        //Timer, when enemy1 will spawn
         enemy1Spawner = 10000;
-        meteorSpawner = 10000;
+        //Timer, when meteor will spawn
+        meteorSpawner = 15000;
 
 
         player = new Player();
@@ -158,12 +169,14 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.updatePosition(touchpad);
 
+        //Spawn Enemy0 after Seconds
         if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
         {
             enemies.add(new Enemy(0));
             enemy0SpawnTimer=System.currentTimeMillis();
         }
 
+        //Spawn Enemy1 after Seconds
         outerloop:
         if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
         {
@@ -179,11 +192,21 @@ public class GameScreen implements Screen, InputProcessor {
             enemy1SpawnTimer=System.currentTimeMillis();
         }
 
-
+        //Spawn new Meteors over time
         if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
         {
             meteors.add(new Meteor());
             meteorSpawnTimer=System.currentTimeMillis();
+        }
+
+        //Spawn Enemy0 more frequently
+        if((System.currentTimeMillis()-enemy0SpawnSubtractTimer)>enemy0SpawnerSubtract+enemy0Spawner)
+        {
+            if(enemy0Spawner>1000)
+            {
+                enemy0Spawner-=enemy0SpawnerSubtractValue;
+                enemy0SpawnSubtractTimer=System.currentTimeMillis();
+            }
         }
 
 
@@ -200,6 +223,7 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         //Meteor - Enemy Collision
+        outerloop:
         for (int i = 0; i < meteors.size(); i++)
         {
             for(int j = 0; j<enemies.size(); j++)
@@ -209,7 +233,7 @@ public class GameScreen implements Screen, InputProcessor {
                     explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY)));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        break;
+                        break outerloop;
                     }
                 }
             }
@@ -240,6 +264,7 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         //Rocket  -  Meteor collision
+        outerloop:
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j < meteors.size(); j++) {
                 if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
@@ -251,13 +276,14 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.remove(j);
                         meteors.add(new Meteor());
                     }
-                    break;
+                    break outerloop;
                 }
             }
 
         }
 
         //Rocket   -  Enemy Collision
+        outerloop:
         for (int i = 0; i < rockets.size(); i++) {
             for (int j = 0; j<enemies.size(); j++) {
                 if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
@@ -266,7 +292,7 @@ public class GameScreen implements Screen, InputProcessor {
                     explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        break;
+                        break outerloop;
                     }
 
                 }
