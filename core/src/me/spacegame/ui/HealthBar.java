@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -31,13 +32,15 @@ import me.spacegame.SpaceGame;
 public class HealthBar {
 
     private Texture mainTexture;
+    private Texture healthTexture;
+
     private FileHandle healthbarFrag;
     private FileHandle healthbarVert;
 
     private SpriteBatch healthBatch;
-
     private ShaderProgram healthbarProgram;
 
+    private float health = 0;
 
     //Questionmark
     public PerspectiveCamera cam;
@@ -58,6 +61,8 @@ public class HealthBar {
         healthbarFrag = Gdx.files.internal("shader/ui/healthbar.frag");
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
         mainTexture = new Texture(Gdx.files.internal("ui/healthbarmain.png"));
+        healthTexture = new Texture(Gdx.files.internal("ui/health.png"));
+
 
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);
         if (!healthbarProgram.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + healthbarProgram.getLog());
@@ -86,17 +91,19 @@ public class HealthBar {
         instance.transform.scl(4);
         instance.transform.rotate(0, 0, 1, 180);
 
-
+        setHealth(100);
 
     }
 
-    public void draw(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
+        batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
+        batch.draw(mainTexture, 62, 740);
+    }
 
-        healthbarProgram.begin();
-        healthbarProgram.setUniformf("health_t", 700);
-        healthbarProgram.end();
 
+    public void draw()
+    {
         //render to fbo
         fbo.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -108,13 +115,29 @@ public class HealthBar {
         modelBatch.end();
         fbo.end();
 
-        //render other
+
+
+
+        healthbarProgram.begin();
+        healthbarProgram.setUniformf("health_t", health);
+        healthbarProgram.end();
 
         healthBatch.begin();
-        healthBatch.draw(fbo.getColorBufferTexture(), 87f, 833f);
-        healthBatch.draw(mainTexture, 62, 740);
-        healthBatch.end();
 
+        healthBatch.draw(healthTexture, 62, 740);
+        healthBatch.end();
+    }
+
+    public void setProjectionMatrix(Matrix4 pr_matrix)
+    {
+        healthBatch.setProjectionMatrix(pr_matrix);
+    }
+
+    public void setHealth(float health)
+    {
+        System.err.println("Health:" + health);
+        this.health = 198 + ((health) * 5.7f);
+        System.err.println("Peta:" + this.health);
     }
 
     public void dispose()

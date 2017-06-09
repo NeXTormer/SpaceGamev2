@@ -165,6 +165,7 @@ public class GameScreen implements Screen, InputProcessor {
             camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
             camera.update();
             batch.setProjectionMatrix(camera.combined);
+            hb.setProjectionMatrix(camera.combined);
         }
 
         player.updatePosition(touchpad);
@@ -367,9 +368,11 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.render(delta, batch);
 
+        hb.draw(batch);
+
         batch.end();
 
-        hb.draw(delta, batch);
+        hb.draw();
 
         stage.act(delta);
         stage.draw();
@@ -379,6 +382,7 @@ public class GameScreen implements Screen, InputProcessor {
     private void damagePlayer(int damage)
     {
         player.health -= damage;
+        hb.setHealth(player.health);
         shakeCam();
         if (player.health <= 0) {
             gameOver();

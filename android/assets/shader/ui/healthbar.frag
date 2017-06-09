@@ -11,13 +11,17 @@ uniform float health_t;
 void main()
 {
 
-    if(gl_FragCoord.x > health_t)
+
+    //if(texture2D(u_texture, v_texCoords).r == 166.0)
     {
-        gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
-    }
-    else
-    {
-        gl_FragColor = vec4(1, 0, 1, 1);
+        if(gl_FragCoord.x < health_t)
+        {
+            gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
+        }
+        else
+        {
+            discard;
+        }
     }
 
     //xdiff = origin.x - position.x;
