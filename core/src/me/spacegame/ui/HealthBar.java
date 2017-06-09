@@ -135,9 +135,7 @@ public class HealthBar {
 
     public void setHealth(float health)
     {
-        System.err.println("Health:" + health);
-        this.health = 198 + ((health) * 5.7f);
-        System.err.println("Peta:" + this.health);
+        this.health = 270 + ((health) * 5.7f);
     }
 
     public void dispose()

@@ -300,14 +300,20 @@ public class GameScreen implements Screen, InputProcessor {
             }
         }
 
-        //Enemy  -  Player/Meteor collision
+        //EnemyRockets  -  Player/Meteor collision
+        //Enemy - Player collision
         for(Enemy e : enemies)
         {
             for(EnemyRocket er : e.getRockets())
             {
                 if(Intersector.overlaps(er.box, player.box) )
                 {
-                    damagePlayer(er.damage);
+                    //only hit player once
+                    if(!er.hasHitPlayer)
+                    {
+                        er.hasHitPlayer = true;
+                        damagePlayer(er.damage);
+                    }
                 }
                 for (int j = 0; j < meteors.size(); j++)
                 {
@@ -321,7 +327,11 @@ public class GameScreen implements Screen, InputProcessor {
             }
             if(Intersector.overlaps(e.box, player.box))
             {
-                damagePlayer(e.damage);
+                if((System.currentTimeMillis() - e.lastTimeHit) > 1200)
+                {
+                    e.lastTimeHit = System.currentTimeMillis();
+                    damagePlayer(e.damage);
+                }
             }
         }
 

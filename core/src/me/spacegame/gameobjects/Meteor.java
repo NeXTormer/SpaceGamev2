@@ -64,7 +64,7 @@ public class Meteor {
         box.setRadius(radius);
         speed = random.nextInt(12)+5;
         rotateSpeed = random.nextInt(2);
-        damage = 10;//(int) radius / 5;
+        damage = (int) radius / 6;
 
         meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
         meteorsprite.setSize(radius * 2, radius * 2);

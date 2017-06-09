@@ -30,6 +30,8 @@ public class Enemy {
     public Player player;
     public long shootTime;
 
+    public long lastTimeHit;
+
     public int type;
     //type = 0 --> Enemy from Right
     //type = 1 --> Enemy from Left
@@ -67,7 +69,7 @@ public class Enemy {
         enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
-        damage=40;
+        damage=20;
         health = 100;
 
 
