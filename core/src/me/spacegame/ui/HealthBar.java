@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import me.spacegame.SpaceGame;
 
@@ -59,7 +60,8 @@ public class HealthBar {
         mainTexture = new Texture(Gdx.files.internal("ui/healthbarmain.png"));
 
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);
-        System.out.println(healthbarProgram.isCompiled());
+        if (!healthbarProgram.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + healthbarProgram.getLog());
+
 
         healthBatch = new SpriteBatch();
 
@@ -92,8 +94,7 @@ public class HealthBar {
     {
 
         healthbarProgram.begin();
-        healthbarProgram.setUniformf("health", 300);
-        healthbarProgram.setUniformf("origin", 200, 200, 0, 0);
+        healthbarProgram.setUniformf("health_t", 700);
         healthbarProgram.end();
 
         //render to fbo
