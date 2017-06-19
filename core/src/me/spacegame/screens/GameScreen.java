@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Matrix4;
@@ -77,6 +78,9 @@ public class GameScreen implements Screen, InputProcessor {
     private double enemy0SpawnerSubtract;
     private double enemy0SpawnSubtractTimer;
     private double enemy0SpawnerSubtractValue;
+
+    public double score;
+    private BitmapFont font = new BitmapFont();
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -157,6 +161,7 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         //update
+        score+=1;
         if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
         {
             float dx = (float) Math.sin(System.currentTimeMillis());
@@ -347,6 +352,7 @@ public class GameScreen implements Screen, InputProcessor {
         background.render(delta, batch);
 
 
+
         for(Enemy e : enemies)
         {
             e.render(delta, batch);
@@ -367,6 +373,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         player.render(delta, batch);
 
+        font.draw(batch, ""+score, 10, 10);
         batch.end();
 
         hb.draw(delta, batch);
