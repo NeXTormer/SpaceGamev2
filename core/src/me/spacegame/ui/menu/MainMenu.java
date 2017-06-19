@@ -54,10 +54,21 @@ public class MainMenu extends TemplateMenu {
         //Gdx.input.setInputProcessor(stage);
     }
 
+
     @Override
     public void draw() {
         stage.act();
         stage.draw();
+
+        if(optionsbutton.isPressed())
+        {
+            menu.currentMenu = menu.screens.get("options").activate();
+        }
+        if(startbtn.isPressed())
+        {
+            menu.currentMenu = menu.screens.get("empty").activate();
+            menu.getGameScreen().paused = false;
+        }
     }
 
     @Override

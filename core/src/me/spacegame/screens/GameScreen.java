@@ -11,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -74,10 +76,10 @@ public class GameScreen implements Screen, InputProcessor {
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
-    private boolean paused = false;
     private long pausebtnLastTimePressed;
-
     private Explosion ex;
+
+    public boolean paused = false;
 
     //richtiger Pfusch!! (OOP)
     private double enemy0SpawnTimer;
@@ -184,6 +186,25 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
+        settingsbtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                {
+
+                    menu.currentMenu = menu.screens.get("main").activate();
+                    if(System.currentTimeMillis() - pausebtnLastTimePressed > 100)
+                    {
+                        pausebtnLastTimePressed = System.currentTimeMillis();
+                        paused = !paused;
+                        if(paused)
+                        {
+                            lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
+                        }
+                    }
+                }
+
+            }
+        });
     }
 
 
@@ -427,10 +448,10 @@ public class GameScreen implements Screen, InputProcessor {
             hb.draw();
 
 
-            menu.draw();
         }
         else
         {
+            camera.position.set(0, 0, 0);
             batch.begin();
             batch.draw(lastFrameBuffer, 0, 0);
             batch.end();
@@ -439,21 +460,7 @@ public class GameScreen implements Screen, InputProcessor {
         stage.act();
         stage.draw();
 
-
-        if(settingsbtn.isPressed())
-        {
-
-            if(System.currentTimeMillis() - pausebtnLastTimePressed > 1200)
-            {
-                pausebtnLastTimePressed = System.currentTimeMillis();
-                paused = !paused;
-                if(paused)
-                {
-                    lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
-                }
-            }
-        }
-
+        menu.draw();
     }
 
     private void damagePlayer(int damage)

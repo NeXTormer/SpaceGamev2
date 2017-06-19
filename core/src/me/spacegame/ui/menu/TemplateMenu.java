@@ -1,5 +1,6 @@
 package me.spacegame.ui.menu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -19,6 +20,12 @@ public abstract class TemplateMenu {
     }
 
     public abstract void create();
+
+    public TemplateMenu activate()
+    {
+        Gdx.input.setInputProcessor(stage);
+        return this;
+    }
 
     public abstract void draw();
 

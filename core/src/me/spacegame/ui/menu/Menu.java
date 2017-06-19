@@ -14,8 +14,8 @@ public class Menu {
 
     public OrthographicCamera camera;
 
-    private HashMap<String, TemplateMenu> screens;
-    private TemplateMenu currentMenu;
+    public HashMap<String, TemplateMenu> screens;
+    public TemplateMenu currentMenu;
 
     private GameScreen gameScreen;
     public Menu(GameScreen screen)
@@ -29,7 +29,7 @@ public class Menu {
         screens.put("empty", new EmptyMenu(this));
         screens.put("options", new OptionsMenu(this));
 
-        currentMenu = screens.get("empty");
+        currentMenu = screens.get("empty").activate();
 
 
         for(TemplateMenu menu : screens.values())
