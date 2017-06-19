@@ -71,6 +71,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     private Explosion ex;
 
+    //richtiger Pfusch!! (OOP)
     private double enemy0SpawnTimer;
     private double enemy1SpawnTimer;
     private double enemy0Spawner;
@@ -149,7 +150,7 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        menu = new Menu();
+        menu = new Menu(this);
     }
 
 
@@ -493,6 +494,11 @@ public class GameScreen implements Screen, InputProcessor {
     {
         shakeCamTimer = System.currentTimeMillis();
         Gdx.input.vibrate(SHAKETIME);
+    }
+
+    public InputMultiplexer getInputMultiplexer()
+    {
+        return inputMultiplexer;
     }
 
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import java.util.HashMap;
 
+import me.spacegame.screens.GameScreen;
+
 /**
  * Created by Felix on 19-Jun-17.
  */
@@ -15,16 +17,23 @@ public class Menu {
     private HashMap<String, TemplateMenu> screens;
     private TemplateMenu currentMenu;
 
-    public Menu()
+    private GameScreen gameScreen;
+    public Menu(GameScreen screen)
     {
         camera = new OrthographicCamera(1920, 1080);
         screens = new HashMap<String, TemplateMenu>();
-
+        this.gameScreen = screen;
 
         //load all menuscreens
         screens.put("main", new MainMenu(this));
 
         currentMenu = screens.get("main");
+
+
+        for(TemplateMenu menu : screens.values())
+        {
+            menu.create();
+        }
     }
 
     public void draw()
@@ -38,6 +47,11 @@ public class Menu {
         {
             menu.dispose();
         }
+    }
+
+    public GameScreen getGameScreen()
+    {
+        return gameScreen;
     }
 
 }
