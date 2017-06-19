@@ -23,6 +23,8 @@ public class MainMenu extends TemplateMenu {
     private SpriteDrawable startButtonUpDrawable;
     private SpriteDrawable startButtonDownDrawable;
 
+    private ImageButton optionsbutton;
+
     public MainMenu(Menu menu)
     {
         super(menu);
@@ -42,18 +44,20 @@ public class MainMenu extends TemplateMenu {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
+        //optionsbutton = new ImageButton()
+
+
         startbtn.setPosition(580, 250);
 
         stage.addActor(startbtn);
-        menu.getGameScreen().getInputMultiplexer().addProcessor(stage);
-        //Gdx.input.setInputProcessor(menu.getGameScreen().getInputMultiplexer());
+
+        //Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void draw() {
         stage.act();
         stage.draw();
-
     }
 
     @Override

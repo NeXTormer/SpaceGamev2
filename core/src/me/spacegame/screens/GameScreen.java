@@ -7,14 +7,23 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
@@ -65,9 +74,13 @@ public class GameScreen implements Screen, InputProcessor {
     private Enemy enemy0;
     private Enemy enemy1;
     private HealthBar hb;
+    private TextureRegion lastFrameBuffer;
+    private Image lastFrameBufferImage;
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
+    private boolean paused = false;
+    private long pausebtnLastTimePressed;
 
     private Explosion ex;
 
@@ -81,6 +94,13 @@ public class GameScreen implements Screen, InputProcessor {
     private double enemy0SpawnerSubtract;
     private double enemy0SpawnSubtractTimer;
     private double enemy0SpawnerSubtractValue;
+
+    //Pause Button
+    private ImageButton pausebtn;
+    private Texture pausebtnup;
+    private Texture pausebtndown;
+    private SpriteDrawable pausebtnupdrawable;
+    private SpriteDrawable pausebtndowndrawable;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -151,6 +171,24 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         menu = new Menu(this);
+
+        //Pause Button
+        pausebtnup = new Texture(Gdx.files.internal("ui/pausebutton.png"));
+        pausebtndown = new Texture(Gdx.files.internal("ui/pausebuttons.png"));
+
+        pausebtnupdrawable= new SpriteDrawable();
+        pausebtndowndrawable = new SpriteDrawable();
+
+        pausebtnupdrawable.setSprite(new Sprite(pausebtnup));
+        pausebtndowndrawable.setSprite(new Sprite(pausebtndown));
+
+        pausebtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
+
+        pausebtn.setPosition(1550, 828);
+        stage.addActor(pausebtn);
+
+        lastFrameBufferImage = new Image();
+
     }
 
 
@@ -161,238 +199,265 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        //update
-        if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
+
+        if(!paused)
         {
-            float dx = (float) Math.sin(System.currentTimeMillis());
-            float dy = (float) Math.sin(2 * System.currentTimeMillis());
 
-            camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
-            camera.update();
-            batch.setProjectionMatrix(camera.combined);
-            hb.setProjectionMatrix(camera.combined);
-        }
-
-        player.updatePosition(touchpad);
-
-        //Spawn Enemy0 after Seconds
-        if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
-        {
-            enemies.add(new Enemy(0));
-            enemy0SpawnTimer=System.currentTimeMillis();
-        }
-
-        //Spawn Enemy1 after Seconds
-        outerloop:
-        if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
-        {
-            for(int i = 0; i<enemies.size(); i++)
+            //update
+            if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
             {
-                if(enemies.get(i).type==1)
+                float dx = (float) Math.sin(System.currentTimeMillis());
+                float dy = (float) Math.sin(2 * System.currentTimeMillis());
+
+                camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
+                camera.update();
+                batch.setProjectionMatrix(camera.combined);
+                hb.setProjectionMatrix(camera.combined);
+            }
+
+            player.updatePosition(touchpad);
+
+            //Spawn Enemy0 after Seconds
+            if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
+            {
+                enemies.add(new Enemy(0));
+                enemy0SpawnTimer=System.currentTimeMillis();
+            }
+
+            //Spawn Enemy1 after Seconds
+            outerloop:
+            if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
+            {
+                for(int i = 0; i<enemies.size(); i++)
                 {
-                    enemy1SpawnTimer=System.currentTimeMillis();
-                    break outerloop;
+                    if(enemies.get(i).type==1)
+                    {
+                        enemy1SpawnTimer=System.currentTimeMillis();
+                        break outerloop;
+                    }
+                }
+                enemies.add(new Enemy(1, player));
+                enemy1SpawnTimer=System.currentTimeMillis();
+            }
+
+            //Spawn new Meteors over time
+            if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
+            {
+                meteors.add(new Meteor());
+                meteorSpawnTimer=System.currentTimeMillis();
+            }
+
+            //Spawn Enemy0 more frequently
+            if((System.currentTimeMillis()-enemy0SpawnSubtractTimer)>enemy0SpawnerSubtract+enemy0Spawner)
+            {
+                if(enemy0Spawner>1000)
+                {
+                    enemy0Spawner-=enemy0SpawnerSubtractValue;
+                    enemy0SpawnSubtractTimer=System.currentTimeMillis();
                 }
             }
-            enemies.add(new Enemy(1, player));
-            enemy1SpawnTimer=System.currentTimeMillis();
-        }
-
-        //Spawn new Meteors over time
-        if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
-        {
-            meteors.add(new Meteor());
-            meteorSpawnTimer=System.currentTimeMillis();
-        }
-
-        //Spawn Enemy0 more frequently
-        if((System.currentTimeMillis()-enemy0SpawnSubtractTimer)>enemy0SpawnerSubtract+enemy0Spawner)
-        {
-            if(enemy0Spawner>1000)
-            {
-                enemy0Spawner-=enemy0SpawnerSubtractValue;
-                enemy0SpawnSubtractTimer=System.currentTimeMillis();
-            }
-        }
 
 
-        //Remove offscreen enemies
+            //Remove offscreen enemies
             for(int i = 0; i<enemies.size(); i++)
             {
                 if(enemies.get(i).type==0)
                 {
-                if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
-                {
-                    enemies.remove(enemies.get(i));
-                }
-            }
-        }
-
-        //Meteor - Enemy Collision
-        outerloop:
-        for (int i = 0; i < meteors.size(); i++)
-        {
-            for(int j = 0; j<enemies.size(); j++)
-            {
-                if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
-                    enemies.get(j).health -= 50;
-                    explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY)));
-                    if (enemies.get(j).health <= 0) {
-                        enemies.remove(enemies.get(j));
-                        break outerloop;
-                    }
-                }
-            }
-        }
-
-        //Meteor  -  Player Collision
-        for (int i = 0; i < meteors.size(); i++) {
-            if (Intersector.overlaps(meteors.get(i).box, player.box)) {
-               // System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
-                if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
-                {
-                    meteors.get(i).lastTimeHit = System.currentTimeMillis();
-                    damagePlayer(meteors.get(i).damage);
-                }
-            }
-
-            if (meteors.get(i).x < -meteors.get(i).radius) {
-                meteors.remove(i);
-                meteors.add(new Meteor());
-            }
-        }
-
-        //Remove offscreen rockets
-        for (int i = 0; i < rockets.size(); i++) {
-            if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
-                rockets.remove(rockets.get(i));
-            }
-        }
-
-        //Rocket  -  Meteor collision
-        outerloop:
-        for (int i = 0; i < rockets.size(); i++) {
-            for (int j = 0; j < meteors.size(); j++) {
-                if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
-                    rockets.remove(rockets.get(i));
-                    meteors.get(j).health -= 30;
-                    meteors.get(j).updateTexture();
-                    explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
-                    if (meteors.get(j).health <= 0) {
-                        meteors.remove(j);
-                        meteors.add(new Meteor());
-                    }
-                    break outerloop;
-                }
-            }
-
-        }
-
-        //Rocket   -  Enemy Collision
-        outerloop:
-        for (int i = 0; i < rockets.size(); i++) {
-            for (int j = 0; j<enemies.size(); j++) {
-                if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
-                    rockets.remove(rockets.get(i));
-                    enemies.get(j).health -= 50;
-                    explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
-                    if (enemies.get(j).health <= 0) {
-                        enemies.remove(enemies.get(j));
-                        break outerloop;
-                    }
-
-                }
-            }
-        }
-
-        //EnemyRockets  -  Player/Meteor collision
-        //Enemy - Player collision
-        for(Enemy e : enemies)
-        {
-            for(EnemyRocket er : e.getRockets())
-            {
-                if(Intersector.overlaps(er.box, player.box) )
-                {
-                    //only hit player once
-                    if(!er.hasHitPlayer)
+                    if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
                     {
-                        er.hasHitPlayer = true;
-                        damagePlayer(er.damage);
+                        enemies.remove(enemies.get(i));
                     }
                 }
-                for (int j = 0; j < meteors.size(); j++)
+            }
+
+            //Meteor - Enemy Collision
+            outerloop:
+            for (int i = 0; i < meteors.size(); i++)
+            {
+                for(int j = 0; j<enemies.size(); j++)
                 {
-                    if (Intersector.overlaps(meteors.get(j).box, er.box))
+                    if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
+                        enemies.get(j).health -= 50;
+                        explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY)));
+                        if (enemies.get(j).health <= 0) {
+                            enemies.remove(enemies.get(j));
+                            break outerloop;
+                        }
+                    }
+                }
+            }
+
+            //Meteor  -  Player Collision
+            for (int i = 0; i < meteors.size(); i++) {
+                if (Intersector.overlaps(meteors.get(i).box, player.box)) {
+                    // System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
+                    if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
                     {
+                        meteors.get(i).lastTimeHit = System.currentTimeMillis();
+                        damagePlayer(meteors.get(i).damage);
+                    }
+                }
+
+                if (meteors.get(i).x < -meteors.get(i).radius) {
+                    meteors.remove(i);
+                    meteors.add(new Meteor());
+                }
+            }
+
+            //Remove offscreen rockets
+            for (int i = 0; i < rockets.size(); i++) {
+                if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
+                    rockets.remove(rockets.get(i));
+                }
+            }
+
+            //Rocket  -  Meteor collision
+            outerloop:
+            for (int i = 0; i < rockets.size(); i++) {
+                for (int j = 0; j < meteors.size(); j++) {
+                    if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
+                        rockets.remove(rockets.get(i));
+                        meteors.get(j).health -= 30;
+                        meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
-                        meteors.remove(j);
-                        meteors.add(new Meteor());
-                    }
-                }
-            }
-            if(Intersector.overlaps(e.box, player.box))
-            {
-                if((System.currentTimeMillis() - e.lastTimeHit) > 1200)
-                {
-                    e.lastTimeHit = System.currentTimeMillis();
-                    damagePlayer(e.damage);
-                }
-            }
-        }
-
-        //Enemy Rocket - Enemy Collision
-        outerloop:
-        for(int i = 0; i<enemies.size(); i++)
-        {
-            for(int l = 0; l<enemies.size(); l++)
-            {
-                for(int h = 0; h<enemies.get(l).getRockets().size(); h++)
-                {
-                    if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
-                    {
-                        explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20)));
-                        enemies.remove(i);
+                        if (meteors.get(j).health <= 0) {
+                            meteors.remove(j);
+                            meteors.add(new Meteor());
+                        }
                         break outerloop;
                     }
                 }
+
             }
-        }
 
-        //render
-        batch.begin();
-        background.render(delta, batch);
+            //Rocket   -  Enemy Collision
+            outerloop:
+            for (int i = 0; i < rockets.size(); i++) {
+                for (int j = 0; j<enemies.size(); j++) {
+                    if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
+                        rockets.remove(rockets.get(i));
+                        enemies.get(j).health -= 50;
+                        explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
+                        if (enemies.get(j).health <= 0) {
+                            enemies.remove(enemies.get(j));
+                            break outerloop;
+                        }
 
+                    }
+                }
+            }
 
-        for(Enemy e : enemies)
-        {
-            e.render(delta, batch);
-        }
-        for (Meteor m : meteors) {
-            m.render(delta, batch);
-        }
-        for (Rocket r : rockets) {
-            r.render(delta, batch);
-        }
-        for(int i = 0; i < explosions.size(); i++)
-        {
-            if(explosions.get(i).draw(delta, batch))
+            //EnemyRockets  -  Player/Meteor collision
+            //Enemy - Player collision
+            for(Enemy e : enemies)
             {
-                explosions.remove(i);
+                for(EnemyRocket er : e.getRockets())
+                {
+                    if(Intersector.overlaps(er.box, player.box) )
+                    {
+                        //only hit player once
+                        if(!er.hasHitPlayer)
+                        {
+                            er.hasHitPlayer = true;
+                            damagePlayer(er.damage);
+                        }
+                    }
+                    for (int j = 0; j < meteors.size(); j++)
+                    {
+                        if (Intersector.overlaps(meteors.get(j).box, er.box))
+                        {
+                            explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
+                            meteors.remove(j);
+                            meteors.add(new Meteor());
+                        }
+                    }
+                }
+                if(Intersector.overlaps(e.box, player.box))
+                {
+                    if((System.currentTimeMillis() - e.lastTimeHit) > 1200)
+                    {
+                        e.lastTimeHit = System.currentTimeMillis();
+                        damagePlayer(e.damage);
+                    }
+                }
             }
+
+            //Enemy Rocket - Enemy Collision
+            outerloop:
+            for(int i = 0; i<enemies.size(); i++)
+            {
+                for(int l = 0; l<enemies.size(); l++)
+                {
+                    for(int h = 0; h<enemies.get(l).getRockets().size(); h++)
+                    {
+                        if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
+                        {
+                            explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20)));
+                            enemies.remove(i);
+                            break outerloop;
+                        }
+                    }
+                }
+            }
+
+            //render
+            batch.begin();
+            background.render(delta, batch);
+
+
+            for(Enemy e : enemies)
+            {
+                e.render(delta, batch);
+            }
+            for (Meteor m : meteors) {
+                m.render(delta, batch);
+            }
+            for (Rocket r : rockets) {
+                r.render(delta, batch);
+            }
+            for(int i = 0; i < explosions.size(); i++)
+            {
+                if(explosions.get(i).draw(delta, batch))
+                {
+                    explosions.remove(i);
+                }
+            }
+
+            player.render(delta, batch);
+
+            hb.draw(batch);
+
+            batch.end();
+
+            hb.draw();
+
+
+            menu.draw();
+        }
+        else
+        {
+            lastFrameBufferImage.setDrawable(new TextureRegionDrawable(lastFrameBuffer));
+            stage.addActor(lastFrameBufferImage);
         }
 
-        player.render(delta, batch);
-
-        hb.draw(batch);
-
-        batch.end();
-
-        hb.draw();
-
-        stage.act(delta);
+        stage.act();
         stage.draw();
 
-        menu.draw();
+
+        if(pausebtn.isPressed())
+        {
+
+            if(System.currentTimeMillis() - pausebtnLastTimePressed > 1200)
+            {
+                pausebtnLastTimePressed = System.currentTimeMillis();
+                paused = !paused;
+                if(paused)
+                {
+                    lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
+                }
+            }
+        }
+
     }
 
     private void damagePlayer(int damage)
