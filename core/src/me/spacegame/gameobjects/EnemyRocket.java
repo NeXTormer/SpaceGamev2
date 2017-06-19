@@ -23,6 +23,8 @@ public class EnemyRocket {
     public int speed;
     public int damage;
 
+    public boolean hasHitPlayer = false;
+
     static
     {
         texture = new Texture(Gdx.files.internal("gameobjects/Rocket_02.png"));
@@ -30,7 +32,7 @@ public class EnemyRocket {
 
     public EnemyRocket(Enemy p)
     {
-        damage=30;
+        damage=15;
         speed = 40;
         width = 50;
         height = 40;
