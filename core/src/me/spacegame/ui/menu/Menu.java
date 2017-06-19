@@ -26,8 +26,10 @@ public class Menu {
 
         //load all menuscreens
         screens.put("main", new MainMenu(this));
+        screens.put("empty", new EmptyMenu(this));
+        screens.put("options", new OptionsMenu(this));
 
-        currentMenu = screens.get("main");
+        currentMenu = screens.get("empty");
 
 
         for(TemplateMenu menu : screens.values())

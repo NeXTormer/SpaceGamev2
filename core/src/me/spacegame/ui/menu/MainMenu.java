@@ -33,8 +33,8 @@ public class MainMenu extends TemplateMenu {
 
     @Override
     public void create() {
-        startbuttonup = new Texture(Gdx.files.internal("mainmenu/startbtnup.png"));
-        startbuttondown = new Texture(Gdx.files.internal("mainmenu/startbtndown.png"));
+        startbuttonup = new Texture(Gdx.files.internal("ui/resumebtn.png"));
+        startbuttondown = new Texture(Gdx.files.internal("ui/resumebtn.png"));
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
@@ -44,13 +44,13 @@ public class MainMenu extends TemplateMenu {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        //optionsbutton = new ImageButton()
+        optionsbutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/optionsbtn.png")))));
+        optionsbutton.setPosition(900, 500);
 
-
-        startbtn.setPosition(580, 250);
+        startbtn.setPosition(895, 180);
 
         stage.addActor(startbtn);
-
+        stage.addActor(optionsbutton);
         //Gdx.input.setInputProcessor(stage);
     }
 

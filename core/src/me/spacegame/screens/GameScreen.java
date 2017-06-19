@@ -4,17 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -25,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +91,7 @@ public class GameScreen implements Screen, InputProcessor {
     private double enemy0SpawnerSubtractValue;
 
     //Pause Button
-    private ImageButton pausebtn;
+    private ImageButton settingsbtn;
     private Texture pausebtnup;
     private Texture pausebtndown;
     private SpriteDrawable pausebtnupdrawable;
@@ -173,8 +168,8 @@ public class GameScreen implements Screen, InputProcessor {
         menu = new Menu(this);
 
         //Pause Button
-        pausebtnup = new Texture(Gdx.files.internal("ui/pausebutton.png"));
-        pausebtndown = new Texture(Gdx.files.internal("ui/pausebuttons.png"));
+        pausebtnup = new Texture(Gdx.files.internal("ui/settingsbtn.png"));
+        pausebtndown = new Texture(Gdx.files.internal("ui/settingsbtn.png"));
 
         pausebtnupdrawable= new SpriteDrawable();
         pausebtndowndrawable = new SpriteDrawable();
@@ -182,10 +177,10 @@ public class GameScreen implements Screen, InputProcessor {
         pausebtnupdrawable.setSprite(new Sprite(pausebtnup));
         pausebtndowndrawable.setSprite(new Sprite(pausebtndown));
 
-        pausebtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
+        settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
 
-        pausebtn.setPosition(1550, 828);
-        stage.addActor(pausebtn);
+        settingsbtn.setPosition(1650, 928);
+        stage.addActor(settingsbtn);
 
         lastFrameBufferImage = new Image();
 
@@ -436,15 +431,16 @@ public class GameScreen implements Screen, InputProcessor {
         }
         else
         {
-            lastFrameBufferImage.setDrawable(new TextureRegionDrawable(lastFrameBuffer));
-            stage.addActor(lastFrameBufferImage);
+            batch.begin();
+            batch.draw(lastFrameBuffer, 0, 0);
+            batch.end();
         }
 
         stage.act();
         stage.draw();
 
 
-        if(pausebtn.isPressed())
+        if(settingsbtn.isPressed())
         {
 
             if(System.currentTimeMillis() - pausebtnLastTimePressed > 1200)
