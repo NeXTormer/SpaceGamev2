@@ -30,6 +30,7 @@ import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.ui.HealthBar;
+import me.spacegame.ui.menu.Menu;
 
 /**
  * Created by Felix on 09-May-17.
@@ -38,22 +39,23 @@ import me.spacegame.ui.HealthBar;
 public class GameScreen implements Screen, InputProcessor {
 
     //TMP
-    HealthBar hb;
+    private Menu menu;
 
     private static final int SHAKETIME = 150;
 
     private SpaceGame game;
+
     private SpriteBatch batch;
     private Stage stage;
-
-
     private OrthographicCamera camera;
+
+
     private List<Meteor> meteors = new ArrayList<Meteor>();
     public List<Rocket> rockets = new ArrayList<Rocket>();
     private List<Explosion> explosions = new ArrayList<Explosion>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
-
     private Background background;
+
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadskin;
@@ -62,6 +64,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Player player;
     private Enemy enemy0;
     private Enemy enemy1;
+    private HealthBar hb;
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -146,6 +149,7 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
+        menu = new Menu();
     }
 
 
@@ -387,6 +391,7 @@ public class GameScreen implements Screen, InputProcessor {
         stage.act(delta);
         stage.draw();
 
+        menu.draw();
     }
 
     private void damagePlayer(int damage)
