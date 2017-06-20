@@ -93,7 +93,7 @@ public class GameScreen implements Screen, InputProcessor {
     private double enemy0SpawnerSubtractValue;
 
     //Pause Button
-    private ImageButton settingsbtn;
+    public ImageButton settingsbtn;
     private Texture pausebtnup;
     private Texture pausebtndown;
     private SpriteDrawable pausebtnupdrawable;
@@ -186,25 +186,16 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
-        settingsbtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                {
-
-                    menu.currentMenu = menu.screens.get("main").activate();
-                    if(System.currentTimeMillis() - pausebtnLastTimePressed > 100)
-                    {
-                        pausebtnLastTimePressed = System.currentTimeMillis();
-                        paused = !paused;
-                        if(paused)
-                        {
-                            lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
-                        }
-                    }
-                }
-
-            }
-        });
+//        settingsbtn.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                {
+//
+//
+//                }
+//
+//            }
+//        });
     }
 
 
@@ -215,6 +206,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+
 
         if(!paused)
         {
@@ -461,6 +453,26 @@ public class GameScreen implements Screen, InputProcessor {
         stage.draw();
 
         menu.draw();
+
+        //button is stuck
+        if(settingsbtn.isPressed())
+        {
+            System.out.println("pressed");
+            if(System.currentTimeMillis() - pausebtnLastTimePressed > 1000)
+            {
+                paused = !paused;
+                if(paused)
+                {
+                    paused = true;
+                    camera.position.set(0, 0, 0);
+                    lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
+                }
+                //settingsbtn.setDisabled(true);
+                menu.currentMenu = menu.screens.get("main").activate();
+                pausebtnLastTimePressed = System.currentTimeMillis();
+            }
+        }
+
     }
 
     private void damagePlayer(int damage)

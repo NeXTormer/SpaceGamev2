@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 public class OptionsMenu extends TemplateMenu {
 
     private ImageButton backButton;
+    private long timers[] = new long[1];
 
     public OptionsMenu(Menu menu)
     {
@@ -33,8 +34,12 @@ public class OptionsMenu extends TemplateMenu {
         stage.draw();
         if(backButton.isPressed())
         {
-            System.out.println("WERNER");
-            menu.currentMenu = menu.screens.get("main").activate();
+            if(System.currentTimeMillis() - timers[0] > 100)
+            {
+                //menu.getGameScreen().settingsbtn.setDisabled(false);
+                menu.currentMenu = menu.screens.get("main").activate();
+                timers[0] = System.currentTimeMillis();
+            }
         }
     }
 

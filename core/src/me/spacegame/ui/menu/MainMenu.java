@@ -24,6 +24,7 @@ public class MainMenu extends TemplateMenu {
     private SpriteDrawable startButtonDownDrawable;
 
     private ImageButton optionsbutton;
+    private long[] timers = new long[2];
 
     public MainMenu(Menu menu)
     {
@@ -62,12 +63,20 @@ public class MainMenu extends TemplateMenu {
 
         if(optionsbutton.isPressed())
         {
-            menu.currentMenu = menu.screens.get("options").activate();
+            if(System.currentTimeMillis() - timers[0] > 100)
+            {
+                menu.currentMenu = menu.screens.get("options").activate();
+                timers[0] = System.currentTimeMillis();
+            }
         }
         if(startbtn.isPressed())
         {
-            menu.currentMenu = menu.screens.get("empty").activate();
-            menu.getGameScreen().paused = false;
+            if(System.currentTimeMillis() - timers[1] > 100)
+            {
+                menu.currentMenu = menu.screens.get("empty").activate();
+                menu.getGameScreen().paused = false;
+                timers[1] = System.currentTimeMillis();
+            }
         }
     }
 
