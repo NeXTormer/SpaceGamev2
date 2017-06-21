@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Circle;
 import java.util.Random;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Michi on 10.05.2017.
@@ -34,10 +35,9 @@ public class Meteor {
     public long lastTimeHit = 0;
     public Circle box;
     private Sprite meteorsprite;
-    private int speed;
+    public int speed;
     private int rotateSpeed;
     private int texture;
-    private static Random random = new Random();
 
     static
     {
@@ -53,17 +53,17 @@ public class Meteor {
 
     public Meteor()
     {
-        texture = random.nextInt(METEOR_TEXTURES);
-        radius = random.nextInt(50)+50;
-        health = random.nextInt(90)+10;
-        x = random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
-        y = random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
+        texture = GameScreen.random.nextInt(METEOR_TEXTURES);
+        radius = GameScreen.random.nextInt(50)+50;
+        health = GameScreen.random.nextInt(90)+10;
+        x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
+        y = GameScreen.random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
         box = new Circle();
         box.setX(x+radius);
         box.setY(y+radius);
         box.setRadius(radius);
-        speed = random.nextInt(12)+5;
-        rotateSpeed = random.nextInt(2);
+        speed = GameScreen.random.nextInt(12)+5;
+        rotateSpeed = GameScreen.random.nextInt(2);
         damage = (int) radius / 6;
 
         meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);

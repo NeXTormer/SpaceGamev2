@@ -1,5 +1,6 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -13,6 +14,7 @@ import me.spacegame.screens.GameScreen;
 public abstract class PowerUp {
     protected Player player;
     protected GameScreen gameScreen;
+    public static Texture texture;
 
     public PowerUp(Player player, GameScreen gameScreen)
     {

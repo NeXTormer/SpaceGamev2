@@ -1,6 +1,8 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -21,6 +23,11 @@ public class PowerUpRapidFire extends PowerUp {
     private double x;
     private double y;
 
+    static
+    {
+        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_01.png"));
+    }
+
 
     public PowerUpRapidFire(Player p, GameScreen gameScreen)
     {
@@ -35,12 +42,12 @@ public class PowerUpRapidFire extends PowerUp {
     @Override
     public boolean render(float delta, SpriteBatch batch)
     {
-        if((durationStart-System.currentTimeMillis())<duration)
+        if((System.currentTimeMillis()-durationStart)<duration)
         {
-            if((rocketTimer-System.currentTimeMillis())>rocketSpawn)
+            if((System.currentTimeMillis()-rocketTimer)>rocketSpawn)
             {
                 gameScreen.rockets.add(new Rocket(player));
-                rocketSpawn=System.currentTimeMillis();
+                rocketTimer=System.currentTimeMillis();
             }
             return true;
         }
