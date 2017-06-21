@@ -340,10 +340,11 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
-                            if(random.nextInt(10)==1)
-                            {
+                            //if(random.nextInt(1)==0)
+                            //{
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
-                            }
+                            System.out.println("spawned");
+                            //}
                             meteors.remove(j);
                             meteors.add(new Meteor());
                         }
@@ -363,8 +364,8 @@ public class GameScreen implements Screen, InputProcessor {
                         explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
                         if (enemies.get(j).health <= 0) {
                             enemies.remove(enemies.get(j));
-                            break outerloop;
                         }
+                        break outerloop;
 
                     }
                 }
@@ -429,6 +430,7 @@ public class GameScreen implements Screen, InputProcessor {
             {
                 if(Intersector.overlaps(powerUpObjects.get(i).box, player.box));
                 {
+                    System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
                     switch(random.nextInt(1))
                     {
@@ -478,6 +480,11 @@ public class GameScreen implements Screen, InputProcessor {
                     currentPowerUp=null;
                     break outerloop;
                 }
+            }
+
+            for(int i = 0; i<powerUpObjects.size(); i++)
+            {
+                powerUpObjects.get(i).render(delta, batch);
             }
 
             player.render(delta, batch);
@@ -565,10 +572,11 @@ public class GameScreen implements Screen, InputProcessor {
         }
         else
         {
-            float dx = (float) Math.pow(Math.abs(screenX-110), 2);
-            float dy = (float) Math.pow(Math.abs(screenY-880), 2);
-            System.out.println(dx + " : "+dy);
-            if((dx+dy)>250)
+            //float dx = (float) Math.pow(Math.abs(screenX-110), 2);
+            //float dy = (float) Math.pow(Math.abs(screenY-880), 2);
+            //System.out.println(screenX + " : "+screenY);
+            if(screenX>91 && screenX<270 && screenY>45 && screenY<220)
+            //if((dx+dy)>250)
             {
                 if(currentPowerUp!=null && activePowerUps.size()==0)
                 {

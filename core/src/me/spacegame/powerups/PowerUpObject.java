@@ -1,8 +1,10 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.screens.GameScreen;
@@ -14,12 +16,12 @@ import me.spacegame.screens.GameScreen;
 public class PowerUpObject {
 
     private Meteor m;
-    private float width;
+    public float width;
     private float height;
-    private float x;
+    public float x;
     private float y;
     private int speed;
-    public Circle box;
+    public Rectangle box;
     private Texture texture;
 
 
@@ -29,16 +31,18 @@ public class PowerUpObject {
         y = m.y;
         x = m.x;
         speed=m.speed;
-        texture = gs.hb.fbo.getColorBufferTexture();
+        //texture = gs.hb.fbo.getColorBufferTexture();
+        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
         width=texture.getWidth();
         height=texture.getHeight();
-        box = new Circle(x+(width/2), y+(height/2), width/2);
+        box = new Rectangle(x, y, width, height);
     }
 
     public void render(float delta, SpriteBatch batch)
     {
         x-=speed;
-        batch.draw(texture, x, y);
+        box.setX(x);
+        batch.draw(texture, x, y, width, height);
     }
 
     public static void dispose()
