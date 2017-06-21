@@ -2,11 +2,8 @@ package me.spacegame.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
@@ -23,8 +20,9 @@ public class MainMenu extends TemplateMenu {
     private SpriteDrawable startButtonUpDrawable;
     private SpriteDrawable startButtonDownDrawable;
 
-    private ImageButton optionsbutton;
+    private ImageButton mutebutton;
     private long[] timers = new long[2];
+    private boolean muted = false;
 
     public MainMenu(Menu menu)
     {
@@ -47,13 +45,13 @@ public class MainMenu extends TemplateMenu {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        optionsbutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/optionsbtn.png")))));
-        optionsbutton.setPosition(900, 500);
+        mutebutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/mutebutton.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/mutebuttonon.png")))));
+        mutebutton.setPosition(900, 500);
 
         startbtn.setPosition(895, 180);
 
         stage.addActor(startbtn);
-        stage.addActor(optionsbutton);
+        stage.addActor(mutebutton);
         //Gdx.input.setInputProcessor(stage);
     }
 
@@ -69,11 +67,12 @@ public class MainMenu extends TemplateMenu {
         stage.act();
         stage.draw();
 
-        if(optionsbutton.isPressed())
+        if(mutebutton.isPressed())
         {
             if(System.currentTimeMillis() - timers[0] > 1000)
             {
-                menu.currentMenu = menu.screens.get("options").activate();
+                muted = !muted;
+                mutebutton.setChecked(muted);
                 timers[0] = System.currentTimeMillis();
             }
         }

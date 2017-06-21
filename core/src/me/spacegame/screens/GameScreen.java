@@ -186,16 +186,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
-//        settingsbtn.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent event, Actor actor) {
-//                {
-//
-//
-//                }
-//
-//            }
-//        });
     }
 
 
@@ -206,6 +196,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+
 
 
         if(!paused)
@@ -443,7 +434,8 @@ public class GameScreen implements Screen, InputProcessor {
         }
         else
         {
-            camera.position.set(0, 0, 0);
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
+            camera.update();
             batch.begin();
             batch.draw(lastFrameBuffer, 0, 0);
             batch.end();
@@ -467,11 +459,8 @@ public class GameScreen implements Screen, InputProcessor {
                 paused = !paused;
                 if(paused)
                 {
-                    paused = true;
-                    camera.position.set(0, 0, 0);
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
-                //settingsbtn.setDisabled(true);
                 menu.currentMenu = menu.screens.get("main").activate();
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
