@@ -1,6 +1,7 @@
 package me.spacegame.powerups;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -20,6 +21,11 @@ public class PowerUpRapidFire extends PowerUp {
     private double rocketSpawn;
     private double x;
     private double y;
+
+    static
+    {
+//        texture = new Texture("gameobjects/SpaceShip_01");
+    }
 
 
     public PowerUpRapidFire(Player p, GameScreen gameScreen)

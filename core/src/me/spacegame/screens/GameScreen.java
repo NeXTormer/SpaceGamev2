@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.animations.ExclaimationPoint;
@@ -35,6 +36,9 @@ import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
+import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpObject;
+import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
 import me.spacegame.ui.menu.Menu;
 
@@ -60,7 +64,13 @@ public class GameScreen implements Screen, InputProcessor {
     public List<Rocket> rockets = new ArrayList<Rocket>();
     private List<Explosion> explosions = new ArrayList<Explosion>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
+    private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
+    private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
+
     private Background background;
+
+    public static Random random = new Random();
+    public PowerUp currentPowerUp;
 
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
@@ -70,7 +80,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Player player;
     private Enemy enemy0;
     private Enemy enemy1;
-    private HealthBar hb;
+    public HealthBar hb;
     private TextureRegion lastFrameBuffer;
     private Image lastFrameBufferImage;
 
@@ -161,6 +171,7 @@ public class GameScreen implements Screen, InputProcessor {
         //enemy1 = new Enemy(1, player);
         //enemies.add(enemy0);
         //enemies.add(enemy1);
+        currentPowerUp=new PowerUpRapidFire(player, this);
 
         hb = new HealthBar();
 
@@ -329,6 +340,10 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
+                            if(random.nextInt(10)==1)
+                            {
+                                powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
+                            }
                             meteors.remove(j);
                             meteors.add(new Meteor());
                         }
@@ -408,6 +423,25 @@ public class GameScreen implements Screen, InputProcessor {
                 }
             }
 
+            //Player - PowerUpObject Collision
+            outerloop:
+            for(int i = 0; i<powerUpObjects.size(); i++)
+            {
+                if(Intersector.overlaps(powerUpObjects.get(i).box, player.box));
+                {
+                    powerUpObjects.remove(powerUpObjects.get(i));
+                    switch(random.nextInt(1))
+                    {
+                        case 1:
+                            currentPowerUp = new PowerUpRapidFire(player, this);
+                            break outerloop;
+                        default:
+                            currentPowerUp = new PowerUpRapidFire(player, this);
+                            break outerloop;
+                    }
+                }
+            }
+
             //render
             batch.begin();
             background.render(delta, batch);
@@ -428,6 +462,21 @@ public class GameScreen implements Screen, InputProcessor {
                 if(explosions.get(i).draw(delta, batch))
                 {
                     explosions.remove(i);
+                }
+            }
+
+            //Render PowerUps
+            outerloop:
+            for(int i = 0; i<activePowerUps.size(); i++)
+            {
+                if(activePowerUps.get(i).render(delta, batch)) {
+
+                }
+                else
+                {
+                    activePowerUps.remove(activePowerUps.get(i));
+                    currentPowerUp=null;
+                    break outerloop;
                 }
             }
 
@@ -508,9 +557,23 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX >= SpaceGame.VIEWPORTWIDTH / 2) {
+        if (screenX >= SpaceGame.VIEWPORTWIDTH / 2)
+        {
             if (rockets.size() < 5) {
                 rockets.add(new Rocket(player));
+            }
+        }
+        else
+        {
+            float dx = (float) Math.pow(Math.abs(screenX-110), 2);
+            float dy = (float) Math.pow(Math.abs(screenY-880), 2);
+            System.out.println(dx + " : "+dy);
+            if((dx+dy)>250)
+            {
+                if(currentPowerUp!=null && activePowerUps.size()==0)
+                {
+                    activePowerUps.add(currentPowerUp);
+                }
             }
         }
         return true;
