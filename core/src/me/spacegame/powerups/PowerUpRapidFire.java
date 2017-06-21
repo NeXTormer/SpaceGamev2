@@ -35,12 +35,12 @@ public class PowerUpRapidFire extends PowerUp {
     @Override
     public boolean render(float delta, SpriteBatch batch)
     {
-        if((durationStart-System.currentTimeMillis())<duration)
+        if((System.currentTimeMillis()-durationStart)<duration)
         {
-            if((rocketTimer-System.currentTimeMillis())>rocketSpawn)
+            if((System.currentTimeMillis()-rocketTimer)>rocketSpawn)
             {
                 gameScreen.rockets.add(new Rocket(player));
-                rocketSpawn=System.currentTimeMillis();
+                rocketTimer=System.currentTimeMillis();
             }
             return true;
         }
