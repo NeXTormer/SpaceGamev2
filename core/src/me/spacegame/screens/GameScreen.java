@@ -454,10 +454,14 @@ public class GameScreen implements Screen, InputProcessor {
 
         menu.draw();
 
-        //button is stuck
         if(settingsbtn.isPressed())
         {
-            System.out.println("pressed");
+            //Richtiger Pfusch, geht aber
+            settingsbtn.remove();
+            settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
+            stage.addActor(settingsbtn);
+            settingsbtn.setPosition(1650, 928);
+
             if(System.currentTimeMillis() - pausebtnLastTimePressed > 1000)
             {
                 paused = !paused;
@@ -472,6 +476,7 @@ public class GameScreen implements Screen, InputProcessor {
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
         }
+
 
     }
 

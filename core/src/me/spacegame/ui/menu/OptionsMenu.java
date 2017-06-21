@@ -34,7 +34,7 @@ public class OptionsMenu extends TemplateMenu {
         stage.draw();
         if(backButton.isPressed())
         {
-            if(System.currentTimeMillis() - timers[0] > 100)
+            if(System.currentTimeMillis() - timers[0] > 1000)
             {
                 //menu.getGameScreen().settingsbtn.setDisabled(false);
                 menu.currentMenu = menu.screens.get("main").activate();

@@ -30,6 +30,8 @@ public class MainMenu extends TemplateMenu {
     {
         super(menu);
         stage.getBatch().setProjectionMatrix(menu.camera.combined);
+        //menu.getGameScreen().getInputMultiplexer().addProcessor(stage);
+        //Gdx.input.setInputProcessor(menu.getGameScreen().getInputMultiplexer());
     }
 
     @Override
@@ -55,6 +57,12 @@ public class MainMenu extends TemplateMenu {
         //Gdx.input.setInputProcessor(stage);
     }
 
+    @Override
+    public TemplateMenu activate()
+    {
+        Gdx.input.setInputProcessor(stage);
+        return this;
+    }
 
     @Override
     public void draw() {
@@ -63,7 +71,7 @@ public class MainMenu extends TemplateMenu {
 
         if(optionsbutton.isPressed())
         {
-            if(System.currentTimeMillis() - timers[0] > 100)
+            if(System.currentTimeMillis() - timers[0] > 1000)
             {
                 menu.currentMenu = menu.screens.get("options").activate();
                 timers[0] = System.currentTimeMillis();
@@ -71,7 +79,7 @@ public class MainMenu extends TemplateMenu {
         }
         if(startbtn.isPressed())
         {
-            if(System.currentTimeMillis() - timers[1] > 100)
+            if(System.currentTimeMillis() - timers[1] > 1000)
             {
                 menu.currentMenu = menu.screens.get("empty").activate();
                 menu.getGameScreen().paused = false;
