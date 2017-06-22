@@ -331,11 +331,11 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
-                            //if(random.nextInt(1)==0)
-                            //{
+                            if(random.nextInt(9)==0)
+                            {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
-                            System.out.println("spawned");
-                            //}
+                                System.out.println("spawned");
+                            }
                             meteors.remove(j);
                             meteors.add(new Meteor());
                         }
@@ -419,7 +419,7 @@ public class GameScreen implements Screen, InputProcessor {
             outerloop:
             for(int i = 0; i<powerUpObjects.size(); i++)
             {
-                if(Intersector.overlaps(powerUpObjects.get(i).box, player.box));
+                if((Intersector.overlaps(powerUpObjects.get(i).box, player.box)) && currentPowerUp==null)
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));

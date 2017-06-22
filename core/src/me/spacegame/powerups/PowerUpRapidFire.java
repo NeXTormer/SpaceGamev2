@@ -51,7 +51,10 @@ public class PowerUpRapidFire extends PowerUp {
             }
             return true;
         }
-        return false;
+        else
+        {
+            return false;
+        }
 
     }
 
