@@ -33,7 +33,7 @@ public class PowerUpRapidFire extends PowerUp {
     {
         super(p, gameScreen);
         rocketTimer = System.currentTimeMillis();
-        rocketSpawn = 100;
+        rocketSpawn = 70;
         duration = 5000;
         durationStart = System.currentTimeMillis();
     }
