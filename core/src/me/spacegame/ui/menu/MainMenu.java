@@ -52,7 +52,6 @@ public class MainMenu extends TemplateMenu {
 
         stage.addActor(startbtn);
         stage.addActor(mutebutton);
-        //Gdx.input.setInputProcessor(stage);
     }
 
     @Override

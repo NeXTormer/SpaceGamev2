@@ -3,6 +3,7 @@ package me.spacegame.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -23,7 +24,12 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import me.spacegame.SpaceGame;
+import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpObject;
 
 /**
  * Created by Felix on 19-May-17.
@@ -41,6 +47,9 @@ public class HealthBar {
     private ShaderProgram healthbarProgram;
 
     private float health = 0;
+    private boolean displayPowerUp = false;
+    private boolean increaseRotationSpeed = false;
+    private Texture powerUpTexture;
 
     //Questionmark
     public PerspectiveCamera cam;
@@ -50,6 +59,12 @@ public class HealthBar {
     private ModelLoader loader = new ObjLoader();
     public FrameBuffer fbo;
     public Environment environment;
+    private float rotationSpeed = 1.9f;
+
+    private long powerUpStartTime;
+    private Timer timer;
+    public long powerUpPickupTime = 0;
+    private boolean isIconRevealed = false;
 
     //public Mesh healthBar = new Mesh();
 
@@ -92,13 +107,32 @@ public class HealthBar {
         instance.transform.rotate(0, 0, 1, 180);
 
         setHealth(100);
-
+        timer = new Timer();
     }
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
-        batch.draw(mainTexture, 62, 740);
+        if(displayPowerUp)
+        {
+            if(powerUpTexture != null)
+            {
+                batch.draw(powerUpTexture, 87f, 833f);
+                batch.draw(mainTexture, 62, 740);
+
+            }
+        }
+        else
+        {
+            batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
+            batch.draw(mainTexture, 62, 740);
+        }
+        if(System.currentTimeMillis() - powerUpPickupTime > 4000 && isIconRevealed)
+        {
+            isIconRevealed = false;
+            increaseRotationSpeed = false;
+            displayPowerUp = true;
+            rotationSpeed = 1.8f;
+        }
     }
 
 
@@ -109,7 +143,15 @@ public class HealthBar {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, 200, 200);
 
-        instance.transform.rotate(new Vector3(0, 1, 0), 1.8f);
+        if(increaseRotationSpeed)
+        {
+            rotationSpeed += 0.03;
+            instance.transform.rotate(new Vector3(0, 1, 0), rotationSpeed);
+        }
+        else
+        {
+            instance.transform.rotate(new Vector3(0, 1, 0), 1.8f);
+        }
         modelBatch.begin(cam);
         modelBatch.render(instance);
         modelBatch.end();
@@ -136,6 +178,31 @@ public class HealthBar {
     public void setHealth(float health)
     {
         this.health = 270 + ((health) * 5.7f);
+    }
+
+    public void collectPowerup(PowerUp pu)
+    {
+        displayPowerUp = false;
+        increaseRotationSpeed = true;
+        powerUpTexture = pu.texture;
+        powerUpStartTime = System.currentTimeMillis();
+        isIconRevealed = true;
+
+
+        powerUpPickupTime = System.currentTimeMillis();
+    }
+
+    public void resetQuestionmark()
+    {
+        displayPowerUp = false;
+        increaseRotationSpeed = false;
+        rotationSpeed = 1.8f;
+    }
+
+    public void revealPowerUpIcon()
+    {
+        increaseRotationSpeed = false;
+        displayPowerUp = true;
     }
 
     public void dispose()

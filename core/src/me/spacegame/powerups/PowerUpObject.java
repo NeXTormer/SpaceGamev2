@@ -22,7 +22,7 @@ public class PowerUpObject {
     private float y;
     private int speed;
     public Rectangle box;
-    private Texture texture;
+    public Texture texture;
 
 
     public PowerUpObject(Meteor m, GameScreen gs)
@@ -31,7 +31,7 @@ public class PowerUpObject {
         y = m.y;
         x = m.x;
         speed=m.speed;
-        //texture = gs.hb.fbo.getColorBufferTexture();
+        //texture = gs.healthBar.fbo.getColorBufferTexture();
         texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
         width=texture.getWidth();
         height=texture.getHeight();

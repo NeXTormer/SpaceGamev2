@@ -23,10 +23,6 @@ public class PowerUpRapidFire extends PowerUp {
     private double x;
     private double y;
 
-    static
-    {
-        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_01.png"));
-    }
 
 
     public PowerUpRapidFire(Player p, GameScreen gameScreen)
@@ -36,6 +32,7 @@ public class PowerUpRapidFire extends PowerUp {
         rocketSpawn = 70;
         duration = 5000;
         durationStart = System.currentTimeMillis();
+        texture = new Texture(Gdx.files.internal("ui/pausebutton.png"));
     }
 
 
@@ -56,6 +53,12 @@ public class PowerUpRapidFire extends PowerUp {
             return false;
         }
 
+    }
+
+    @Override
+    public boolean isFinished()
+    {
+        return (System.currentTimeMillis()-durationStart)<duration;
     }
 
     @Override
