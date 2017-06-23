@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -47,9 +48,12 @@ public class HealthBar {
     private ShaderProgram healthbarProgram;
 
     private float health = 0;
+    private float dHealth = 0;
+    private float healthPercent = 100;
     private boolean displayPowerUp = false;
     private boolean increaseRotationSpeed = false;
     private Texture powerUpTexture;
+    private long healthAnimationDeltaTime = 0;
 
     //Questionmark
     public PerspectiveCamera cam;
@@ -65,6 +69,8 @@ public class HealthBar {
     private Timer timer;
     public long powerUpPickupTime = 0;
     private boolean isIconRevealed = false;
+
+    private Interpolation interpolation;
 
     //public Mesh healthBar = new Mesh();
 
@@ -106,8 +112,9 @@ public class HealthBar {
         instance.transform.scl(4);
         instance.transform.rotate(0, 0, 1, 180);
 
-        setHealth(100);
+        health = convertPercentToPixel(100);
         timer = new Timer();
+        interpolation = Interpolation.circle;
     }
 
     public void draw(SpriteBatch batch)
@@ -120,6 +127,8 @@ public class HealthBar {
                 batch.draw(mainTexture, 62, 740);
 
             }
+            else
+                System.err.println("peter texture");
         }
         else
         {
@@ -138,6 +147,8 @@ public class HealthBar {
 
     public void draw()
     {
+        healthAnimationDeltaTime++;
+        updateHealth(healthAnimationDeltaTime);
         //render to fbo
         fbo.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -175,9 +186,28 @@ public class HealthBar {
         healthBatch.setProjectionMatrix(pr_matrix);
     }
 
+    public void updateHealth(float dt)
+    {
+        dt /= 100;
+        if (dHealth > 0)
+        {
+            if(dt > 0.05f)
+            {
+                dHealth = 0;
+            }
+            else
+            {
+                float interpolated = Interpolation.linear.apply(0, dHealth, dt);
+                this.health = this.health - interpolated;
+            }
+        }
+    }
+
     public void setHealth(float health)
     {
-        this.health = 270 + ((health) * 5.7f);
+        this.dHealth = Math.abs(this.health - convertPercentToPixel(health));
+        healthPercent = convertPercentToPixel(health);
+        healthAnimationDeltaTime = 0;
     }
 
     public void collectPowerup(PowerUp pu)
@@ -203,7 +233,9 @@ public class HealthBar {
     {
         increaseRotationSpeed = false;
         displayPowerUp = true;
+        isIconRevealed = false;
     }
+
 
     public void dispose()
     {
@@ -212,6 +244,11 @@ public class HealthBar {
         healthbarProgram.dispose();
         fbo.dispose();
 
+    }
+
+    private float convertPercentToPixel(float percent)
+    {
+        return 270 + ((percent) * 5.7f);
     }
 
 }

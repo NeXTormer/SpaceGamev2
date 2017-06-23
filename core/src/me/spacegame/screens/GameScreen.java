@@ -526,12 +526,14 @@ public class GameScreen implements Screen, InputProcessor {
 
     private void damagePlayer(int damage)
     {
+        //damage = 4;
         player.health -= damage;
         healthBar.setHealth(player.health);
         shakeCam();
         if (player.health <= 0) {
             gameOver();
         }
+        System.err.println(player.health);
     }
 
     private void gameOver() {
