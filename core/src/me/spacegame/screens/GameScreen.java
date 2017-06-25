@@ -659,9 +659,12 @@ public class GameScreen implements Screen, InputProcessor {
 
     public void shakeCam()
     {
-        shakeCamTimer = System.currentTimeMillis();
-        if(vibration)
-            Gdx.input.vibrate(SHAKETIME);
+        if(!player.dead)
+        {
+            shakeCamTimer = System.currentTimeMillis();
+            if(vibration)
+                Gdx.input.vibrate(SHAKETIME);
+        }
     }
 
     public InputMultiplexer getInputMultiplexer()
