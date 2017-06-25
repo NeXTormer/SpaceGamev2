@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -222,6 +223,7 @@ public class GameScreen implements Screen, InputProcessor {
                 batch.setProjectionMatrix(camera.combined);
                 healthBar.setProjectionMatrix(camera.combined);
             }
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
 
             player.updatePosition(touchpad);
 
@@ -517,6 +519,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
+                camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
                 menu.currentMenu = menu.screens.get("main").activate();
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
@@ -531,7 +534,7 @@ public class GameScreen implements Screen, InputProcessor {
         player.health -= damage;
         healthBar.setHealth(player.health);
         shakeCam();
-        if (player.health <= 0) {
+        if (healthBar.getHealthPX() <= 0) {
             gameOver();
         }
         System.err.println(player.health);
@@ -539,8 +542,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     private void gameOver() {
         System.err.println("Game Over!");
-
-
+        menu.currentMenu = menu.screens.get("gameover").activate();
     }
 
     @Override
@@ -657,5 +659,9 @@ public class GameScreen implements Screen, InputProcessor {
     {
         return inputMultiplexer;
     }
+
+    public SpaceGame getGame() { return game; }
+
+    public Camera getCamera() { return camera; }
 
 }

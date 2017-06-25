@@ -37,7 +37,7 @@ public class Enemy {
     //type = 1 --> Enemy from Left
 
     private int baseSpeed;
-    private Texture enemyTexture;
+    private static Texture enemyTexture;
     private static Random random = new Random();
     private int rocket1;
     private int rocket2;
@@ -54,14 +54,13 @@ public class Enemy {
 
     static
     {
-
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
     }
 
     public Enemy(int type)
     {
         this.type = type;
         enemyX = random.nextInt(1000)+ SpaceGame.VIEWPORTWIDTH+2000;
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
         warningX = SpaceGame.VIEWPORTWIDTH-50;
 
         enemyWidth=150;
@@ -208,7 +207,7 @@ public class Enemy {
 
     public static void dispose()
     {
-
+        enemyTexture.dispose();
     }
 
     public ArrayList<EnemyRocket> getRockets()
