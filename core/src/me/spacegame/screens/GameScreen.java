@@ -34,6 +34,7 @@ import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
@@ -74,7 +75,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Skin touchpadskin;
     private Drawable touchknob;
     private Drawable touchbackground;
-    private Player player;
+    public Player player;
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
@@ -323,8 +324,8 @@ public class GameScreen implements Screen, InputProcessor {
             for (int i = 0; i < rockets.size(); i++) {
                 for (int j = 0; j < meteors.size(); j++) {
                     if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
+                        meteors.get(j).health -= rockets.get(i).damage;
                         rockets.remove(rockets.get(i));
-                        meteors.get(j).health -= 30;
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
@@ -426,7 +427,7 @@ public class GameScreen implements Screen, InputProcessor {
                             healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                         default:
-                            currentPowerUp = new PowerUpRapidFire(player, this);
+                            currentPowerUp = new PowerUpControl(player, this);
                             healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                     }

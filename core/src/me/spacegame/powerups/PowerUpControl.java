@@ -20,31 +20,30 @@ public class PowerUpControl extends PowerUp {
     private double durationStart;
     private double rocketTimer;
     private double rocketSpawn;
-    private double x;
-    private double y;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+    private Texture replaceTexture;
 
-    static
-    {
-        texture = new Texture(Gdx.files.internal("gameobjects/ControlRocketIcon.png"));
-    }
-
-
-    public PowerUpControl(Player p, GameScreen gameScreen)
-    {
+    public PowerUpControl(Player p, GameScreen gameScreen) {
         super(p, gameScreen);
+        width = 50;
+        height = 40;
         duration = 10000;
         durationStart = System.currentTimeMillis();
+        texture = new Texture(Gdx.files.internal("gameobjects/ControlRocketIcon.png"));
+        replaceTexture = new Texture(Gdx.files.internal("gameobjects/ControlRocket.png"));
     }
 
 
     @Override
-    public boolean render(float delta, SpriteBatch batch)
-    {
-        if((System.currentTimeMillis()-durationStart)<duration)
-        {
-            for(int i = 0; i<gameScreen.rockets.size(); i++)
-            {
-                gameScreen.rockets.get(i).
+    public boolean render(float delta, SpriteBatch batch) {
+        if ((System.currentTimeMillis() - durationStart) < duration) {
+            for (int i = 0; i < gameScreen.rockets.size(); i++) {
+                gameScreen.rockets.get(i).texture = replaceTexture;
+                gameScreen.rockets.get(i).damage = 100;
+                gameScreen.rockets.get(i).y = gameScreen.player.y+(gameScreen.player.height/2)-(height/2);
             }
             return true;
         }
@@ -53,13 +52,17 @@ public class PowerUpControl extends PowerUp {
     }
 
     @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
     public void dispose() {
 
     }
 
     @Override
-    public void start()
-    {
+    public void start() {
 
     }
 
@@ -67,5 +70,7 @@ public class PowerUpControl extends PowerUp {
     public void stop() {
 
     }
+
+
 
 }
