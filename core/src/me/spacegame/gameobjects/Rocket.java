@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Rocket {
 
-    private static Texture texture;
+    public static Texture texture;
 
     public float x;
     private float y;
@@ -21,6 +21,7 @@ public class Rocket {
     private int height;
     public Rectangle box;
     private int speed;
+    public int damage;
 
     static
     {
@@ -34,6 +35,7 @@ public class Rocket {
         height = 40;
         this.y = p.y+(p.height/2)-(height/2);
         this.x = p.x+p.width;
+        damage = 30;
 
         box = new Rectangle(x-5, y, width, height);
     }

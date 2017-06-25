@@ -32,7 +32,7 @@ public class PowerUpObject {
         x = m.x;
         speed=m.speed;
         //texture = gs.hb.fbo.getColorBufferTexture();
-        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
+        texture = new Texture(Gdx.files.internal("gameobjects/Fragezeichen.png"));
         width=texture.getWidth();
         height=texture.getHeight();
         box = new Rectangle(x, y, width, height);
