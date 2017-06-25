@@ -30,17 +30,16 @@ public class GameOverMenu extends TemplateMenu {
         super(menu);
         //stage.getBatch().setProjectionMatrix(menu.camera.combined);
 
-        Skin skin = new Skin();
 
         FreeTypeFontGenerator ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 270;
 
 
+        gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
         vignetteImage = new Image(new Texture(Gdx.files.internal("ui/vignette.png")));
 
 
-        gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
         stage.getBatch().enableBlending();
         stage.addActor(vignetteImage);
     }

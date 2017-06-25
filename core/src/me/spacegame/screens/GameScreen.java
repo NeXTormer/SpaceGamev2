@@ -70,6 +70,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     public static Random random = new Random();
     public PowerUp currentPowerUp;
+    public boolean vibration = true;
 
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
@@ -534,15 +535,22 @@ public class GameScreen implements Screen, InputProcessor {
         player.health -= damage;
         healthBar.setHealth(player.health);
         shakeCam();
-        if (healthBar.getHealthPX() <= 0) {
+        if (healthBar.getHealthPX() <= 260) {
             gameOver();
         }
         System.err.println(player.health);
     }
 
     private void gameOver() {
-        System.err.println("Game Over!");
-        menu.currentMenu = menu.screens.get("gameover").activate();
+        if(!player.dead)
+        {
+            player.setVisible(false);
+            explosions.add(new Explosion((int) player.x, (int) player.y, true));
+            System.err.println("Game Over!");
+            menu.currentMenu = menu.screens.get("gameover").activate();
+            player.dead = true;
+        }
+
     }
 
     @Override
@@ -652,7 +660,8 @@ public class GameScreen implements Screen, InputProcessor {
     public void shakeCam()
     {
         shakeCamTimer = System.currentTimeMillis();
-        Gdx.input.vibrate(SHAKETIME);
+        if(vibration)
+            Gdx.input.vibrate(SHAKETIME);
     }
 
     public InputMultiplexer getInputMultiplexer()

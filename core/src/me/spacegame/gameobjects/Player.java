@@ -21,11 +21,15 @@ public class Player {
     public int width;
     public Rectangle box;
     public int health = 100;
+    public boolean dead = false;
+
 
     private int baseSpeed = 12;
     private float newx;
     private float newy;
     private Texture texture;
+
+    private boolean visible = true;
 
     public Player()
     {
@@ -39,7 +43,8 @@ public class Player {
 
     public void render(float delta, SpriteBatch batch)
     {
-        batch.draw(texture, x, y, width, height);
+        if(visible)
+            batch.draw(texture, x, y, width, height);
     }
 
     public void updatePosition(Touchpad touchpad)
@@ -61,4 +66,6 @@ public class Player {
     {
         texture.dispose();
     }
+
+    public void setVisible(boolean vis) { visible = vis; }
 }
