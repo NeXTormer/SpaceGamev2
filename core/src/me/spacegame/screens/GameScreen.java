@@ -11,16 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -80,7 +77,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Player player;
     private Enemy enemy0;
     private Enemy enemy1;
-    public HealthBar hb;
+    public HealthBar healthBar;
     private TextureRegion lastFrameBuffer;
     private Image lastFrameBufferImage;
 
@@ -173,7 +170,7 @@ public class GameScreen implements Screen, InputProcessor {
         //enemies.add(enemy1);
         currentPowerUp=new PowerUpRapidFire(player, this);
 
-        hb = new HealthBar();
+        healthBar = new HealthBar();
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -197,16 +194,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
-//        settingsbtn.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent event, Actor actor) {
-//                {
-//
-//
-//                }
-//
-//            }
-//        });
     }
 
 
@@ -217,6 +204,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+
 
 
         if(!paused)
@@ -231,7 +219,7 @@ public class GameScreen implements Screen, InputProcessor {
                 camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
                 camera.update();
                 batch.setProjectionMatrix(camera.combined);
-                hb.setProjectionMatrix(camera.combined);
+                healthBar.setProjectionMatrix(camera.combined);
             }
 
             player.updatePosition(touchpad);
@@ -341,10 +329,9 @@ public class GameScreen implements Screen, InputProcessor {
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
                             //if(random.nextInt(1)==0)
-                            //{
+                            {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
-                            System.out.println("spawned");
-                            //}
+                            }
                             meteors.remove(j);
                             meteors.add(new Meteor());
                         }
@@ -428,7 +415,7 @@ public class GameScreen implements Screen, InputProcessor {
             outerloop:
             for(int i = 0; i<powerUpObjects.size(); i++)
             {
-                if(Intersector.overlaps(powerUpObjects.get(i).box, player.box));
+                if((Intersector.overlaps(powerUpObjects.get(i).box, player.box)) && currentPowerUp==null)
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
@@ -436,11 +423,14 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         case 1:
                             currentPowerUp = new PowerUpRapidFire(player, this);
+                            healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                         default:
                             currentPowerUp = new PowerUpRapidFire(player, this);
+                            healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                     }
+
                 }
             }
 
@@ -489,17 +479,18 @@ public class GameScreen implements Screen, InputProcessor {
 
             player.render(delta, batch);
 
-            hb.draw(batch);
+            healthBar.draw(batch);
 
             batch.end();
 
-            hb.draw();
+            healthBar.draw();
 
 
         }
         else
         {
-            camera.position.set(0, 0, 0);
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
+            camera.update();
             batch.begin();
             batch.draw(lastFrameBuffer, 0, 0);
             batch.end();
@@ -510,35 +501,39 @@ public class GameScreen implements Screen, InputProcessor {
 
         menu.draw();
 
-        //button is stuck
         if(settingsbtn.isPressed())
         {
-            System.out.println("pressed");
+            //Richtiger Pfusch, geht aber
+            settingsbtn.remove();
+            settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
+            stage.addActor(settingsbtn);
+            settingsbtn.setPosition(1650, 928);
+
             if(System.currentTimeMillis() - pausebtnLastTimePressed > 1000)
             {
                 paused = !paused;
                 if(paused)
                 {
-                    paused = true;
-                    camera.position.set(0, 0, 0);
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
-                //settingsbtn.setDisabled(true);
                 menu.currentMenu = menu.screens.get("main").activate();
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
         }
 
+
     }
 
     private void damagePlayer(int damage)
     {
+        //damage = 4;
         player.health -= damage;
-        hb.setHealth(player.health);
+        healthBar.setHealth(player.health);
         shakeCam();
         if (player.health <= 0) {
             gameOver();
         }
+        System.err.println(player.health);
     }
 
     private void gameOver() {
@@ -580,8 +575,18 @@ public class GameScreen implements Screen, InputProcessor {
             {
                 if(currentPowerUp!=null && activePowerUps.size()==0)
                 {
+                    if(System.currentTimeMillis() - healthBar.powerUpPickupTime < 4000)
+                    {
+                        healthBar.resetQuestionmark();
+                        healthBar.revealPowerUpIcon();
+                    }
                     activePowerUps.add(currentPowerUp);
+
+                    healthBar.resetQuestionmark();
+
+
                 }
+
             }
         }
         return true;

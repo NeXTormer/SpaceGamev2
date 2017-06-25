@@ -14,7 +14,7 @@ import me.spacegame.screens.GameScreen;
 public abstract class PowerUp {
     protected Player player;
     protected GameScreen gameScreen;
-    public static Texture texture;
+    public Texture texture;
 
     public PowerUp(Player player, GameScreen gameScreen)
     {
@@ -28,6 +28,8 @@ public abstract class PowerUp {
     public abstract void stop();
 
     public abstract boolean render(float delta, SpriteBatch batch);
+
+    public abstract boolean isFinished();
 
     public abstract void dispose();
 }

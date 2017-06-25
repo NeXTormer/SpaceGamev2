@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 /**
  * Created by Felix on 19-Jun-17.
  */
-
+//not used weil pfusch
 public class OptionsMenu extends TemplateMenu {
 
     private ImageButton backButton;
@@ -34,7 +34,7 @@ public class OptionsMenu extends TemplateMenu {
         stage.draw();
         if(backButton.isPressed())
         {
-            if(System.currentTimeMillis() - timers[0] > 100)
+            if(System.currentTimeMillis() - timers[0] > 1000)
             {
                 //menu.getGameScreen().settingsbtn.setDisabled(false);
                 menu.currentMenu = menu.screens.get("main").activate();
