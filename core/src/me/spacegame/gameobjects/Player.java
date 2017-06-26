@@ -22,6 +22,7 @@ public class Player {
     public Rectangle box;
     public int health = 100;
     public boolean dead = false;
+    public int score;
 
 
     private int baseSpeed = 12;
@@ -35,6 +36,7 @@ public class Player {
     {
         width = 150;
         height = 120;
+        score=0;
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
         box = new Rectangle(x, y, width, height);

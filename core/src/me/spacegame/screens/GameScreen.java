@@ -216,6 +216,9 @@ public class GameScreen implements Screen, InputProcessor {
         if(!paused)
         {
 
+            player.score+=1;
+            System.out.println(player.score);
+
             //update
             if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
             {
@@ -341,6 +344,7 @@ public class GameScreen implements Screen, InputProcessor {
                             }
                             meteors.remove(j);
                             meteors.add(new Meteor());
+                            player.score+=100;
                         }
                         break outerloop;
                     }
@@ -358,6 +362,7 @@ public class GameScreen implements Screen, InputProcessor {
                         explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
                         if (enemies.get(j).health <= 0) {
                             enemies.remove(enemies.get(j));
+                            player.score+=500;
                         }
                         break outerloop;
 
