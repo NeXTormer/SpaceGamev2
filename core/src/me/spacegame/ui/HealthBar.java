@@ -69,8 +69,6 @@ public class HealthBar {
     private float defaultRotationSpeed = 1.9f;
     private float rotationSpeed = 1.9f;
 
-    private Label scoreText;
-
 
     public HealthBar(GameScreen game)
     {
@@ -124,7 +122,7 @@ public class HealthBar {
         }
 
         batch.draw(mainTexture, 62, 740);
-        scoreText.draw(batch, 0);
+
     }
 
 

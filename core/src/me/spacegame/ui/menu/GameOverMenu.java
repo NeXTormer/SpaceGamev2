@@ -58,10 +58,10 @@ public class GameOverMenu extends TemplateMenu {
     @Override
     public void create() {
         retryBtn = new ImageButton(retryBtnDrawable);
-        retryBtn.setPosition(600, 300);
+        retryBtn.setPosition(600, 150);
 
         stage.addActor(retryBtn);
-        gameoverText.setPosition(300, 600);
+        gameoverText.setPosition(350, 600);
         stage.addActor(gameoverText);
     }
 
@@ -76,7 +76,9 @@ public class GameOverMenu extends TemplateMenu {
         parameter2.size = 80;
 
 
-        gameoverText = new Label("Score: ", new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
+        gameoverText = new Label("Score: " + menu.getGameScreen().player.score, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
+        gameoverText.setPosition(700, 500);
+        stage.addActor(gameoverText);
         return this;
     }
 
