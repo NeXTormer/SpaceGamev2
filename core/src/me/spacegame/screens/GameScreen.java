@@ -171,9 +171,9 @@ public class GameScreen implements Screen, InputProcessor {
         //enemy1 = new Enemy(1, player);
         //enemies.add(enemy0);
         //enemies.add(enemy1);
-        currentPowerUp=new PowerUpRapidFire(player, this);
+        currentPowerUp = null;
 
-        healthBar = new HealthBar();
+        healthBar = new HealthBar(this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -427,11 +427,9 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         case 1:
                             currentPowerUp = new PowerUpRapidFire(player, this);
-                            healthBar.collectPowerUp(currentPowerUp);
                             break outerloop;
                         default:
                             currentPowerUp = new PowerUpRapidFire(player, this);
-                            healthBar.collectPowerUp(currentPowerUp);
                             break outerloop;
                     }
 
@@ -472,7 +470,6 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     activePowerUps.remove(activePowerUps.get(i));
                     currentPowerUp=null;
-                    healthBar.reserPowerUp();
                     break outerloop;
                 }
             }
@@ -588,14 +585,6 @@ public class GameScreen implements Screen, InputProcessor {
                 if(currentPowerUp!=null && activePowerUps.size()==0)
                 {
                     activePowerUps.add(currentPowerUp);
-                    if(System.currentTimeMillis() - healthBar.powerUpCollectionTime > 4000)
-                    {
-                        healthBar.collectPowerUp(currentPowerUp);
-                    }
-                    else
-                    {
-
-                    }
                 }
 
             }

@@ -31,12 +31,15 @@ import java.util.TimerTask;
 import me.spacegame.SpaceGame;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpObject;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Felix on 19-May-17.
  */
 
 public class HealthBar {
+
+    private GameScreen game;
 
     private Texture mainTexture;
     private Texture healthTexture;
@@ -63,21 +66,9 @@ public class HealthBar {
     private float defaultRotationSpeed = 1.9f;
     private float rotationSpeed = 1.9f;
 
-    //Powerup Pfusch
-    private Texture currentPowerUpTexture;
-
-    private boolean increaseRotationSpeed = false;
-    private boolean showPowerUpIcon = false;
-    private boolean isPowerUpInPlay = false;
-    private boolean isPowerUpTimerActive = false;
-
-    public long powerUpCollectionTime;
-
-
-
-
-    public HealthBar()
+    public HealthBar(GameScreen game)
     {
+        this.game = game;
         healthbarFrag = Gdx.files.internal("shader/ui/healthbar.frag");
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
         mainTexture = new Texture(Gdx.files.internal("ui/healthbarmain.png"));
@@ -116,15 +107,15 @@ public class HealthBar {
 
     public void draw(SpriteBatch batch)
     {
-        if(showPowerUpIcon)
+        if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            if(currentPowerUpTexture != null)
-                batch.draw(currentPowerUpTexture, 87, 833);
+            batch.draw(game.currentPowerUp.texture, 87f, 833f);
         }
-        if(isPowerUpInPlay && !showPowerUpIcon)
+        else
         {
             batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
         }
+
         batch.draw(mainTexture, 62, 740);
     }
 
@@ -138,15 +129,8 @@ public class HealthBar {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, 200, 200);
 
-        if(increaseRotationSpeed)
-        {
-            rotationSpeed += 0.06f;
-            instance.transform.rotate(new Vector3(0, 1, 0), rotationSpeed);
-        }
-        else
-        {
-            instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
-        }
+        instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
+
 
         modelBatch.begin(cam);
         modelBatch.render(instance);
@@ -164,19 +148,6 @@ public class HealthBar {
 
         healthBatch.draw(healthTexture, 62, 740);
         healthBatch.end();
-
-
-        if(isPowerUpTimerActive)
-        {
-            if(System.currentTimeMillis() - powerUpCollectionTime > 4000)
-            {
-                increaseRotationSpeed = false;
-                rotationSpeed = defaultRotationSpeed;
-                showPowerUpIcon = true;
-                isPowerUpTimerActive = false;
-            }
-        }
-
 
     }
 
@@ -207,31 +178,6 @@ public class HealthBar {
         this.dHealth = Math.abs(this.health - convertPercentToPixel(health));
         healthAnimationDeltaTime = 0;
     }
-
-    public void collectPowerUp(PowerUp powerUp)
-    {
-        powerUpCollectionTime = System.currentTimeMillis();
-        increaseRotationSpeed = true;
-        isPowerUpTimerActive = true;
-        currentPowerUpTexture = new Texture(powerUp.texture.getTextureData());
-    }
-
-    public void reserPowerUp()
-    {
-        increaseRotationSpeed = false;
-        rotationSpeed = defaultRotationSpeed;
-        showPowerUpIcon = false;
-        isPowerUpInPlay = true;
-        currentPowerUpTexture = null;
-        powerUpCollectionTime = Long.MIN_VALUE;
-    }
-
-    public void activatePowerUp()
-    {
-        isPowerUpInPlay = true;
-    }
-
-
 
 
     public void dispose()

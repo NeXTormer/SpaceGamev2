@@ -1,14 +1,13 @@
 package me.spacegame.ui.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Felix on 19-Jun-17.
@@ -16,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class MainMenu extends TemplateMenu {
 
-    private ImageButton startbtn;
+    private ImageButton resumeButton;
 
     private Texture startbuttonup;
     private Texture startbuttondown;
@@ -24,14 +23,14 @@ public class MainMenu extends TemplateMenu {
     private SpriteDrawable startButtonUpDrawable;
     private SpriteDrawable startButtonDownDrawable;
 
-    private ImageButton mutebutton;
+    private ImageButton retryButton;
     private long[] timers = new long[2];
     public boolean vibration = true;
 
 
     private FreeTypeFontGenerator ftfg;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private Label vibrationText;
+    //private Label vibrationText;
 
     public MainMenu(Menu menu)
     {
@@ -50,23 +49,23 @@ public class MainMenu extends TemplateMenu {
         startButtonUpDrawable.setSprite(new Sprite(startbuttonup));
         startButtonDownDrawable.setSprite(new Sprite(startbuttondown));
 
-        startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
+        resumeButton = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        mutebutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/camshakeoff.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/camshakeoff.png")))));
-        mutebutton.setPosition(900, 500);
+        retryButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/retrybutton2.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/retrybutton2.png")))));
+        retryButton.setPosition(900, 500);
 
-        startbtn.setPosition(895, 180);
+        resumeButton.setPosition(895, 180);
 
-        stage.addActor(startbtn);
-        stage.addActor(mutebutton);
+        stage.addActor(resumeButton);
+        stage.addActor(retryButton);
 
         ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 140;
 
-        vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
-        vibrationText.setPosition(990, 570);
-        stage.addActor(vibrationText);
+        //vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
+        //vibrationText.setPosition(990, 570);
+        //stage.addActor(vibrationText);
     }
 
     @Override
@@ -81,39 +80,16 @@ public class MainMenu extends TemplateMenu {
         stage.act();
         stage.draw();
 
-        if(mutebutton.isPressed())
+        if(retryButton.isPressed())
         {
             if(System.currentTimeMillis() - timers[0] > 1000)
             {
-                vibration= !vibration;
                 timers[0] = System.currentTimeMillis();
 
-                //Pfusch, geht aber
-                if(vibration)
-                {
-                    mutebutton.remove();
-                    vibrationText.remove();
-                    vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
-                    vibrationText.setPosition(990, 570);
-                    stage.addActor(vibrationText);
-                    stage.addActor(mutebutton);
-
-                    menu.getGameScreen().vibration = true;
-                }
-                else
-                {
-                    mutebutton.remove();
-                    vibrationText.remove();
-                    vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
-                    vibrationText.setPosition(990, 570);
-                    stage.addActor(vibrationText);
-                    stage.addActor(mutebutton);
-
-                    menu.getGameScreen().vibration = false;
-                }
+                menu.getGameScreen().getGame().setScreen(new GameScreen(menu.getGameScreen().getGame()));
             }
         }
-        if(startbtn.isPressed())
+        if(resumeButton.isPressed())
         {
             if(System.currentTimeMillis() - timers[1] > 1000)
             {
