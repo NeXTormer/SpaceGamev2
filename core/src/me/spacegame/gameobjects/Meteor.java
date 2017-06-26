@@ -31,11 +31,11 @@ public class Meteor {
     public int damage;
     public int health;
 
-
     public long lastTimeHit = 0;
     public Circle box;
     private Sprite meteorsprite;
     public int speed;
+    private int saveSpeed;
     private int rotateSpeed;
     private int texture;
 
@@ -63,6 +63,7 @@ public class Meteor {
         box.setY(y+radius);
         box.setRadius(radius);
         speed = GameScreen.random.nextInt(12)+5;
+        saveSpeed = speed;
         rotateSpeed = GameScreen.random.nextInt(2);
         damage = (int) radius / 6;
 
@@ -94,6 +95,18 @@ public class Meteor {
         {
             meteorFull[i].dispose();
             meteorDamaged[i].dispose();
+        }
+    }
+
+    public void reverseSpeed()
+    {
+        if(speed==0)
+        {
+            speed=saveSpeed;
+        }
+        else
+        {
+            speed=0;
         }
     }
 }
