@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.spacegame.screens.GameScreen;
+
 /**
  * Created by Felix on 09-May-17.
  */
@@ -16,9 +18,12 @@ public class Background {
     private int speed = 3;
     private int x = 0;
 
-    public Background(String path)
+    private GameScreen gameScreen;
+
+    public Background(GameScreen gameScreen)
     {
-        bg = new Texture(Gdx.files.internal(path));
+        this.gameScreen = gameScreen;
+        bg = gameScreen.game.getTexture("background");
     }
 
 

@@ -67,7 +67,6 @@ public class HealthBar {
     public Environment environment;
 
     private float defaultRotationSpeed = 1.9f;
-    private float rotationSpeed = 1.9f;
 
 
     public HealthBar(GameScreen game)

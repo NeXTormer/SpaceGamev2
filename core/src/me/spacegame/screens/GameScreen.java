@@ -54,7 +54,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     private static final int SHAKETIME = 150;
 
-    private SpaceGame game;
+    public SpaceGame game;
 
     private SpriteBatch batch;
     private Stage stage;
@@ -113,7 +113,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     public GameScreen(SpaceGame game) {
         this.game = game;
-        background = new Background("gameobjects/background.png");
+        background = new Background(this);
 
         batch = new SpriteBatch();
         stage = new Stage();
