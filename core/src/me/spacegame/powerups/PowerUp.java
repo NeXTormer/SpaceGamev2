@@ -15,6 +15,9 @@ public abstract class PowerUp {
     protected Player player;
     protected GameScreen gameScreen;
     public Texture texture;
+    public double duration;
+    public double durationStart;
+    public double timer;
 
     public PowerUp(Player player, GameScreen gameScreen)
     {

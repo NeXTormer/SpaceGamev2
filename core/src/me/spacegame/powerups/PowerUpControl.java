@@ -16,15 +16,19 @@ import me.spacegame.screens.GameScreen;
 
 public class PowerUpControl extends PowerUp {
 
-    private double duration;
-    private double durationStart;
     private double rocketTimer;
     private double rocketSpawn;
+    private boolean started;
     private float x;
     private float y;
     private float width;
     private float height;
-    private Texture replaceTexture;
+    private static Texture replaceTexture;
+
+    static
+    {
+        replaceTexture = new Texture(Gdx.files.internal("gameobjects/ControlRocket.png"));
+    }
 
     public PowerUpControl(Player p, GameScreen gameScreen) {
         super(p, gameScreen);
@@ -32,14 +36,22 @@ public class PowerUpControl extends PowerUp {
         height = 40;
         duration = 10000;
         durationStart = System.currentTimeMillis();
+        started=false;
+        timer = 0;
         texture = new Texture(Gdx.files.internal("gameobjects/ControlRocketIcon.png"));
-        replaceTexture = new Texture(Gdx.files.internal("gameobjects/ControlRocket.png"));
     }
 
 
     @Override
     public boolean render(float delta, SpriteBatch batch) {
-        if ((System.currentTimeMillis() - durationStart) < duration) {
+        if(!started)
+        {
+            started = true;
+            rocketTimer = System.currentTimeMillis();
+            durationStart = System.currentTimeMillis();
+        }
+        timer = System.currentTimeMillis() - durationStart;
+        if ((timer) < duration) {
             for (int i = 0; i < gameScreen.rockets.size(); i++) {
                 gameScreen.rockets.get(i).texture = replaceTexture;
                 gameScreen.rockets.get(i).damage = 100;

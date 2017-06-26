@@ -25,7 +25,7 @@ public class Rocket {
 
     static
     {
-
+        texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
     }
 
     public Rocket(Player p)
@@ -36,7 +36,6 @@ public class Rocket {
         this.y = p.y+(p.height/2)-(height/2);
         this.x = p.x+p.width;
         damage = 30;
-        texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
 
         box = new Rectangle(x-5, y, width, height);
     }

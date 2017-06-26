@@ -16,12 +16,12 @@ import me.spacegame.screens.GameScreen;
 
 public class PowerUpRapidFire extends PowerUp {
 
-    private double duration;
-    private double durationStart;
+
     private double rocketTimer;
     private double rocketSpawn;
     private double x;
     private double y;
+    private boolean started;
 
 
 
@@ -31,7 +31,9 @@ public class PowerUpRapidFire extends PowerUp {
         rocketTimer = System.currentTimeMillis();
         rocketSpawn = 70;
         duration = 5000;
+        started = false;
         durationStart = System.currentTimeMillis();
+        timer = 0;
         texture = new Texture(Gdx.files.internal("ui/pausebutton.png"));
     }
 
@@ -39,7 +41,14 @@ public class PowerUpRapidFire extends PowerUp {
     @Override
     public boolean render(float delta, SpriteBatch batch)
     {
-        if((System.currentTimeMillis()-durationStart)<duration)
+        if(!started)
+        {
+            started = true;
+            rocketTimer = System.currentTimeMillis();
+            durationStart = System.currentTimeMillis();
+        }
+        timer = System.currentTimeMillis()-durationStart;
+        if((timer)<duration)
         {
             if((System.currentTimeMillis()-rocketTimer)>rocketSpawn)
             {

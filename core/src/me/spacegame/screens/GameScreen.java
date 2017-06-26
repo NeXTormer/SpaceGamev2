@@ -36,6 +36,7 @@ import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpControl;
+import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
@@ -171,7 +172,7 @@ public class GameScreen implements Screen, InputProcessor {
         //enemy1 = new Enemy(1, player);
         //enemies.add(enemy0);
         //enemies.add(enemy1);
-        currentPowerUp=new PowerUpRapidFire(player, this);
+        currentPowerUp=null;
 
         healthBar = new HealthBar();
 
@@ -430,7 +431,7 @@ public class GameScreen implements Screen, InputProcessor {
                             healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                         default:
-                            currentPowerUp = new PowerUpControl(player, this);
+                            currentPowerUp = new PowerUpHealth(player, this);
                             healthBar.collectPowerup(currentPowerUp);
                             break outerloop;
                     }
@@ -465,7 +466,8 @@ public class GameScreen implements Screen, InputProcessor {
             outerloop:
             for(int i = 0; i<activePowerUps.size(); i++)
             {
-                if(activePowerUps.get(i).render(delta, batch)) {
+                if(activePowerUps.get(i).render(delta, batch))
+                {
 
                 }
                 else
