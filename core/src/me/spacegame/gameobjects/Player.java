@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.spacegame.SpaceGame;
 
 /**
@@ -24,8 +27,7 @@ public class Player {
     public boolean dead = false;
     public int score;
 
-
-    private int baseSpeed = 12;
+    public int baseSpeed = 12;
     private float newx;
     private float newy;
     private Texture texture;

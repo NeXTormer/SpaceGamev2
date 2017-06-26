@@ -37,7 +37,9 @@ import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpClear;
 import me.spacegame.powerups.PowerUpControl;
+import me.spacegame.powerups.PowerUpFreeze;
 import me.spacegame.powerups.PowerUpHealth;
+import me.spacegame.powerups.PowerUpHelper;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
@@ -430,8 +432,11 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(4))
+                    switch(random.nextInt(5))
                     {
+                        case 4:
+                            currentPowerUp = new PowerUpHelper(player, this);
+                            break outerloop;
                         case 3:
                             currentPowerUp = new PowerUpClear(player, this);
                             break outerloop;
@@ -586,8 +591,27 @@ public class GameScreen implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (screenX >= SpaceGame.VIEWPORTWIDTH / 2)
         {
-            if (rockets.size() < 5) {
-                rockets.add(new Rocket(player));
+            if(activePowerUps.size()>=1)
+            {
+                if(!(activePowerUps.get(0) instanceof PowerUpHelper))
+                {
+                    if(rockets.size() < 5)
+                    {
+                        rockets.add(new Rocket(player));
+                    }
+                }
+                else
+                {
+                    rockets.add(new Rocket(player));
+                }
+
+            }
+            else
+            {
+                if(rockets.size() < 5)
+                {
+                    rockets.add(new Rocket(player));
+                }
             }
         }
         else

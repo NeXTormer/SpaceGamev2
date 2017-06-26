@@ -18,6 +18,7 @@ public abstract class PowerUp {
     public double duration;
     public double durationStart;
     public double timer;
+    public boolean started;
 
     public PowerUp(Player player, GameScreen gameScreen)
     {
