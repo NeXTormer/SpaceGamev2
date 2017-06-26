@@ -44,8 +44,8 @@ public class PowerUpClear extends PowerUp {
             for(int i = 0; i<count; i++)
             {
                 gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), true));
-                gameScreen.meteors.remove(gameScreen.meteors.get(i));
             }
+            gameScreen.meteors.clear();
             for(int i = 0; i<count; i++)
             {
                 gameScreen.meteors.add(new Meteor());
@@ -53,8 +53,8 @@ public class PowerUpClear extends PowerUp {
             for(int i = 0; i<gameScreen.enemies.size(); i++)
             {
                 gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), true));
-                gameScreen.enemies.remove(i);
             }
+            gameScreen.enemies.clear();
         }
         return false;
 

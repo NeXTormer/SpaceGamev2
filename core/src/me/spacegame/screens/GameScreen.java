@@ -35,6 +35,7 @@ import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpClear;
 import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpObject;
@@ -431,7 +432,7 @@ public class GameScreen implements Screen, InputProcessor {
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
-                            currentPowerUp = new PowerUpHealth(player, this);
+                            currentPowerUp = new PowerUpClear(player, this);
                             break outerloop;
                     }
 
