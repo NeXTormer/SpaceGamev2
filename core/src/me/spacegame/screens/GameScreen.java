@@ -216,6 +216,8 @@ public class GameScreen implements Screen, InputProcessor {
         if(!paused)
         {
 
+            player.score+=1;
+
             //update
             if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
             {
@@ -335,12 +337,13 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
-                            //if(random.nextInt(1)==0)
+                            if(random.nextInt(12)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }
                             meteors.remove(j);
                             meteors.add(new Meteor());
+                            player.score+=100;
                         }
                         break outerloop;
                     }
@@ -358,6 +361,7 @@ public class GameScreen implements Screen, InputProcessor {
                         explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
                         if (enemies.get(j).health <= 0) {
                             enemies.remove(enemies.get(j));
+                            player.score+=500;
                         }
                         break outerloop;
 
@@ -426,9 +430,18 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(1))
+                    switch(random.nextInt(4))
                     {
+                        case 3:
+                            currentPowerUp = new PowerUpClear(player, this);
+                            break outerloop;
+                        case 2:
+                            currentPowerUp = new PowerUpControl(player, this);
+                            break outerloop;
                         case 1:
+                            currentPowerUp = new PowerUpHealth(player, this);
+                            break outerloop;
+                        case 0:
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
