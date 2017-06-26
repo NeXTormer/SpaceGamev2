@@ -31,12 +31,15 @@ import java.util.TimerTask;
 import me.spacegame.SpaceGame;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpObject;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Felix on 19-May-17.
  */
 
 public class HealthBar {
+
+    private GameScreen game;
 
     private Texture mainTexture;
     private Texture healthTexture;
@@ -49,10 +52,6 @@ public class HealthBar {
 
     private float health = 0;
     private float dHealth = 0;
-    private float healthPercent = 100;
-    private boolean displayPowerUp = false;
-    private boolean increaseRotationSpeed = false;
-    private Texture powerUpTexture;
     private long healthAnimationDeltaTime = 0;
 
     //Questionmark
@@ -63,22 +62,13 @@ public class HealthBar {
     private ModelLoader loader = new ObjLoader();
     public FrameBuffer fbo;
     public Environment environment;
+
+    private float defaultRotationSpeed = 1.9f;
     private float rotationSpeed = 1.9f;
 
-    private long powerUpStartTime;
-    private Timer timer;
-    public long powerUpPickupTime = 0;
-    private boolean isIconRevealed = false;
-
-    private Interpolation interpolation;
-
-    //public Mesh healthBar = new Mesh();
-
-
-
-
-    public HealthBar()
+    public HealthBar(GameScreen game)
     {
+        this.game = game;
         healthbarFrag = Gdx.files.internal("shader/ui/healthbar.frag");
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
         mainTexture = new Texture(Gdx.files.internal("ui/healthbarmain.png"));
@@ -113,35 +103,20 @@ public class HealthBar {
         instance.transform.rotate(0, 0, 1, 180);
 
         health = convertPercentToPixel(100);
-        timer = new Timer();
-        interpolation = Interpolation.circle;
     }
 
     public void draw(SpriteBatch batch)
     {
-        if(displayPowerUp)
+        if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            if(powerUpTexture != null)
-            {
-                batch.draw(powerUpTexture, 87f, 833f);
-                batch.draw(mainTexture, 62, 740);
-
-            }
-            else
-                System.err.println("peter texture");
+            batch.draw(game.currentPowerUp.texture, 87f, 833f);
         }
         else
         {
             batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
-            batch.draw(mainTexture, 62, 740);
         }
-        if(System.currentTimeMillis() - powerUpPickupTime > 4000 && isIconRevealed)
-        {
-            isIconRevealed = false;
-            increaseRotationSpeed = false;
-            displayPowerUp = true;
-            rotationSpeed = 1.8f;
-        }
+
+        batch.draw(mainTexture, 62, 740);
     }
 
 
@@ -154,15 +129,9 @@ public class HealthBar {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, 200, 200);
 
-        if(increaseRotationSpeed)
-        {
-            rotationSpeed += 0.03;
-            instance.transform.rotate(new Vector3(0, 1, 0), rotationSpeed);
-        }
-        else
-        {
-            instance.transform.rotate(new Vector3(0, 1, 0), 1.8f);
-        }
+        instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
+
+
         modelBatch.begin(cam);
         modelBatch.render(instance);
         modelBatch.end();
@@ -179,6 +148,7 @@ public class HealthBar {
 
         healthBatch.draw(healthTexture, 62, 740);
         healthBatch.end();
+
     }
 
     public void setProjectionMatrix(Matrix4 pr_matrix)
@@ -206,34 +176,7 @@ public class HealthBar {
     public void setHealth(float health)
     {
         this.dHealth = Math.abs(this.health - convertPercentToPixel(health));
-        healthPercent = convertPercentToPixel(health);
         healthAnimationDeltaTime = 0;
-    }
-
-    public void collectPowerup(PowerUp pu)
-    {
-        displayPowerUp = false;
-        increaseRotationSpeed = true;
-        powerUpTexture = pu.texture;
-        powerUpStartTime = System.currentTimeMillis();
-        isIconRevealed = true;
-
-
-        powerUpPickupTime = System.currentTimeMillis();
-    }
-
-    public void resetQuestionmark()
-    {
-        displayPowerUp = false;
-        increaseRotationSpeed = false;
-        rotationSpeed = 1.8f;
-    }
-
-    public void revealPowerUpIcon()
-    {
-        increaseRotationSpeed = false;
-        displayPowerUp = true;
-        isIconRevealed = false;
     }
 
 
