@@ -22,6 +22,7 @@ public class Explosion {
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
+    private boolean big = false;
 
     static
     {
@@ -49,6 +50,19 @@ public class Explosion {
         animation = new Animation<TextureRegion>(10, textureRegions);
         animation.setPlayMode(Animation.PlayMode.NORMAL);
         animation.setFrameDuration(frameDuration);
+        this.big = false;
+    }
+
+    public Explosion(int x, int y, boolean big)
+    {
+        this.x = x;
+        this.y = y;
+
+
+        animation = new Animation<TextureRegion>(10, textureRegions);
+        animation.setPlayMode(Animation.PlayMode.NORMAL);
+        animation.setFrameDuration(frameDuration);
+        this.big = big;
     }
 
     public void setPosition(int x, int y)
@@ -66,8 +80,14 @@ public class Explosion {
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
-
-        batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 230, 230);
+        if(big)
+        {
+            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 700, 700);
+        }
+        else
+        {
+            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 230, 230);
+        }
 
         return animation.isAnimationFinished(elapsedFrames);
     }

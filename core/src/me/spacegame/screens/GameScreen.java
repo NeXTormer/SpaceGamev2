@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,6 +35,7 @@ import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
@@ -68,13 +70,14 @@ public class GameScreen implements Screen, InputProcessor {
 
     public static Random random = new Random();
     public PowerUp currentPowerUp;
+    public boolean vibration = true;
 
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadskin;
     private Drawable touchknob;
     private Drawable touchbackground;
-    private Player player;
+    public Player player;
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
@@ -221,6 +224,7 @@ public class GameScreen implements Screen, InputProcessor {
                 batch.setProjectionMatrix(camera.combined);
                 healthBar.setProjectionMatrix(camera.combined);
             }
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
 
             player.updatePosition(touchpad);
 
@@ -323,8 +327,8 @@ public class GameScreen implements Screen, InputProcessor {
             for (int i = 0; i < rockets.size(); i++) {
                 for (int j = 0; j < meteors.size(); j++) {
                     if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
+                        meteors.get(j).health -= rockets.get(i).damage;
                         rockets.remove(rockets.get(i));
-                        meteors.get(j).health -= 30;
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
@@ -517,6 +521,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
+                camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
                 menu.currentMenu = menu.screens.get("main").activate();
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
@@ -531,15 +536,21 @@ public class GameScreen implements Screen, InputProcessor {
         player.health -= damage;
         healthBar.setHealth(player.health);
         shakeCam();
-        if (player.health <= 0) {
+        if (healthBar.getHealthPX() <= 260) {
             gameOver();
         }
         System.err.println(player.health);
     }
 
     private void gameOver() {
-        System.err.println("Game Over!");
-
+        if(!player.dead)
+        {
+            player.setVisible(false);
+            explosions.add(new Explosion((int) player.x, (int) player.y, true));
+            System.err.println("Game Over!");
+            menu.currentMenu = menu.screens.get("gameover").activate();
+            player.dead = true;
+        }
 
     }
 
@@ -648,13 +659,21 @@ public class GameScreen implements Screen, InputProcessor {
 
     public void shakeCam()
     {
-        shakeCamTimer = System.currentTimeMillis();
-        Gdx.input.vibrate(SHAKETIME);
+        if(!player.dead)
+        {
+            shakeCamTimer = System.currentTimeMillis();
+            if(vibration)
+                Gdx.input.vibrate(SHAKETIME);
+        }
     }
 
     public InputMultiplexer getInputMultiplexer()
     {
         return inputMultiplexer;
     }
+
+    public SpaceGame getGame() { return game; }
+
+    public Camera getCamera() { return camera; }
 
 }

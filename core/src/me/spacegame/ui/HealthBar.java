@@ -243,6 +243,11 @@ public class HealthBar {
 
     }
 
+    public float getHealthPX()
+    {
+        return health;
+    }
+
     private float convertPercentToPixel(float percent)
     {
         return 270 + ((percent) * 5.7f);

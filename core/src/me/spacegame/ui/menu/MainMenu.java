@@ -1,9 +1,13 @@
 package me.spacegame.ui.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
@@ -22,14 +26,17 @@ public class MainMenu extends TemplateMenu {
 
     private ImageButton mutebutton;
     private long[] timers = new long[2];
-    private boolean muted = false;
+    public boolean vibration = true;
+
+
+    private FreeTypeFontGenerator ftfg;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private Label vibrationText;
 
     public MainMenu(Menu menu)
     {
         super(menu);
         stage.getBatch().setProjectionMatrix(menu.camera.combined);
-        //menu.getGameScreen().getInputMultiplexer().addProcessor(stage);
-        //Gdx.input.setInputProcessor(menu.getGameScreen().getInputMultiplexer());
     }
 
     @Override
@@ -45,13 +52,21 @@ public class MainMenu extends TemplateMenu {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        mutebutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/mutebutton.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/mutebuttonon.png")))));
+        mutebutton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/camshakeoff.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/camshakeoff.png")))));
         mutebutton.setPosition(900, 500);
 
         startbtn.setPosition(895, 180);
 
         stage.addActor(startbtn);
         stage.addActor(mutebutton);
+
+        ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 140;
+
+        vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
+        vibrationText.setPosition(990, 570);
+        stage.addActor(vibrationText);
     }
 
     @Override
@@ -70,9 +85,32 @@ public class MainMenu extends TemplateMenu {
         {
             if(System.currentTimeMillis() - timers[0] > 1000)
             {
-                muted = !muted;
-                mutebutton.setChecked(muted);
+                vibration= !vibration;
                 timers[0] = System.currentTimeMillis();
+
+                //Pfusch, geht aber
+                if(vibration)
+                {
+                    mutebutton.remove();
+                    vibrationText.remove();
+                    vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
+                    vibrationText.setPosition(990, 570);
+                    stage.addActor(vibrationText);
+                    stage.addActor(mutebutton);
+
+                    menu.getGameScreen().vibration = true;
+                }
+                else
+                {
+                    mutebutton.remove();
+                    vibrationText.remove();
+                    vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
+                    vibrationText.setPosition(990, 570);
+                    stage.addActor(vibrationText);
+                    stage.addActor(mutebutton);
+
+                    menu.getGameScreen().vibration = false;
+                }
             }
         }
         if(startbtn.isPressed())
