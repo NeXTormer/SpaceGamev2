@@ -60,10 +60,10 @@ public class GameScreen implements Screen, InputProcessor {
     private OrthographicCamera camera;
 
 
-    private List<Meteor> meteors = new ArrayList<Meteor>();
+    public List<Meteor> meteors = new ArrayList<Meteor>();
     public List<Rocket> rockets = new ArrayList<Rocket>();
-    private List<Explosion> explosions = new ArrayList<Explosion>();
-    private List<Enemy> enemies = new ArrayList<Enemy>();
+    public List<Explosion> explosions = new ArrayList<Explosion>();
+    public List<Enemy> enemies = new ArrayList<Enemy>();
     private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
     private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
 
