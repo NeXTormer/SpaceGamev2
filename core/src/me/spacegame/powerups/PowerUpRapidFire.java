@@ -34,7 +34,7 @@ public class PowerUpRapidFire extends PowerUp {
         started = false;
         durationStart = System.currentTimeMillis();
         timer = 0;
-        texture = new Texture(Gdx.files.internal("ui/pausebutton.png"));
+        texture = new Texture(Gdx.files.internal("gameobjects/RapidFireIcon.png"));
     }
 
 

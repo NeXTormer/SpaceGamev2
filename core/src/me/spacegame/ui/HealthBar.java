@@ -109,7 +109,7 @@ public class HealthBar {
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, 87f, 833f);
+            batch.draw(game.currentPowerUp.texture, 147f, 893f);
         }
         else
         {
@@ -158,8 +158,8 @@ public class HealthBar {
 
     public void updateHealth(float dt)
     {
-        dt /= 100;
-        if (dHealth > 0)
+        dt /= 200;
+        //if (dHealth > 0)
         {
             if(dt > 0.05f)
             {
@@ -173,10 +173,17 @@ public class HealthBar {
         }
     }
 
-    public void setHealth(float health)
+    public void setHealth(float healthChange, boolean positive)
     {
-        this.dHealth = (this.health - convertPercentToPixel(health));
+        this.dHealth = Math.abs(this.health - convertPercentToPixel(healthChange));
         healthAnimationDeltaTime = 0;
+        if(!positive) this.dHealth = -this.health;
+
+    }
+
+    public void addHealthByForce(int health)
+    {
+        this.health += health;
     }
 
     public void dispose()
