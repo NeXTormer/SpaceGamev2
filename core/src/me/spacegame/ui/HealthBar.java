@@ -3,6 +3,7 @@ package me.spacegame.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -23,6 +25,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.Timer;
@@ -66,6 +69,9 @@ public class HealthBar {
     private float defaultRotationSpeed = 1.9f;
     private float rotationSpeed = 1.9f;
 
+    private Label scoreText;
+
+
     public HealthBar(GameScreen game)
     {
         this.game = game;
@@ -103,13 +109,14 @@ public class HealthBar {
         instance.transform.rotate(0, 0, 1, 180);
 
         health = convertPercentToPixel(100);
+
     }
 
     public void draw(SpriteBatch batch)
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, 147f, 893f);
+            batch.draw(game.currentPowerUp.texture, 87f, 833f, 200, 200);
         }
         else
         {
@@ -117,6 +124,7 @@ public class HealthBar {
         }
 
         batch.draw(mainTexture, 62, 740);
+        scoreText.draw(batch, 0);
     }
 
 

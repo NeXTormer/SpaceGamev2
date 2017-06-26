@@ -23,6 +23,9 @@ public class GameOverMenu extends TemplateMenu {
     private ImageButton retryBtn;
     private static SpriteDrawable retryBtnDrawable;
     private Label gameoverText;
+    private Label scoreText;
+
+
     private Image vignetteImage;
 
     public GameOverMenu(Menu menu)
@@ -36,7 +39,10 @@ public class GameOverMenu extends TemplateMenu {
         parameter.size = 270;
 
 
+
         gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
+
+
         vignetteImage = new Image(new Texture(Gdx.files.internal("ui/vignette.png")));
 
 
@@ -64,6 +70,13 @@ public class GameOverMenu extends TemplateMenu {
     {
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().setProjectionMatrix(menu.getGameScreen().getCamera().combined);
+
+        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = 80;
+
+
+        gameoverText = new Label("Score: ", new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
         return this;
     }
 
