@@ -157,14 +157,14 @@ public class GameScreen implements Screen, InputProcessor {
         meteorSpawnTimer = System.currentTimeMillis();
 
         //Timer, when a new Enemy0 will spawn
-        enemy0Spawner = 7000;
+        enemy0Spawner = 9000;
         //Timer, when the enemy0Spawner gets lower
         enemy0SpawnerSubtract = 10000;
         //Value, which is subtstracted form enemy0Spawner after enemy0SpawnerSubtract+enemy0Spawner
         enemy0SpawnerSubtractValue = 500;
         //Timer, when enemy1 will spawn
-        enemy1Spawner = 10000;
-        //Timer, when meteor will spawn
+        enemy1Spawner = 16000;
+        //Timer, when new meteor will spawn
         meteorSpawner = 15000;
 
 
@@ -337,7 +337,7 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
-                            if(random.nextInt(12)==0)
+                            if(random.nextInt(6)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }

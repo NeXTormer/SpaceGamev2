@@ -128,13 +128,13 @@ public class Enemy {
             }
             if(player.y<enemyY)
             {
-                enemyY-=5;
+                enemyY-=3;
             }
             if(player.y>enemyY)
             {
-                enemyY+=5;
+                enemyY+=3;
             }
-            if((System.currentTimeMillis()-shootTime) > 2000)
+            if((System.currentTimeMillis()-shootTime) > 3000)
             {
                 shootTime = System.currentTimeMillis();
 

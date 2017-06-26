@@ -59,6 +59,9 @@ public class PowerUpControl extends PowerUp {
             }
             return true;
         }
+
+
+        Rocket.texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
         return false;
 
     }

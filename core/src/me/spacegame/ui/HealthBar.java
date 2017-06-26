@@ -114,7 +114,7 @@ public class HealthBar {
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, 87f, 833f, 200, 200);
+            batch.draw(game.currentPowerUp.texture, 105f, 857f, 160, 160);
         }
         else
         {
@@ -142,9 +142,6 @@ public class HealthBar {
         modelBatch.render(instance);
         modelBatch.end();
         fbo.end();
-
-
-
 
         healthbarProgram.begin();
         healthbarProgram.setUniformf("health_t", health);
