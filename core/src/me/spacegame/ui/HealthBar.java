@@ -175,10 +175,9 @@ public class HealthBar {
 
     public void setHealth(float health)
     {
-        this.dHealth = Math.abs(this.health - convertPercentToPixel(health));
+        this.dHealth = (this.health - convertPercentToPixel(health));
         healthAnimationDeltaTime = 0;
     }
-
 
     public void dispose()
     {
@@ -186,7 +185,6 @@ public class HealthBar {
         modelBatch.dispose();
         healthbarProgram.dispose();
         fbo.dispose();
-
     }
 
     public float getHealthPX()
