@@ -217,7 +217,6 @@ public class GameScreen implements Screen, InputProcessor {
         {
 
             player.score+=1;
-            System.out.println(player.score);
 
             //update
             if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
@@ -338,7 +337,7 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
                         if (meteors.get(j).health <= 0) {
-                            //if(random.nextInt(1)==0)
+                            if(random.nextInt(12)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }
@@ -431,9 +430,18 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(1))
+                    switch(random.nextInt(4))
                     {
+                        case 3:
+                            currentPowerUp = new PowerUpClear(player, this);
+                            break outerloop;
+                        case 2:
+                            currentPowerUp = new PowerUpControl(player, this);
+                            break outerloop;
                         case 1:
+                            currentPowerUp = new PowerUpHealth(player, this);
+                            break outerloop;
+                        case 0:
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
