@@ -423,11 +423,11 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         case 1:
                             currentPowerUp = new PowerUpRapidFire(player, this);
-                            healthBar.collectPowerup(currentPowerUp);
+                            healthBar.collectPowerUp(currentPowerUp);
                             break outerloop;
                         default:
                             currentPowerUp = new PowerUpRapidFire(player, this);
-                            healthBar.collectPowerup(currentPowerUp);
+                            healthBar.collectPowerUp(currentPowerUp);
                             break outerloop;
                     }
 
@@ -468,6 +468,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     activePowerUps.remove(activePowerUps.get(i));
                     currentPowerUp=null;
+                    healthBar.reserPowerUp();
                     break outerloop;
                 }
             }
@@ -575,16 +576,15 @@ public class GameScreen implements Screen, InputProcessor {
             {
                 if(currentPowerUp!=null && activePowerUps.size()==0)
                 {
-                    if(System.currentTimeMillis() - healthBar.powerUpPickupTime < 4000)
-                    {
-                        healthBar.resetQuestionmark();
-                        healthBar.revealPowerUpIcon();
-                    }
                     activePowerUps.add(currentPowerUp);
+                    if(System.currentTimeMillis() - healthBar.powerUpCollectionTime > 4000)
+                    {
+                        healthBar.collectPowerUp(currentPowerUp);
+                    }
+                    else
+                    {
 
-                    healthBar.resetQuestionmark();
-
-
+                    }
                 }
 
             }
