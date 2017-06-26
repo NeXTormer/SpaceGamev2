@@ -35,6 +35,7 @@ import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
+import me.spacegame.powerups.PowerUpClear;
 import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpObject;
@@ -60,10 +61,10 @@ public class GameScreen implements Screen, InputProcessor {
     private OrthographicCamera camera;
 
 
-    private List<Meteor> meteors = new ArrayList<Meteor>();
+    public List<Meteor> meteors = new ArrayList<Meteor>();
     public List<Rocket> rockets = new ArrayList<Rocket>();
-    private List<Explosion> explosions = new ArrayList<Explosion>();
-    private List<Enemy> enemies = new ArrayList<Enemy>();
+    public List<Explosion> explosions = new ArrayList<Explosion>();
+    public List<Enemy> enemies = new ArrayList<Enemy>();
     private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
     private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
 
@@ -431,7 +432,7 @@ public class GameScreen implements Screen, InputProcessor {
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
-                            currentPowerUp = new PowerUpHealth(player, this);
+                            currentPowerUp = new PowerUpClear(player, this);
                             break outerloop;
                     }
 

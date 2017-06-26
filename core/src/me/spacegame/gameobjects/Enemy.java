@@ -37,7 +37,7 @@ public class Enemy {
     //type = 1 --> Enemy from Left
 
     private int baseSpeed;
-    private static Texture enemyTexture;
+    private Texture enemyTexture;
     private static Random random = new Random();
     private int rocket1;
     private int rocket2;
@@ -54,7 +54,7 @@ public class Enemy {
 
     static
     {
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
+
     }
 
     public Enemy(int type)
@@ -70,6 +70,7 @@ public class Enemy {
         baseSpeed = 22;
         damage=20;
         health = 100;
+        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
 
 
         warningY = enemyY;
@@ -207,7 +208,7 @@ public class Enemy {
 
     public static void dispose()
     {
-        enemyTexture.dispose();
+
     }
 
     public ArrayList<EnemyRocket> getRockets()
