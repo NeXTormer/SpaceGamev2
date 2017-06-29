@@ -122,7 +122,7 @@ public class GameScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
-        ex = new Explosion(300, 300);
+        ex = new Explosion(300, 300, this);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -149,7 +149,7 @@ public class GameScreen implements Screen, InputProcessor {
         stage.addActor(touchpad);
 
         for (int i = 0; i < 4; i++) {
-            meteors.add(new Meteor());
+            meteors.add(new Meteor(this));
         }
 
 
@@ -170,7 +170,7 @@ public class GameScreen implements Screen, InputProcessor {
         meteorSpawner = 15000;
 
 
-        player = new Player();
+        player = new Player(this);
         //enemy0 = new Enemy(0);
         //enemy1 = new Enemy(1, player);
         //enemies.add(enemy0);
@@ -238,7 +238,7 @@ public class GameScreen implements Screen, InputProcessor {
             //Spawn Enemy0 after Seconds
             if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
             {
-                enemies.add(new Enemy(0));
+                enemies.add(new Enemy(0, this));
                 enemy0SpawnTimer=System.currentTimeMillis();
             }
 
@@ -254,14 +254,14 @@ public class GameScreen implements Screen, InputProcessor {
                         break outerloop;
                     }
                 }
-                enemies.add(new Enemy(1, player));
+                enemies.add(new Enemy(1, player, this));
                 enemy1SpawnTimer=System.currentTimeMillis();
             }
 
             //Spawn new Meteors over time
             if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
             {
-                meteors.add(new Meteor());
+                meteors.add(new Meteor(this));
                 meteorSpawnTimer=System.currentTimeMillis();
             }
 
@@ -296,7 +296,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
                         enemies.get(j).health -= 50;
-                        explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY)));
+                        explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), this));
                         if (enemies.get(j).health <= 0) {
                             enemies.remove(enemies.get(j));
                             break outerloop;
@@ -318,7 +318,7 @@ public class GameScreen implements Screen, InputProcessor {
 
                 if (meteors.get(i).x < -meteors.get(i).radius) {
                     meteors.remove(i);
-                    meteors.add(new Meteor());
+                    meteors.add(new Meteor(this));
                 }
             }
 
@@ -337,14 +337,14 @@ public class GameScreen implements Screen, InputProcessor {
                         meteors.get(j).health -= rockets.get(i).damage;
                         rockets.remove(rockets.get(i));
                         meteors.get(j).updateTexture();
-                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
+                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
                         if (meteors.get(j).health <= 0) {
                             if(random.nextInt(6)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }
                             meteors.remove(j);
-                            meteors.add(new Meteor());
+                            meteors.add(new Meteor(this));
                             player.score+=100;
                         }
                         break outerloop;
@@ -360,7 +360,7 @@ public class GameScreen implements Screen, InputProcessor {
                     if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
                         rockets.remove(rockets.get(i));
                         enemies.get(j).health -= 50;
-                        explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20)));
+                        explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), this));
                         if (enemies.get(j).health <= 0) {
                             enemies.remove(enemies.get(j));
                             player.score+=500;
@@ -390,9 +390,9 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         if (Intersector.overlaps(meteors.get(j).box, er.box))
                         {
-                            explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20)));
+                            explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
                             meteors.remove(j);
-                            meteors.add(new Meteor());
+                            meteors.add(new Meteor(this));
                         }
                     }
                 }
@@ -416,7 +416,7 @@ public class GameScreen implements Screen, InputProcessor {
                     {
                         if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
                         {
-                            explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20)));
+                            explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), this));
                             enemies.remove(i);
                             break outerloop;
                         }
@@ -679,7 +679,6 @@ public class GameScreen implements Screen, InputProcessor {
         Meteor.dispose();
         Rocket.dispose();
         Explosion.dispose();
-        ExclaimationPoint.dispose();
         for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }

@@ -22,6 +22,7 @@ public class Meteor {
 
     private static Texture[] meteorFull;
     private static Texture[] meteorDamaged;
+    private boolean firstInit = false;
 
     private static final int METEOR_TEXTURES = 5;
 
@@ -39,20 +40,22 @@ public class Meteor {
     private int rotateSpeed;
     private int texture;
 
-    static
+    public Meteor(GameScreen screen)
     {
-        meteorFull = new Texture[METEOR_TEXTURES];
-        meteorDamaged = new Texture[METEOR_TEXTURES];
-
-        for(int i = 0; i < METEOR_TEXTURES; i++)
+        if(!firstInit)
         {
-            meteorFull[i] = new Texture(Gdx.files.internal("gameobjects/meteors/meteor" + (i + 1) + ".png"));
-            meteorDamaged[i] = new Texture(Gdx.files.internal("gameobjects/meteors/meteor" + (i + 1) + "_damaged.png"));
-        }
-    }
+            meteorFull = new Texture[METEOR_TEXTURES];
+            meteorDamaged = new Texture[METEOR_TEXTURES];
 
-    public Meteor()
-    {
+            for(int i = 0; i < METEOR_TEXTURES; i++)
+            {
+                meteorFull[i] = screen.getGame().getTexture("meteor" + (i + 1));
+                meteorDamaged[i] = screen.getGame().getTexture("meteor" + (i + 1) + "_damaged");
+            }
+
+            firstInit = true;
+        }
+
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
         radius = GameScreen.random.nextInt(50)+50;
         health = GameScreen.random.nextInt(90)+10;

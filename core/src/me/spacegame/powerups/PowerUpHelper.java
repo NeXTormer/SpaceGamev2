@@ -29,7 +29,7 @@ public class PowerUpHelper extends PowerUp {
 
     public PowerUpHelper(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
-        helper = new Player();
+        helper = new Player(gameScreen);
         helper.x = -500;
         helper.health = 3500;
         started = false;

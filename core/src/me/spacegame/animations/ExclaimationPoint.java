@@ -5,17 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.screens.GameScreen;
+
 /**
  * Created by Felix on 18-May-17.
  */
 
 public class ExclaimationPoint {
 
-    private static Texture spritesheet;
     private static int width = 50;
     private static int height = 150;
-
     private static TextureRegion[] textureRegions;
+
+    private Texture spritesheet;
+    private boolean firstInit = false;
+
+
     private float elapsed = 0f;
     private int x = 0;
     private int y = 0;
@@ -23,19 +28,20 @@ public class ExclaimationPoint {
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
-    static
+    public ExclaimationPoint(int x, int y, GameScreen screen)
     {
-        spritesheet = new Texture(Gdx.files.internal("animations/exclaimationpoint.png"));
-        textureRegions = new TextureRegion[3 * 3];
+        if(!firstInit)
+        {
+            spritesheet = screen.getGame().getTexture("exclaimationpoint");
+            textureRegions = new TextureRegion[3 * 3];
 
 
-        TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-        textureRegions = temp[0];
-    }
+            TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
+            textureRegions = temp[0];
+            firstInit = true;
+        }
 
 
-    public ExclaimationPoint(int x, int y)
-    {
         this.x = x;
         this.y = y;
 
@@ -65,8 +71,4 @@ public class ExclaimationPoint {
         return false;
     }
 
-    public static void dispose()
-    {
-        spritesheet.dispose();
-    }
 }

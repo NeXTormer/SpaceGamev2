@@ -20,6 +20,8 @@ import me.spacegame.screens.GameScreen;
 
 public class Enemy {
 
+    private GameScreen gameScreen;
+
     public float enemyX;
     public float enemyY;
     public int enemyWidth;
@@ -52,13 +54,10 @@ public class Enemy {
 
     public ExclaimationPoint ep;
 
-    static
-    {
 
-    }
-
-    public Enemy(int type)
+    public Enemy(int type, GameScreen screen)
     {
+        gameScreen = screen;
         this.type = type;
         enemyX = random.nextInt(1000)+ SpaceGame.VIEWPORTWIDTH+2000;
         warningX = SpaceGame.VIEWPORTWIDTH-50;
@@ -70,23 +69,24 @@ public class Enemy {
         baseSpeed = 22;
         damage=20;
         health = 100;
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_02.png"));
+        enemyTexture = screen.getGame().getTexture("enemy1");
 
 
         warningY = enemyY;
         warningHeight = enemyHeight;
         warningWidth = 40;
 
-        ep = new ExclaimationPoint((int) warningX, (int) warningY);
+        ep = new ExclaimationPoint((int) warningX, (int) warningY, screen);
         rockets = new ArrayList<EnemyRocket>();
         rocket1 = random.nextInt(SpaceGame.VIEWPORTWIDTH-200)+200;
         rocket2 = random.nextInt(SpaceGame.VIEWPORTWIDTH-400)+400;
     }
 
-    public Enemy(int type, Player p)
+    public Enemy(int type, Player p, GameScreen screen)
     {
+        gameScreen = screen;
         enemyX = (random.nextInt(1000)*(-1))-1000;
-        enemyTexture = new Texture(Gdx.files.internal("gameobjects/EnemyShip_03.png"));
+        enemyTexture = screen.getGame().getTexture("enemy2");
         warningX = 50;
         this.type=type;
         player = p;
@@ -105,7 +105,7 @@ public class Enemy {
         warningHeight = enemyHeight;
         warningWidth = 40;
 
-        ep = new ExclaimationPoint((int) warningX, (int) warningY);
+        ep = new ExclaimationPoint((int) warningX, (int) warningY, screen);
         rockets = new ArrayList<EnemyRocket>();
         rocket1 = random.nextInt(SpaceGame.VIEWPORTWIDTH-200)+200;
         rocket2 = random.nextInt(SpaceGame.VIEWPORTWIDTH-400)+400;
@@ -205,10 +205,9 @@ public class Enemy {
 
     }
 
-
-    public static void dispose()
+    public GameScreen getGameScreen()
     {
-
+        return gameScreen;
     }
 
     public ArrayList<EnemyRocket> getRockets()

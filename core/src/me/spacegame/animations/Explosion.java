@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.screens.GameScreen;
+
 /**
  * Created by Felix on 18-May-17.
  */
@@ -24,25 +26,27 @@ public class Explosion {
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
     private boolean big = false;
 
-    static
+    private boolean firstInit = false;
+
+
+    public Explosion(int x, int y, GameScreen screen)
     {
-        spritesheet = new Texture(Gdx.files.internal("animations/explosion1.png"));
-        textureRegions = new TextureRegion[3 * 3];
-
-
-        TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
-        for(int i = 0; i < 3; i++)
+        if(!firstInit)
         {
-            for(int j = 0; j < 3; j++)
+            spritesheet = screen.getGame().getTexture("explosion1");
+            textureRegions = new TextureRegion[3 * 3];
+
+            TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
+            for(int i = 0; i < 3; i++)
             {
-                textureRegions[i * 3 + j] = temp[i][j];
+                for(int j = 0; j < 3; j++)
+                {
+                    textureRegions[i * 3 + j] = temp[i][j];
+                }
             }
+            firstInit = true;
         }
-    }
 
-
-    public Explosion(int x, int y)
-    {
         this.x = x;
         this.y = y;
 

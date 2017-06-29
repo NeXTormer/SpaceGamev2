@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Rocket {
 
     public static Texture texture;
+    private boolean firstInit = false;
 
     public float x;
     public float y;
@@ -23,13 +24,13 @@ public class Rocket {
     private int speed;
     public int damage;
 
-    static
-    {
-        texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
-    }
-
     public Rocket(Player p)
     {
+        if(!firstInit)
+        {
+            texture = p.getGameScreen().getGame().getTexture("rocket1");
+        }
+
         speed = 18;
         width = 50;
         height = 40;

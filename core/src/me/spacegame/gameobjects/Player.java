@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.screens.GameScreen;
 
 /**
  * Created by Michi on 15.05.2017.
@@ -33,8 +34,9 @@ public class Player {
     private Texture texture;
 
     private boolean visible = true;
+    private GameScreen gameScreen;
 
-    public Player()
+    public Player(GameScreen screen)
     {
         width = 150;
         height = 120;
@@ -42,7 +44,8 @@ public class Player {
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
         box = new Rectangle(x, y, width, height);
-        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
+        texture = screen.getGame().getTexture("spaceship1");
+        gameScreen = screen;
     }
 
     public void render(float delta, SpriteBatch batch)
@@ -65,6 +68,8 @@ public class Player {
         }
         box.setPosition(x, y);
     }
+
+    public GameScreen getGameScreen() { return gameScreen; }
 
     public void dispose()
     {

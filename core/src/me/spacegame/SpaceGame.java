@@ -80,6 +80,7 @@ public class SpaceGame extends Game {
 
 	public Texture getTexture(String name)
 	{
+		//System.out.println("Key: " + name + ", Value: " + assetKeys.get(name));
 		return manager.get(assetKeys.get(name));
 	}
 

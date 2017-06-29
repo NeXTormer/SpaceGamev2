@@ -48,7 +48,7 @@ public class PowerUpClear extends PowerUp {
             gameScreen.meteors.clear();
             for(int i = 0; i<count; i++)
             {
-                gameScreen.meteors.add(new Meteor());
+                gameScreen.meteors.add(new Meteor(gameScreen));
             }
             for(int i = 0; i<gameScreen.enemies.size(); i++)
             {
