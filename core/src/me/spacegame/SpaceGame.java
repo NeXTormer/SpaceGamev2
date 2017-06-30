@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.PerformanceCounter;
 import java.util.HashMap;
 
 import me.spacegame.screens.MainMenuScreen;
+import me.spacegame.ui.menu.GameOverMenu;
 
 public class SpaceGame extends Game {
 
@@ -45,6 +46,8 @@ public class SpaceGame extends Game {
 	@Override
 	public void create ()
 	{
+		GameOverMenu.loadText();
+
 		VIEWPORTWIDTH = Gdx.graphics.getWidth();
 		VIEWPORTHEIGHT = Gdx.graphics.getHeight();
 
@@ -53,7 +56,7 @@ public class SpaceGame extends Game {
 
 		Texture.setAssetManager(manager);
 		loadAssets();
-		manager.finishLoading();
+
 		setScreen(new MainMenuScreen(this));
 
 	}
@@ -73,7 +76,7 @@ public class SpaceGame extends Game {
 			assetKeys.put(data[0], path);
 			manager.load(path, Texture.class);
 		}
-
+		manager.update();
 		System.out.println("Load Time: " + (System.currentTimeMillis() - starttime));
 
 	}
@@ -90,6 +93,11 @@ public class SpaceGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		getScreen().render(Gdx.graphics.getDeltaTime());
+	}
+
+	public void finishLoadingAssets()
+	{
+		manager.finishLoading();
 	}
 	
 	@Override

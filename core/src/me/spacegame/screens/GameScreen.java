@@ -175,12 +175,16 @@ public class GameScreen implements Screen, InputProcessor {
 
         currentPowerUp = null;
 
-        healthBar = new HealthBar(this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
+
+        healthBar = new HealthBar(this);
+        long timepeta = System.currentTimeMillis();
         menu = new Menu(this);
+
+        System.out.println("S" + (System.currentTimeMillis() - timepeta));
 
         //Pause Button
         pausebtnup = game.getTexture("settingsButton");

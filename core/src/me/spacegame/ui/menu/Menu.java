@@ -32,7 +32,6 @@ public class Menu {
 
         currentMenu = screens.get("empty").activate();
 
-
         for(TemplateMenu menu : screens.values())
         {
             menu.create();

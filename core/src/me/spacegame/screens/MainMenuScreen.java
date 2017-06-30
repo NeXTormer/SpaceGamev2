@@ -51,10 +51,11 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
         batch = new SpriteBatch(4);
-        background = new Texture(Gdx.files.internal("mainmenu/background1.png"));
-        logo = new Texture(Gdx.files.internal("mainmenu/logo.png"));
-        startbuttonup = new Texture(Gdx.files.internal("mainmenu/startbtnup.png"));
-        startbuttondown = new Texture(Gdx.files.internal("mainmenu/startbtndown.png"));
+        game.finishLoadingAssets();
+        background = game.getTexture("background");
+        logo = game.getTexture("logo");
+        startbuttonup = game.getTexture("startButtonUp");
+        startbuttondown = game.getTexture("startButtonDown");
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
@@ -83,7 +84,7 @@ public class MainMenuScreen implements Screen {
         if(startbtn.isPressed())
         {
             game.setScreen(new GameScreen(game));
-            dispose();
+            //dispose();
 
         }
 
