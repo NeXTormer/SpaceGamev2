@@ -41,3 +41,4 @@ retryButton;ui/retrybutton.png
 resumeButtonMenu;ui/resumebtn.png
 healthbarmain;ui/healthbarmain.png
 healthTexture;ui/health.png
+gameover;ui/gameover.png

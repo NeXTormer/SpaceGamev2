@@ -22,19 +22,20 @@ public class GameOverMenu extends TemplateMenu {
 
     private ImageButton retryBtn;
     private SpriteDrawable retryBtnDrawable;
-    private static Label gameoverText;
+    //private static Label gameoverText;
+    private Image gameoverText;
     private Label scoreText;
 
     public static void loadText()
     {
-        FreeTypeFontGenerator ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 270;
+        //FreeTypeFontGenerator ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        //FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        //parameter.size = 270;
 
 
 
         long peta = System.currentTimeMillis();
-        gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
+        //gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
         System.out.println("Game Over label loading time: " + (System.currentTimeMillis() - peta));
     }
 
@@ -45,8 +46,7 @@ public class GameOverMenu extends TemplateMenu {
         super(menu);
         //stage.getBatch().setProjectionMatrix(menu.camera.combined);
 
-
-
+        gameoverText = new Image(menu.getGameScreen().getGame().getTexture("gameover"));
 
         vignetteImage = new Image(menu.getGameScreen().getGame().getTexture("vignetteEffect"));
 

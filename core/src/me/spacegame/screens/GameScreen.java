@@ -544,6 +544,7 @@ public class GameScreen implements Screen, InputProcessor {
                 paused = !paused;
                 if(paused)
                 {
+                    //TODO: bad performance
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
                 camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
