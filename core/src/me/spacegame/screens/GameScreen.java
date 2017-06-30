@@ -133,8 +133,8 @@ public class GameScreen implements Screen, InputProcessor {
         touchpadskin = new Skin();
         touchpadStyle = new Touchpad.TouchpadStyle();
 
-        touchpadskin.add("touchBackground", new Texture("touchpad/touchbackground.png"));
-        touchpadskin.add("touchKnob", new Texture("touchpad/touchknob.png"));
+        touchpadskin.add("touchBackground", game.getTexture("touchBackground"));
+        touchpadskin.add("touchKnob", game.getTexture("touchKnob"));
 
         touchbackground = touchpadskin.getDrawable("touchBackground");
         touchknob = touchpadskin.getDrawable("touchKnob");
@@ -186,8 +186,8 @@ public class GameScreen implements Screen, InputProcessor {
         menu = new Menu(this);
 
         //Pause Button
-        pausebtnup = new Texture(Gdx.files.internal("ui/settingsbtn.png"));
-        pausebtndown = new Texture(Gdx.files.internal("ui/settingsbtn.png"));
+        pausebtnup = game.getTexture("settingsButton");
+        pausebtndown = game.getTexture("settingsButton");
 
         pausebtnupdrawable= new SpriteDrawable();
         pausebtndowndrawable = new SpriteDrawable();

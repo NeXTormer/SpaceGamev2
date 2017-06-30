@@ -74,8 +74,8 @@ public class HealthBar {
         this.game = game;
         healthbarFrag = Gdx.files.internal("shader/ui/healthbar.frag");
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
-        mainTexture = new Texture(Gdx.files.internal("ui/healthbarmain.png"));
-        healthTexture = new Texture(Gdx.files.internal("ui/health.png"));
+        mainTexture = game.getGame().getTexture("healthbarmain");
+        healthTexture = game.getGame().getTexture("healthTexture");
 
 
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);

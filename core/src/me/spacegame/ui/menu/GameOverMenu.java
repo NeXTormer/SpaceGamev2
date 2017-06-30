@@ -21,7 +21,7 @@ public class GameOverMenu extends TemplateMenu {
 
 
     private ImageButton retryBtn;
-    private static SpriteDrawable retryBtnDrawable;
+    private SpriteDrawable retryBtnDrawable;
     private Label gameoverText;
     private Label scoreText;
 
@@ -43,17 +43,16 @@ public class GameOverMenu extends TemplateMenu {
         gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
 
 
-        vignetteImage = new Image(new Texture(Gdx.files.internal("ui/vignette.png")));
+        vignetteImage = new Image(menu.getGameScreen().getGame().getTexture("vignetteEffect"));
 
+        retryBtnDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton")));
 
         stage.getBatch().enableBlending();
         stage.addActor(vignetteImage);
     }
 
-    static
-    {
-        retryBtnDrawable = new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/retrybutton.png"))));
-    }
+
+
 
     @Override
     public void create() {

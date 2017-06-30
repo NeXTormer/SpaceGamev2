@@ -40,8 +40,8 @@ public class MainMenu extends TemplateMenu {
 
     @Override
     public void create() {
-        startbuttonup = new Texture(Gdx.files.internal("ui/resumebtn.png"));
-        startbuttondown = new Texture(Gdx.files.internal("ui/resumebtn.png"));
+        startbuttonup = menu.getGameScreen().getGame().getTexture("resumeButtonMenu");
+        startbuttondown = menu.getGameScreen().getGame().getTexture("resumeButtonMenu");
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
@@ -51,7 +51,7 @@ public class MainMenu extends TemplateMenu {
 
         resumeButton = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        retryButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/retrybutton2.png")))), new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/retrybutton2.png")))));
+        retryButton = new ImageButton(new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton"))), new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton"))));
         retryButton.setPosition(900, 500);
 
         resumeButton.setPosition(895, 180);
