@@ -166,16 +166,12 @@ public class GameScreen implements Screen, InputProcessor {
         //Value, which is subtstracted form enemy0Spawner after enemy0SpawnerSubtract+enemy0Spawner
         enemy0SpawnerSubtractValue = 500;
         //Timer, when enemy1 will spawn
-        enemy1Spawner = 16000;
+        enemy1Spawner = 19000;
         //Timer, when new meteor will spawn
         meteorSpawner = 15000;
 
 
         player = new Player(this);
-        //enemy0 = new Enemy(0);
-        //enemy1 = new Enemy(1, player);
-        //enemies.add(enemy0);
-        //enemies.add(enemy1);
 
         currentPowerUp = null;
 
@@ -342,7 +338,7 @@ public class GameScreen implements Screen, InputProcessor {
 
                         //Spawn Powerup after destroy
                         if (meteors.get(j).health <= 0) {
-                            if(random.nextInt(1)==0)
+                            if(random.nextInt(10)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }
@@ -435,9 +431,9 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(1))
+                    switch(random.nextInt(6))
                     {
-                        case 0:
+                        case 5:
                             currentPowerUp = new PowerUpPacMan(player, this);
                             break outerloop;
                         case 4:
@@ -452,7 +448,7 @@ public class GameScreen implements Screen, InputProcessor {
                         case 1:
                             currentPowerUp = new PowerUpHealth(player, this);
                             break outerloop;
-                        case 5:
+                        case 0:
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
@@ -595,7 +591,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (screenX >= SpaceGame.VIEWPORTWIDTH / 2)
+        if (screenX >= SpaceGame.VIEWPORTWIDTH / 2 && player.visible)
         {
             if(activePowerUps.size()>=1)
             {

@@ -33,7 +33,7 @@ public class Player {
     private float newy;
     private Texture texture;
 
-    private boolean visible = true;
+    public boolean visible = true;
     private GameScreen gameScreen;
 
     public Player(GameScreen screen)

@@ -71,8 +71,8 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), gameScreen));
                     gameScreen.meteors.remove(i);
                     gameScreen.meteors.add(new Meteor(gameScreen));
-                    healPlayer(1);
-                    System.out.println("healed" + " : "+player.health);
+                    //healPlayer(1);
+                    //System.out.println("healed" + " : "+player.health);
                     break outerloop;
                 }
             }
@@ -85,7 +85,7 @@ public class PowerUpPacMan extends PowerUp {
                     if(Intersector.overlaps(this.box, gameScreen.enemies.get(i).getRockets().get(j).box))
                     {
                         gameScreen.enemies.get(i).getRockets().remove(j);
-                        healPlayer(1);
+                        //healPlayer(1);
                         break outerloop;
                     }
                 }
@@ -93,7 +93,7 @@ public class PowerUpPacMan extends PowerUp {
                 {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20), gameScreen));
                     gameScreen.enemies.remove(i);
-                    healPlayer(1);
+                    //healPlayer(1);
                     break outerloop;
                 }
             }

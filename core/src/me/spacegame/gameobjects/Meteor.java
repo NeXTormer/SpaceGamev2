@@ -59,7 +59,7 @@ public class Meteor {
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
         radius = GameScreen.random.nextInt(50)+50;
         health = GameScreen.random.nextInt(90)+10;
-        x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH;
+        x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH+200;
         y = GameScreen.random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
         box = new Circle();
         box.setX(x+radius);
