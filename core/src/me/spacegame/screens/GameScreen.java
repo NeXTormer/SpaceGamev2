@@ -41,6 +41,7 @@ import me.spacegame.powerups.PowerUpFreeze;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpHelper;
 import me.spacegame.powerups.PowerUpObject;
+import me.spacegame.powerups.PowerUpPacMan;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
 import me.spacegame.ui.menu.Menu;
@@ -338,8 +339,10 @@ public class GameScreen implements Screen, InputProcessor {
                         rockets.remove(rockets.get(i));
                         meteors.get(j).updateTexture();
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
+
+                        //Spawn Powerup after destroy
                         if (meteors.get(j).health <= 0) {
-                            if(random.nextInt(6)==0)
+                            if(random.nextInt(1)==0)
                             {
                                 powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                             }
@@ -432,8 +435,11 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
                     powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(5))
+                    switch(random.nextInt(1))
                     {
+                        case 0:
+                            currentPowerUp = new PowerUpPacMan(player, this);
+                            break outerloop;
                         case 4:
                             currentPowerUp = new PowerUpHelper(player, this);
                             break outerloop;
@@ -446,11 +452,11 @@ public class GameScreen implements Screen, InputProcessor {
                         case 1:
                             currentPowerUp = new PowerUpHealth(player, this);
                             break outerloop;
-                        case 0:
+                        case 5:
                             currentPowerUp = new PowerUpRapidFire(player, this);
                             break outerloop;
                         default:
-                            currentPowerUp = new PowerUpClear(player, this);
+                            currentPowerUp = new PowerUpPacMan(player, this);
                             break outerloop;
                     }
 

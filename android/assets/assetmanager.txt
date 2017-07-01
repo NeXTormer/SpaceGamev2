@@ -1,6 +1,7 @@
 #Name;Path
 exclaimationpoint;animations/exclaimationpoint.png
 explosion1;animations/explosion1.png
+pacman;animations/pacman.png
 background;gameobjects/background.png
 enemy1;gameobjects/EnemyShip_02.png
 enemy2;gameobjects/EnemyShip_03.png
@@ -24,6 +25,8 @@ rocket1;gameobjects/Rocket_01.png
 pwupClearIcon;gameobjects/ClearIcon.png
 pwupHealthIcon;gameobjects/HealthIcon.png
 pwupRapidFireIcon;gameobjects/RapidFireIcon.png
+pwupHelperIcon;gameobjects/HelperIcon.png
+pwupPacManIcon;gameobjects/PacManIcon.png
 #
 questionmark;gameobjects/Fragezeichen.png
 touchBackground;touchpad/touchbackground.png

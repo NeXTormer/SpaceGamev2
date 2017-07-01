@@ -33,7 +33,8 @@ public class PowerUpHelper extends PowerUp {
         helper.x = -500;
         helper.health = 3500;
         started = false;
-        texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
+        texture = gameScreen.getGame().getTexture("pwupHelperIcon");
+        //texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
     }
 
     @Override
