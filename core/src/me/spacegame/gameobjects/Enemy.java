@@ -112,7 +112,26 @@ public class Enemy {
 
     }
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
+    {
+        batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
+        if(enemyX>SpaceGame.VIEWPORTWIDTH && type==0)
+        {
+            ep.draw(delta, batch);
+        }
+
+        if(enemyX<0 && type==1)
+        {
+            ep.draw(delta, batch);
+        }
+
+        for(EnemyRocket er : rockets)
+        {
+            er.draw(batch);
+        }
+    }
+
+    public void update()
     {
         ep.setPosition( (int) warningX, (int) enemyY);
 
@@ -169,18 +188,6 @@ public class Enemy {
             }
         }
 
-        //render
-        batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
-        if(enemyX>SpaceGame.VIEWPORTWIDTH && type==0)
-        {
-            ep.draw(delta, batch);
-        }
-
-        if(enemyX<0 && type==1)
-        {
-            ep.draw(delta, batch);
-        }
-
         if(enemyX>=1800 && enemyX <=1850)
         {
             rockets.add(new EnemyRocket(this));
@@ -195,13 +202,6 @@ public class Enemy {
         {
             rockets.add(new EnemyRocket(this));
         }
-
-        for(EnemyRocket er : rockets)
-        {
-            er.render(delta, batch);
-        }
-
-
 
     }
 

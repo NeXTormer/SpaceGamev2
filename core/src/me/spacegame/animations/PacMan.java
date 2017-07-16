@@ -68,14 +68,14 @@ public class PacMan {
         frameDuration = duration;
     }
 
-    public boolean draw(float delta, SpriteBatch batch)
+    public void draw(float delta, SpriteBatch batch)
+    {
+        batch.draw(animation.getKeyFrame(elapsedFrames), x, y, drawWidth, drawHeight);
+    }
+
+    public void update()
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
-
-        batch.draw(animation.getKeyFrame(elapsedFrames), x, y, drawWidth, drawHeight);
-
-        return false;
     }
-
 }

@@ -75,7 +75,12 @@ public class Meteor {
         meteorsprite.setOrigin(radius, radius);
     }
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
+    {
+        meteorsprite.draw(batch);
+    }
+
+    public void update()
     {
         x -= speed;
         box.setX(x+radius);
@@ -83,8 +88,6 @@ public class Meteor {
 
         meteorsprite.rotate(rotateSpeed);
         meteorsprite.setPosition(x, y);
-
-        meteorsprite.draw(batch);
     }
 
     public void updateTexture()

@@ -27,19 +27,16 @@ public class Background {
     }
 
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
-
-        x -= speed;
-
-        if(x <= -bg.getWidth())
-        {
-            x = 0;
-        }
-
         batch.draw(bg, x, 0);
         batch.draw(bg, x + (bg.getWidth()), 0);
+    }
 
+    public void update()
+    {
+        x -= speed;
+        if(x <= -bg.getWidth()) x = 0;
     }
 
     public void dispose()

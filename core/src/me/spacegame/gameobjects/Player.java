@@ -48,7 +48,7 @@ public class Player {
         gameScreen = screen;
     }
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
         if(visible)
             batch.draw(texture, x, y, width, height);

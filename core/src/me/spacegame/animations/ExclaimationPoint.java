@@ -61,14 +61,16 @@ public class ExclaimationPoint {
         frameDuration = duration;
     }
 
-    public boolean draw(float delta, SpriteBatch batch)
+    public void draw(float delta, SpriteBatch batch)
+    {
+        batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
+
+    }
+
+    public void update()
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
-
-        batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
-
-        return false;
     }
 
 }

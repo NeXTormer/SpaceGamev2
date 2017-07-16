@@ -42,12 +42,16 @@ public class Rocket {
     }
 
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
+    {
+        batch.draw(texture, x, y, width, height);
+    }
+
+    public void update()
     {
         x+=speed;
         box.setX(x-5);
         box.setY(y);
-        batch.draw(texture, x, y, width, height);
     }
 
     public static void dispose()
