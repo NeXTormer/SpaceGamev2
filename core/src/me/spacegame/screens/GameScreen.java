@@ -226,10 +226,7 @@ public class GameScreen implements Screen, InputProcessor {
         batch.begin();
 
         background.draw(batch);
-        menu.draw();
-        healthBar.draw(batch);
 
-        player.draw(batch);
 
 
         for(Enemy e : enemies)
@@ -262,9 +259,12 @@ public class GameScreen implements Screen, InputProcessor {
             p.draw(batch);
         }
 
+        player.draw(batch);
+        healthBar.draw(batch);
         batch.end();
 
         stage.draw();
+        menu.draw();
 
         healthBar.draw();
     }
