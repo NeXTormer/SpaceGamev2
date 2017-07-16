@@ -61,7 +61,7 @@ public class ExclaimationPoint {
         frameDuration = duration;
     }
 
-    public void draw(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
         batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
 

@@ -117,12 +117,12 @@ public class Enemy {
         batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
         if(enemyX>SpaceGame.VIEWPORTWIDTH && type==0)
         {
-            ep.draw(delta, batch);
+            ep.draw(batch);
         }
 
         if(enemyX<0 && type==1)
         {
-            ep.draw(delta, batch);
+            ep.draw(batch);
         }
 
         for(EnemyRocket er : rockets)

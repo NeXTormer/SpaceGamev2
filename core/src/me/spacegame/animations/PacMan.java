@@ -68,7 +68,7 @@ public class PacMan {
         frameDuration = duration;
     }
 
-    public void draw(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
         batch.draw(animation.getKeyFrame(elapsedFrames), x, y, drawWidth, drawHeight);
     }

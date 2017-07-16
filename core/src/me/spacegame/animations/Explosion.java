@@ -80,7 +80,7 @@ public class Explosion {
         frameDuration = duration;
     }
 
-    public boolean draw(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
         if(big)
         {
@@ -90,14 +90,14 @@ public class Explosion {
         {
             batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 230, 230);
         }
-
-        return animation.isAnimationFinished(elapsedFrames);
     }
 
-    public void update()
+    public boolean update()
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
+
+        return animation.isAnimationFinished(elapsedFrames);
     }
 
 

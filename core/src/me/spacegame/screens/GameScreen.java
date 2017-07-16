@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -213,323 +214,339 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        update();
+        draw();
+    }
+
+    public void draw()
+    {
+
+        batch.begin();
+
+        background.draw(batch);
+        menu.draw();
+        healthBar.draw(batch);
+
+        player.draw(batch);
 
 
-
-        if(!paused)
+        for(Enemy e : enemies)
         {
+            e.draw(batch);
+        }
 
-            player.score+=1;
+        for (Meteor m : meteors) {
+            m.draw(batch);
+        }
 
-            //update
-            if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
+        for (Rocket r : rockets) {
+            r.draw(batch);
+        }
+
+        for(Explosion e : explosions)
+        {
+            e.draw(batch);
+        }
+
+        //Render PowerUps
+
+        for(PowerUp p : activePowerUps)
+        {
+            p.draw(batch);
+        }
+
+        for(PowerUpObject p : powerUpObjects)
+        {
+            p.draw(batch);
+        }
+
+        batch.end();
+
+        stage.draw();
+
+        healthBar.draw();
+    }
+
+    public void update()
+    {
+        player.score+=1;
+
+        //update
+        if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
+        {
+            float dx = (float) Math.sin(System.currentTimeMillis());
+            float dy = (float) Math.sin(2 * System.currentTimeMillis());
+
+            camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
+            camera.update();
+            batch.setProjectionMatrix(camera.combined);
+            healthBar.setProjectionMatrix(camera.combined);
+        }
+        camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
+
+        player.updatePosition(touchpad);
+
+        //Spawn Enemy0 after Seconds
+        if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
+        {
+            enemies.add(new Enemy(0, this));
+            enemy0SpawnTimer=System.currentTimeMillis();
+        }
+
+        //Spawn Enemy1 after Seconds
+        outerloop:
+        if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
+        {
+            for(int i = 0; i<enemies.size(); i++)
             {
-                float dx = (float) Math.sin(System.currentTimeMillis());
-                float dy = (float) Math.sin(2 * System.currentTimeMillis());
-
-                camera.position.set(SpaceGame.VIEWPORTWIDTH/2 + dx * 10 , SpaceGame.VIEWPORTHEIGHT/2 + dy * 10 , 0);
-                camera.update();
-                batch.setProjectionMatrix(camera.combined);
-                healthBar.setProjectionMatrix(camera.combined);
-            }
-            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
-
-            player.updatePosition(touchpad);
-
-            //Spawn Enemy0 after Seconds
-            if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
-            {
-                enemies.add(new Enemy(0, this));
-                enemy0SpawnTimer=System.currentTimeMillis();
-            }
-
-            //Spawn Enemy1 after Seconds
-            outerloop:
-            if((System.currentTimeMillis()-enemy1SpawnTimer)>enemy1Spawner)
-            {
-                for(int i = 0; i<enemies.size(); i++)
+                if(enemies.get(i).type==1)
                 {
-                    if(enemies.get(i).type==1)
-                    {
-                        enemy1SpawnTimer=System.currentTimeMillis();
+                    enemy1SpawnTimer=System.currentTimeMillis();
+                    break outerloop;
+                }
+            }
+            enemies.add(new Enemy(1, player, this));
+            enemy1SpawnTimer=System.currentTimeMillis();
+        }
+
+        //Spawn new Meteors over time
+        if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
+        {
+            meteors.add(new Meteor(this));
+            meteorSpawnTimer=System.currentTimeMillis();
+        }
+
+        //Spawn Enemy0 more frequently
+        if((System.currentTimeMillis()-enemy0SpawnSubtractTimer)>enemy0SpawnerSubtract+enemy0Spawner)
+        {
+            if(enemy0Spawner>1000)
+            {
+                enemy0Spawner-=enemy0SpawnerSubtractValue;
+                enemy0SpawnSubtractTimer=System.currentTimeMillis();
+            }
+        }
+
+
+        //Remove offscreen enemies
+        for(int i = 0; i<enemies.size(); i++)
+        {
+            if(enemies.get(i).type==0)
+            {
+                if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
+                {
+                    enemies.remove(enemies.get(i));
+                }
+            }
+        }
+
+        //Meteor - Enemy Collision
+        outerloop:
+        for (int i = 0; i < meteors.size(); i++)
+        {
+            for(int j = 0; j<enemies.size(); j++)
+            {
+                if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
+                    enemies.get(j).health -= 50;
+                    explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), this));
+                    if (enemies.get(j).health <= 0) {
+                        enemies.remove(enemies.get(j));
                         break outerloop;
                     }
                 }
-                enemies.add(new Enemy(1, player, this));
-                enemy1SpawnTimer=System.currentTimeMillis();
+            }
+        }
+
+        //Meteor  -  Player Collision
+        for (int i = 0; i < meteors.size(); i++) {
+            if (Intersector.overlaps(meteors.get(i).box, player.box)) {
+                // System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
+                if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
+                {
+                    meteors.get(i).lastTimeHit = System.currentTimeMillis();
+                    damagePlayer(meteors.get(i).damage);
+                }
             }
 
-            //Spawn new Meteors over time
-            if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
-            {
+            if (meteors.get(i).x < -meteors.get(i).radius) {
+                meteors.remove(i);
                 meteors.add(new Meteor(this));
-                meteorSpawnTimer=System.currentTimeMillis();
             }
+        }
 
-            //Spawn Enemy0 more frequently
-            if((System.currentTimeMillis()-enemy0SpawnSubtractTimer)>enemy0SpawnerSubtract+enemy0Spawner)
-            {
-                if(enemy0Spawner>1000)
-                {
-                    enemy0Spawner-=enemy0SpawnerSubtractValue;
-                    enemy0SpawnSubtractTimer=System.currentTimeMillis();
-                }
+        //Remove offscreen rockets
+        for (int i = 0; i < rockets.size(); i++) {
+            if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
+                rockets.remove(rockets.get(i));
             }
+        }
 
-
-            //Remove offscreen enemies
-            for(int i = 0; i<enemies.size(); i++)
-            {
-                if(enemies.get(i).type==0)
-                {
-                    if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
-                    {
-                        enemies.remove(enemies.get(i));
-                    }
-                }
-            }
-
-            //Meteor - Enemy Collision
-            outerloop:
-            for (int i = 0; i < meteors.size(); i++)
-            {
-                for(int j = 0; j<enemies.size(); j++)
-                {
-                    if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
-                        enemies.get(j).health -= 50;
-                        explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), this));
-                        if (enemies.get(j).health <= 0) {
-                            enemies.remove(enemies.get(j));
-                            break outerloop;
-                        }
-                    }
-                }
-            }
-
-            //Meteor  -  Player Collision
-            for (int i = 0; i < meteors.size(); i++) {
-                if (Intersector.overlaps(meteors.get(i).box, player.box)) {
-                    // System.out.println(System.currentTimeMillis() - meteors.get(i).lastTimeHit);
-                    if((System.currentTimeMillis() - meteors.get(i).lastTimeHit) > 1200)
-                    {
-                        meteors.get(i).lastTimeHit = System.currentTimeMillis();
-                        damagePlayer(meteors.get(i).damage);
-                    }
-                }
-
-                if (meteors.get(i).x < -meteors.get(i).radius) {
-                    meteors.remove(i);
-                    meteors.add(new Meteor(this));
-                }
-            }
-
-            //Remove offscreen rockets
-            for (int i = 0; i < rockets.size(); i++) {
-                if (rockets.get(i).x >= SpaceGame.VIEWPORTWIDTH) {
+        //Rocket  -  Meteor collision
+        outerloop:
+        for (int i = 0; i < rockets.size(); i++) {
+            for (int j = 0; j < meteors.size(); j++) {
+                if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
+                    meteors.get(j).health -= rockets.get(i).damage;
                     rockets.remove(rockets.get(i));
-                }
-            }
+                    meteors.get(j).updateTexture();
+                    explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
 
-            //Rocket  -  Meteor collision
-            outerloop:
-            for (int i = 0; i < rockets.size(); i++) {
-                for (int j = 0; j < meteors.size(); j++) {
-                    if (Intersector.overlaps(meteors.get(j).box, rockets.get(i).box)) {
-                        meteors.get(j).health -= rockets.get(i).damage;
-                        rockets.remove(rockets.get(i));
-                        meteors.get(j).updateTexture();
-                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
-
-                        //Spawn Powerup after destroy
-                        if (meteors.get(j).health <= 0) {
-                            if(random.nextInt(10)==0)
-                            {
-                                powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
-                            }
-                            meteors.remove(j);
-                            meteors.add(new Meteor(this));
-                            player.score+=100;
-                        }
-                        break outerloop;
-                    }
-                }
-
-            }
-
-            //Rocket   -  Enemy Collision
-            outerloop:
-            for (int i = 0; i < rockets.size(); i++) {
-                for (int j = 0; j<enemies.size(); j++) {
-                    if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
-                        rockets.remove(rockets.get(i));
-                        enemies.get(j).health -= 50;
-                        explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), this));
-                        if (enemies.get(j).health <= 0) {
-                            enemies.remove(enemies.get(j));
-                            player.score+=500;
-                        }
-                        break outerloop;
-
-                    }
-                }
-            }
-
-            //EnemyRockets  -  Player/Meteor collision
-            //Enemy - Player collision
-            for(Enemy e : enemies)
-            {
-                for(EnemyRocket er : e.getRockets())
-                {
-                    if(Intersector.overlaps(er.box, player.box) )
-                    {
-                        //only hit player once
-                        if(!er.hasHitPlayer)
+                    //Spawn Powerup after destroy
+                    if (meteors.get(j).health <= 0) {
+                        if(random.nextInt(10)==0)
                         {
-                            er.hasHitPlayer = true;
-                            damagePlayer(er.damage);
+                            powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                         }
+                        meteors.remove(j);
+                        meteors.add(new Meteor(this));
+                        player.score+=100;
                     }
-                    for (int j = 0; j < meteors.size(); j++)
-                    {
-                        if (Intersector.overlaps(meteors.get(j).box, er.box))
-                        {
-                            explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
-                            meteors.remove(j);
-                            meteors.add(new Meteor(this));
-                        }
-                    }
-                }
-                if(Intersector.overlaps(e.box, player.box))
-                {
-                    if((System.currentTimeMillis() - e.lastTimeHit) > 1200)
-                    {
-                        e.lastTimeHit = System.currentTimeMillis();
-                        damagePlayer(e.damage);
-                    }
-                }
-            }
-
-            //Enemy Rocket - Enemy Collision
-            outerloop:
-            for(int i = 0; i<enemies.size(); i++)
-            {
-                for(int l = 0; l<enemies.size(); l++)
-                {
-                    for(int h = 0; h<enemies.get(l).getRockets().size(); h++)
-                    {
-                        if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
-                        {
-                            explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), this));
-                            enemies.remove(i);
-                            break outerloop;
-                        }
-                    }
-                }
-            }
-
-            //Player - PowerUpObject Collision
-            outerloop:
-            for(int i = 0; i<powerUpObjects.size(); i++)
-            {
-                if((Intersector.overlaps(powerUpObjects.get(i).box, player.box)) && currentPowerUp==null)
-                {
-                    System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
-                    powerUpObjects.remove(powerUpObjects.get(i));
-                    switch(random.nextInt(6))
-                    {
-                        case 5:
-                            currentPowerUp = new PowerUpPacMan(player, this);
-                            break outerloop;
-                        case 4:
-                            currentPowerUp = new PowerUpHelper(player, this);
-                            break outerloop;
-                        case 3:
-                            currentPowerUp = new PowerUpClear(player, this);
-                            break outerloop;
-                        case 2:
-                            currentPowerUp = new PowerUpControl(player, this);
-                            break outerloop;
-                        case 1:
-                            currentPowerUp = new PowerUpHealth(player, this);
-                            break outerloop;
-                        case 0:
-                            currentPowerUp = new PowerUpRapidFire(player, this);
-                            break outerloop;
-                        default:
-                            currentPowerUp = new PowerUpPacMan(player, this);
-                            break outerloop;
-                    }
-
-                }
-            }
-
-            //render
-            batch.begin();
-            background.render(delta, batch);
-
-
-            for(Enemy e : enemies)
-            {
-                e.render(delta, batch);
-            }
-            for (Meteor m : meteors) {
-                m.render(delta, batch);
-            }
-            for (Rocket r : rockets) {
-                r.render(delta, batch);
-            }
-            for(int i = 0; i < explosions.size(); i++)
-            {
-                if(explosions.get(i).draw(delta, batch))
-                {
-                    explosions.remove(i);
-                }
-            }
-
-            //Render PowerUps
-            outerloop:
-            for(int i = 0; i<activePowerUps.size(); i++)
-            {
-                if(activePowerUps.get(i).render(delta, batch))
-                {
-
-                }
-                else
-                {
-                    activePowerUps.remove(activePowerUps.get(i));
-                    currentPowerUp=null;
                     break outerloop;
                 }
             }
 
-            for(int i = 0; i<powerUpObjects.size(); i++)
-            {
-                powerUpObjects.get(i).render(delta, batch);
+        }
+
+        //Rocket   -  Enemy Collision
+        outerloop:
+        for (int i = 0; i < rockets.size(); i++) {
+            for (int j = 0; j<enemies.size(); j++) {
+                if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
+                    rockets.remove(rockets.get(i));
+                    enemies.get(j).health -= 50;
+                    explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), this));
+                    if (enemies.get(j).health <= 0) {
+                        enemies.remove(enemies.get(j));
+                        player.score+=500;
+                    }
+                    break outerloop;
+
+                }
             }
-
-            player.render(delta, batch);
-
-            healthBar.draw(batch);
-
-            batch.end();
-
-            healthBar.draw();
-
-
         }
-        else
+
+        //EnemyRockets  -  Player/Meteor collision
+        //Enemy - Player collision
+        for(Enemy e : enemies)
         {
-            camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
-            camera.update();
-            batch.begin();
-            batch.draw(lastFrameBuffer, 0, 0);
-            batch.end();
+            for(EnemyRocket er : e.getRockets())
+            {
+                if(Intersector.overlaps(er.box, player.box) )
+                {
+                    //only hit player once
+                    if(!er.hasHitPlayer)
+                    {
+                        er.hasHitPlayer = true;
+                        damagePlayer(er.damage);
+                    }
+                }
+                for (int j = 0; j < meteors.size(); j++)
+                {
+                    if (Intersector.overlaps(meteors.get(j).box, er.box))
+                    {
+                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
+                        meteors.remove(j);
+                        meteors.add(new Meteor(this));
+                    }
+                }
+            }
+            if(Intersector.overlaps(e.box, player.box))
+            {
+                if((System.currentTimeMillis() - e.lastTimeHit) > 1200)
+                {
+                    e.lastTimeHit = System.currentTimeMillis();
+                    damagePlayer(e.damage);
+                }
+            }
         }
 
-        stage.act();
-        stage.draw();
+        //Enemy Rocket - Enemy Collision
+        outerloop:
+        for(int i = 0; i<enemies.size(); i++)
+        {
+            for(int l = 0; l<enemies.size(); l++)
+            {
+                for(int h = 0; h<enemies.get(l).getRockets().size(); h++)
+                {
+                    if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
+                    {
+                        explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), this));
+                        enemies.remove(i);
+                        break outerloop;
+                    }
+                }
+            }
+        }
 
-        menu.draw();
+        //Player - PowerUpObject Collision
+        outerloop:
+        for(int i = 0; i<powerUpObjects.size(); i++)
+        {
+            if((Intersector.overlaps(powerUpObjects.get(i).box, player.box)) && currentPowerUp==null)
+            {
+                System.out.println(powerUpObjects.get(i).box.toString() + " : "+ player.box.toString());
+                powerUpObjects.remove(powerUpObjects.get(i));
+                switch(random.nextInt(6))
+                {
+                    case 5:
+                        currentPowerUp = new PowerUpPacMan(player, this);
+                        break outerloop;
+                    case 4:
+                        currentPowerUp = new PowerUpHelper(player, this);
+                        break outerloop;
+                    case 3:
+                        currentPowerUp = new PowerUpClear(player, this);
+                        break outerloop;
+                    case 2:
+                        currentPowerUp = new PowerUpControl(player, this);
+                        break outerloop;
+                    case 1:
+                        currentPowerUp = new PowerUpHealth(player, this);
+                        break outerloop;
+                    case 0:
+                        currentPowerUp = new PowerUpRapidFire(player, this);
+                        break outerloop;
+                    default:
+                        currentPowerUp = new PowerUpPacMan(player, this);
+                        break outerloop;
+                }
+
+            }
+        }
+
+        background.update();
+
+        for(Enemy e : enemies)
+        {
+            e.update();
+        }
+        for (Meteor m : meteors) {
+            m.update();
+        }
+        for (Rocket r : rockets) {
+            r.update();
+        }
+        for(int i = 0; i < explosions.size(); i++)
+        {
+            if(explosions.get(i).update())
+            {
+                explosions.remove(i);
+            }
+        }
+
+        //remove finished powerups
+        outerloop:
+        for(int i = 0; i<activePowerUps.size(); i++)
+        {
+            if(!activePowerUps.get(i).update())
+            {
+                activePowerUps.remove(activePowerUps.get(i));
+                currentPowerUp=null;
+                break outerloop;
+            }
+        }
+
+        healthBar.update();
+        stage.act();
 
         if(settingsbtn.isPressed())
         {
@@ -552,18 +569,6 @@ public class GameScreen implements Screen, InputProcessor {
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
         }
-
-
-    }
-
-    public void draw()
-    {
-
-    }
-
-    public void update()
-    {
-
     }
 
 
