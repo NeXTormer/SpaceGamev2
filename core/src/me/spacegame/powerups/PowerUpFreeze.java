@@ -32,7 +32,7 @@ public class PowerUpFreeze extends PowerUp {
     }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch) {
+    public boolean update() {
         if(!started)
         {
             started = true;
@@ -51,6 +51,12 @@ public class PowerUpFreeze extends PowerUp {
             return false;
         }
         return true;
+
+    }
+
+    @Override
+    public void draw(SpriteBatch batch)
+    {
 
     }
 

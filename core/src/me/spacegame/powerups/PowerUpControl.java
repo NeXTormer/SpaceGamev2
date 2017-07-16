@@ -24,6 +24,7 @@ public class PowerUpControl extends PowerUp {
     private float width;
     private float height;
     private static Texture replaceTexture;
+    private GameScreen gameScreen;
 
     static
     {
@@ -39,11 +40,12 @@ public class PowerUpControl extends PowerUp {
         started=false;
         timer = 0;
         texture = new Texture(Gdx.files.internal("gameobjects/ControlRocketIcon.png"));
+        this.gameScreen = gameScreen;
     }
 
 
     @Override
-    public boolean render(float delta, SpriteBatch batch) {
+    public boolean update() {
         if(!started)
         {
             started = true;
@@ -60,11 +62,13 @@ public class PowerUpControl extends PowerUp {
             return true;
         }
 
-
-        Rocket.texture = new Texture(Gdx.files.internal("gameobjects/Rocket_01.png"));
+        Rocket.texture = gameScreen.getGame().getTexture("rocket1");
         return false;
 
     }
+
+    @Override
+    public void draw(SpriteBatch batch) {}
 
     @Override
     public boolean isFinished() {

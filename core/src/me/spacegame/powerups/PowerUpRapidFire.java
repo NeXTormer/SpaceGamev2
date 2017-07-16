@@ -34,12 +34,14 @@ public class PowerUpRapidFire extends PowerUp {
         started = false;
         durationStart = System.currentTimeMillis();
         timer = 0;
-        texture = new Texture(Gdx.files.internal("gameobjects/RapidFireIcon.png"));
+        texture = gameScreen.getGame().getTexture("pwupRapidFireIcon");
     }
 
+    @Override
+    public void draw(SpriteBatch batch) { }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch)
+    public boolean update()
     {
         if(!started)
         {

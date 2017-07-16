@@ -36,7 +36,7 @@ public class PowerUpClear extends PowerUp {
     }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch) {
+    public boolean update() {
         if(!explosion)
         {
             explosion=true;
@@ -59,6 +59,9 @@ public class PowerUpClear extends PowerUp {
         return false;
 
     }
+
+    @Override
+    public void draw(SpriteBatch batch) {}
 
     @Override
     public boolean isFinished() {

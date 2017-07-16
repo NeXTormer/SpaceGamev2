@@ -34,7 +34,7 @@ public class PowerUpHealth extends PowerUp {
     }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch) {
+    public boolean update() {
         if(!healed)
         {
             healed=true;
@@ -46,6 +46,9 @@ public class PowerUpHealth extends PowerUp {
         }
         return false;
     }
+
+    @Override
+    public void draw(SpriteBatch batch) {}
 
     @Override
     public boolean isFinished() {

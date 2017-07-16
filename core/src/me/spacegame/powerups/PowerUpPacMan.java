@@ -45,7 +45,17 @@ public class PowerUpPacMan extends PowerUp {
     }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch) {
+    public void draw(SpriteBatch batch)
+    {
+        if ((timer) < duration)
+        {
+            pm.draw(batch);
+            //batch.draw(pacManTexture, x, y, width, height);
+        }
+    }
+
+    @Override
+    public boolean update() {
         if (!started)
         {
             durationStart = System.currentTimeMillis();
@@ -61,8 +71,7 @@ public class PowerUpPacMan extends PowerUp {
             pm.setPosition( (int) x, (int) y, (int) width, (int) height);
             box.setPosition(x, y);
 
-            pm.draw(delta, batch);
-            //batch.draw(pacManTexture, x, y, width, height);
+
 
             outerloop:
             for (int i = 0; i < gameScreen.meteors.size(); i++) {

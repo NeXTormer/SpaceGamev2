@@ -2,6 +2,7 @@ package me.spacegame.powerups;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import me.spacegame.gameobjects.Player;
@@ -24,14 +25,15 @@ public abstract class PowerUp {
     {
         this.gameScreen = gameScreen;
         this.player=player;
-
     }
 
     public abstract void start();
 
     public abstract void stop();
 
-    public abstract boolean render(float delta, SpriteBatch batch);
+    public abstract void draw(SpriteBatch batch);
+
+    public abstract boolean update();
 
     public abstract boolean isFinished();
 

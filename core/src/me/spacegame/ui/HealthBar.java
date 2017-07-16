@@ -124,18 +124,20 @@ public class HealthBar {
 
     }
 
-
-    public void draw()
+    public void update()
     {
         healthAnimationDeltaTime++;
         updateHealth(healthAnimationDeltaTime);
+
+        instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
+    }
+
+    public void draw()
+    {
         //render to fbo
         fbo.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, 200, 200);
-
-        instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
-
 
         modelBatch.begin(cam);
         modelBatch.render(instance);
@@ -150,7 +152,6 @@ public class HealthBar {
 
         healthBatch.draw(healthTexture, 62, 740);
         healthBatch.end();
-
     }
 
     public void setProjectionMatrix(Matrix4 pr_matrix)

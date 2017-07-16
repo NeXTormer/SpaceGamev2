@@ -48,7 +48,7 @@ public class PowerUpHelper extends PowerUp {
     }
 
     @Override
-    public boolean render(float delta, SpriteBatch batch)
+    public boolean update()
     {
         if(!started)
         {
@@ -102,8 +102,12 @@ public class PowerUpHelper extends PowerUp {
             return false;
         }
 
-        helper.render(delta, batch);
         return true;
+    }
+
+    public void draw(SpriteBatch batch)
+    {
+        helper.draw(batch);
     }
 
     @Override

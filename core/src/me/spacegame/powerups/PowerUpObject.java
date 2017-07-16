@@ -23,26 +23,31 @@ public class PowerUpObject {
     private int speed;
     public Rectangle box;
     private Texture texture;
-
+    private GameScreen gamescreen;
 
     public PowerUpObject(Meteor m, GameScreen gs)
     {
+        gamescreen = gs;
         this.m = m;
         y = m.y;
         x = m.x;
         speed=m.speed;
         //texture = gs.hb.fbo.getColorBufferTexture();
-        texture = new Texture(Gdx.files.internal("gameobjects/Fragezeichen.png"));
+        texture = gamescreen.getGame().getTexture("questionmark");
         width=texture.getWidth();
         height=texture.getHeight();
         box = new Rectangle(x, y, width, height);
     }
 
-    public void render(float delta, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
+    {
+        batch.draw(texture, x, y, width, height);
+    }
+
+    public void update()
     {
         x-=speed;
         box.setX(x);
-        batch.draw(texture, x, y, width, height);
     }
 
     public static void dispose()
