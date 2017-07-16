@@ -556,6 +556,17 @@ public class GameScreen implements Screen, InputProcessor {
 
     }
 
+    public void draw()
+    {
+
+    }
+
+    public void update()
+    {
+
+    }
+
+
     public void damagePlayer(int damage)
     {
         //damage = 4;
