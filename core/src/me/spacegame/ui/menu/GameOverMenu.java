@@ -79,9 +79,17 @@ public class GameOverMenu extends TemplateMenu {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter2.size = 80;
 
-
-        scoreText = new Label("Score: " + menu.getGameScreen().player.score, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
-        scoreText.setPosition(700, 500);
+        int highScore = menu.getGameScreen().preferences.getInteger("highscore");
+        int score = menu.getGameScreen().player.score;
+        System.err.println("highscore: " + highScore + ", score: " + score);
+        if(score > highScore)
+        {
+            highScore = score;
+        }
+        menu.getGameScreen().preferences.putInteger("highscore", highScore);
+        menu.getGameScreen().preferences.flush();
+        scoreText = new Label("Score: " + score + ", Highscore: " + highScore ,new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
+        scoreText.setPosition(500, 500);
         stage.addActor(scoreText);
         return this;
     }

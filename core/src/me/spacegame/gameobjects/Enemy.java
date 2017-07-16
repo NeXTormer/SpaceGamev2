@@ -203,6 +203,11 @@ public class Enemy {
             rockets.add(new EnemyRocket(this));
         }
 
+        for(EnemyRocket rocket : rockets)
+        {
+            rocket.update();
+        }
+
     }
 
     public GameScreen getGameScreen()

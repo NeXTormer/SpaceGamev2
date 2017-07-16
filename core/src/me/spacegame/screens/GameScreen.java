@@ -3,6 +3,7 @@ package me.spacegame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,37 +54,38 @@ import me.spacegame.ui.menu.Menu;
 
 public class GameScreen implements Screen, InputProcessor {
 
-    //TMP
-    private Menu menu;
 
+    private Menu menu;
     private static final int SHAKETIME = 150;
 
     public SpaceGame game;
 
     private SpriteBatch batch;
+
     private Stage stage;
     private OrthographicCamera camera;
-
-
     public List<Meteor> meteors = new ArrayList<Meteor>();
+
+
     public List<Rocket> rockets = new ArrayList<Rocket>();
     public List<Explosion> explosions = new ArrayList<Explosion>();
     public List<Enemy> enemies = new ArrayList<Enemy>();
     private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
     private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
-
     private Background background;
 
     public static Random random = new Random();
+
     public PowerUp currentPowerUp;
     public boolean vibration = true;
-
     private Touchpad touchpad;
+
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadskin;
     private Drawable touchknob;
     private Drawable touchbackground;
     public Player player;
+    public Preferences preferences = Gdx.app.getPreferences("sghighscore");
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
@@ -588,7 +590,7 @@ public class GameScreen implements Screen, InputProcessor {
         {
             player.setVisible(false);
             explosions.add(new Explosion((int) player.x, (int) player.y, true));
-            System.err.println("Game Over!");
+
             menu.currentMenu = menu.screens.get("gameover").activate();
             player.dead = true;
         }
