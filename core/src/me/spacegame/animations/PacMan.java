@@ -41,10 +41,9 @@ public class PacMan {
 
             TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
 
-            for(int i = 0; i < 3; i++)
-            {
-                textureRegions[i] = temp[0][i];
-            }
+
+            textureRegions = temp[0];
+
             firstInit = true;
         }
 

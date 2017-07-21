@@ -46,6 +46,7 @@ public class HealthBar {
 
     private Texture mainTexture;
     private Texture healthTexture;
+    private Texture powerupCooldownTexture;
 
     private FileHandle healthbarFrag;
     private FileHandle healthbarVert;
@@ -78,6 +79,7 @@ public class HealthBar {
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
         mainTexture = game.getGame().getTexture("healthbarmain");
         healthTexture = game.getGame().getTexture("healthTexture");
+        powerupCooldownTexture = game.getGame().getTexture("poweruptimer");
 
 
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);
@@ -148,12 +150,13 @@ public class HealthBar {
 
         healthbarProgram.begin();
         healthbarProgram.setUniformf("health_t", health);
-        healthbarProgram.setUniformf("powerupCooldown", powerUpCooldown);
+        //healthbarProgram.setUniformf("powerupCooldown", powerUpCooldown);
         healthbarProgram.end();
 
         healthBatch.begin();
 
         healthBatch.draw(healthTexture, 62, 740);
+        healthBatch.draw(powerupCooldownTexture, 62, 740);
         healthBatch.end();
     }
 

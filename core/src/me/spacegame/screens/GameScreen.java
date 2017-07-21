@@ -206,6 +206,8 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
+        healthBar.setPowerUpCooldown(700);
+
     }
 
 

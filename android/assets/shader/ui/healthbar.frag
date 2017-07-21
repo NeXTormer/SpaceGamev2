@@ -15,7 +15,7 @@ void main()
 
     //if color is red -> healthbar
     //maybe bad performance?
-    if(texture2D(u_texture, v_texCoords).r > 0.5f)
+    if(texture2D(u_texture, v_texCoords).r > 0.5)
     {
         if(gl_FragCoord.x < health_t)
         {
@@ -29,13 +29,16 @@ void main()
     //else -> powerupcooldown
     else
     {
-        if(gl_FragCoord.y > powerupCooldown)
+        if((1080.0 - gl_FragCoord.y) < 200.0)
         {
-            gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
+            //gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 0.5);
         }
         else
         {
-            discard;
+            //discard;
+            gl_FragColor = vec4(0.0, 0.4, 1.0, 1.0);
         }
+        //gl_FragColor = vec4(0.0, (1080.0 - gl_FragCoord.y)/300.0, 1.0, 1.0);
     }
 }
