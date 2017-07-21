@@ -56,6 +56,7 @@ public class PowerUpPacMan extends PowerUp {
 
     @Override
     public boolean update() {
+        pm.update();
         if (!started)
         {
             durationStart = System.currentTimeMillis();

@@ -55,6 +55,8 @@ public class HealthBar {
 
     private float health = 0;
     private float dHealth = 0;
+    private float powerUpCooldown = 0;
+
     private long healthAnimationDeltaTime = 0;
 
     //Questionmark
@@ -146,6 +148,7 @@ public class HealthBar {
 
         healthbarProgram.begin();
         healthbarProgram.setUniformf("health_t", health);
+        healthbarProgram.setUniformf("powerupCooldown", powerUpCooldown);
         healthbarProgram.end();
 
         healthBatch.begin();
@@ -206,5 +209,16 @@ public class HealthBar {
     {
         return 270 + ((percent) * 5.7f);
     }
+
+    /**
+     * Sets the powerup cooldownbar (circle in healthbar) to the desired height
+     * @param px the amount of pixels in screen space where the cooldown texture should be drawn
+     */
+    public void setPowerUpCooldown(float px)
+    {
+        powerUpCooldown = px;
+    }
+
+    public float getPowerUpCooldown() { return powerUpCooldown; }
 
 }

@@ -36,11 +36,15 @@ public class PacMan {
         if(!firstInit)
         {
             spritesheet = screen.getGame().getTexture("pacman");
-            textureRegions = new TextureRegion[3 * 3];
+            textureRegions = new TextureRegion[3];
 
 
             TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-            textureRegions = temp[0];
+
+            for(int i = 0; i < 3; i++)
+            {
+                textureRegions[i] = temp[0][i];
+            }
             firstInit = true;
         }
 
