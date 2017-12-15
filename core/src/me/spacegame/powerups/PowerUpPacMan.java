@@ -117,8 +117,8 @@ public class PowerUpPacMan extends PowerUp {
 
     private void healPlayer(int heal)
     {
-        player.health -= heal;
-        gameScreen.healthBar.setHealth(player.health, false);
+        player.health += heal;
+        gameScreen.healthBar.setAbsuloteHealth(player.health);
     }
 
     @Override

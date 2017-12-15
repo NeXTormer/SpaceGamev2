@@ -54,11 +54,12 @@ public class HealthBar {
     private SpriteBatch healthBatch;
     private ShaderProgram healthbarProgram;
 
-    private float health = 0;
-    private float dHealth = 0;
-    private float powerUpCooldown = 0;
+    // Health percentage
+    private float healthPercent = 100;
+    private float healthPixel = 0;
+    private float newHealthPercent = 100;
 
-    private long healthAnimationDeltaTime = 0;
+    private float powerUpCooldown = 0;
 
     //Questionmark
     public PerspectiveCamera cam;
@@ -109,7 +110,7 @@ public class HealthBar {
         instance.transform.scl(4);
         instance.transform.rotate(0, 0, 1, 180);
 
-        health = convertPercentToPixel(100);
+        healthPixel = convertPercentToPixel(healthPercent);
 
     }
 
@@ -128,10 +129,14 @@ public class HealthBar {
 
     }
 
+    public float getHealth()
+    {
+        return healthPercent;
+    }
+
     public void update()
     {
-        healthAnimationDeltaTime++;
-        updateHealth(healthAnimationDeltaTime);
+        updateHealth();
 
         instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
     }
@@ -149,7 +154,7 @@ public class HealthBar {
         fbo.end();
 
         healthbarProgram.begin();
-        healthbarProgram.setUniformf("health_t", health);
+        healthbarProgram.setUniformf("health_t", healthPixel);
         //healthbarProgram.setUniformf("powerupCooldown", powerUpCooldown);
         healthbarProgram.end();
 
@@ -165,34 +170,26 @@ public class HealthBar {
         healthBatch.setProjectionMatrix(pr_matrix);
     }
 
-    public void updateHealth(float dt)
+    public void updateHealth()
     {
-        dt /= 200;
-        //if (dHealth > 0)
+        this.healthPercent = Interpolation.linear.apply(healthPercent, newHealthPercent, Gdx.graphics.getDeltaTime());
+    }
+
+    public void setAbsuloteHealth(float health)
+    {
+        newHealthPercent = health;
+        updateHealth();
+    }
+
+    public void changeHalth(float dh)
+    {
+        newHealthPercent = healthPercent - dh;
+        if(newHealthPercent <= 0)
         {
-            if(dt > 0.05f)
-            {
-                dHealth = 0;
-            }
-            else
-            {
-                float interpolated = Interpolation.linear.apply(0, dHealth, dt);
-                this.health = this.health - interpolated;
-            }
+            newHealthPercent = 0;
         }
-    }
 
-    public void setHealth(float healthChange, boolean positive)
-    {
-        this.dHealth = Math.abs(this.health - convertPercentToPixel(healthChange));
-        healthAnimationDeltaTime = 0;
-        if(!positive) this.dHealth = -this.health;
-
-    }
-
-    public void addHealthByForce(int health)
-    {
-        this.health += health;
+        updateHealth();
     }
 
     public void dispose()
@@ -201,11 +198,6 @@ public class HealthBar {
         modelBatch.dispose();
         healthbarProgram.dispose();
         fbo.dispose();
-    }
-
-    public float getHealthPX()
-    {
-        return health;
     }
 
     private float convertPercentToPixel(float percent)
