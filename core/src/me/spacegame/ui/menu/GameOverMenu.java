@@ -52,6 +52,9 @@ public class GameOverMenu extends TemplateMenu {
 
         retryBtnDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton")));
 
+
+        vignetteImage.setSize(menu.getGameScreen().getCamera().viewportWidth, menu.getGameScreen().getCamera().viewportHeight);
+
         stage.getBatch().enableBlending();
         stage.addActor(vignetteImage);
     }
@@ -62,10 +65,10 @@ public class GameOverMenu extends TemplateMenu {
     @Override
     public void create() {
         retryBtn = new ImageButton(retryBtnDrawable);
-        retryBtn.setPosition(600, 150);
+        retryBtn.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 400, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 1.2f);
 
         stage.addActor(retryBtn);
-        gameoverText.setPosition(350, 600);
+        gameoverText.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 650, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 4.2f);
         stage.addActor(gameoverText);
     }
 
@@ -89,7 +92,7 @@ public class GameOverMenu extends TemplateMenu {
         menu.getGameScreen().preferences.putInteger("highscore", highScore);
         menu.getGameScreen().preferences.flush();
         scoreText = new Label("Score: " + score + ", Highscore: " + highScore ,new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
-        scoreText.setPosition(500, 500);
+        scoreText.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 570, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 2.2f);
         stage.addActor(scoreText);
         return this;
     }

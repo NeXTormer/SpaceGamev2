@@ -119,14 +119,14 @@ public class HealthBar {
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, 105f, 857f, 160, 160);
+            batch.draw(game.currentPowerUp.texture, 105f, game.getCamera().viewportHeight - 223, 160, 160);
         }
         else
         {
-            batch.draw(fbo.getColorBufferTexture(), 87f, 833f);
+            batch.draw(fbo.getColorBufferTexture(), 87f, game.getCamera().viewportHeight - 247);
         }
 
-        batch.draw(mainTexture, 62, 740);
+        batch.draw(mainTexture, 62, game.getCamera().viewportHeight - 340);
 
     }
 
@@ -163,8 +163,8 @@ public class HealthBar {
 
         healthBatch.begin();
 
-        healthBatch.draw(healthTexture, 62, 740);
-        healthBatch.draw(powerupCooldownTexture, 62, 740);
+        healthBatch.draw(healthTexture, 62, game.getCamera().viewportHeight - 340);
+        healthBatch.draw(powerupCooldownTexture, 62, game.getCamera().viewportHeight - 340);
         healthBatch.end();
     }
 

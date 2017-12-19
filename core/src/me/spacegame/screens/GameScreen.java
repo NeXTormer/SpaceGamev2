@@ -62,6 +62,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     private SpriteBatch batch;
 
+
     private Stage stage;
     private OrthographicCamera camera;
     public List<Meteor> meteors = new ArrayList<Meteor>();
@@ -201,7 +202,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
 
-        settingsbtn.setPosition(1650, 928);
+        settingsbtn.setPosition(camera.viewportWidth - 150, camera.viewportHeight - 150);
         stage.addActor(settingsbtn);
 
         lastFrameBufferImage = new Image();
@@ -683,7 +684,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.setToOrtho(false, width, height);
     }
 
     @Override
