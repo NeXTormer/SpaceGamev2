@@ -58,6 +58,7 @@ public class HealthBar {
     private float healthPercent = 100;
     private float healthPixel = 0;
     private float newHealthPercent = 100;
+    private float healthbarSmoothing = 5.42f;
 
     private float powerUpCooldown = 0;
 
@@ -139,6 +140,8 @@ public class HealthBar {
         updateHealth();
 
         instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
+
+        healthPixel = convertPercentToPixel(healthPercent);
     }
 
     public void draw()
@@ -172,11 +175,13 @@ public class HealthBar {
 
     public void updateHealth()
     {
-        this.healthPercent = Interpolation.linear.apply(healthPercent, newHealthPercent, Gdx.graphics.getDeltaTime());
+        this.healthPercent = Interpolation.linear.apply(healthPercent, newHealthPercent, Gdx.graphics.getDeltaTime() * healthbarSmoothing);
     }
 
     public void setAbsuloteHealth(float health)
     {
+        if(health > 100) health = 100;
+        if(health < 0) health = 0;
         newHealthPercent = health;
         updateHealth();
     }
@@ -188,6 +193,7 @@ public class HealthBar {
         {
             newHealthPercent = 0;
         }
+        if(newHealthPercent > 100) newHealthPercent = 100;
 
         updateHealth();
     }
