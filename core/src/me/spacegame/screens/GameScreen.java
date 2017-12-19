@@ -178,7 +178,7 @@ public class GameScreen implements Screen, InputProcessor {
         player = new Player(this);
 
         currentPowerUp = null;
-        currentPowerUp = new PowerUpPacMan(player, this);
+        //currentPowerUp = new PowerUpPacMan(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
