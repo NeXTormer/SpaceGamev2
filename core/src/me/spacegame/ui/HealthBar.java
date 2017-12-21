@@ -59,7 +59,7 @@ public class HealthBar {
     private float healthPercent = 100;
     private float healthPixel = 0;
     private float newHealthPercent = 100;
-    private float healthbarSmoothing = 5.42f;
+    private float healthbarSmoothing = 5.69f;
 
     private float powerUpCooldown = 0;
 
