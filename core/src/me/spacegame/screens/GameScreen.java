@@ -127,7 +127,7 @@ public class GameScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
-        ex = new Explosion(300, 300, this);
+        ex = new Explosion((int) getScaledSizeX(300), (int) getScaledSizeY(300), this);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -149,7 +149,8 @@ public class GameScreen implements Screen, InputProcessor {
         touchpadStyle.knob = touchknob;
 
         touchpad = new Touchpad(0, touchpadStyle);
-        touchpad.setBounds(90, 90, 400, 400);
+        touchpad.setBounds(getScaledSizeX(90), getScaledSizeY(90), getScaledSizeX(400), getScaledSizeY(400));
+
 
         stage.addActor(touchpad);
 
@@ -191,19 +192,20 @@ public class GameScreen implements Screen, InputProcessor {
         System.out.println("S" + (System.currentTimeMillis() - timepeta));
 
         //Pause Button
-        pausebtnup = game.getTexture("settingsButton");
-        pausebtndown = game.getTexture("settingsButton");
+        //pausebtnup = game.getTexture("settingsButton");
+        //pausebtndown = game.getTexture("settingsButton");
 
-        pausebtnupdrawable= new SpriteDrawable();
-        pausebtndowndrawable = new SpriteDrawable();
+        //pausebtnupdrawable= new SpriteDrawable();
+        //pausebtndowndrawable = new SpriteDrawable();
 
-        pausebtnupdrawable.setSprite(new Sprite(pausebtnup));
-        pausebtndowndrawable.setSprite(new Sprite(pausebtndown));
+        //pausebtnupdrawable.setSprite(new Sprite(pausebtnup));
+        //pausebtndowndrawable.setSprite(new Sprite(pausebtndown));
 
-        settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
+        /* settingsbutton buggy */
+        //settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
 
-        settingsbtn.setPosition(camera.viewportWidth - 150, camera.viewportHeight - 150);
-        stage.addActor(settingsbtn);
+        //settingsbtn.setPosition(camera.viewportWidth - 150, camera.viewportHeight - 150);
+        //stage.addActor(settingsbtn);
 
         lastFrameBufferImage = new Image();
 
@@ -555,7 +557,8 @@ public class GameScreen implements Screen, InputProcessor {
         healthBar.update();
         stage.act();
 
-        if(settingsbtn.isPressed())
+        //if(settingsbtn.isPressed())
+        if(false) /* settingsbutton is harter pfusch */
         {
             //Richtiger Pfusch, geht aber
             settingsbtn.remove();
@@ -733,5 +736,17 @@ public class GameScreen implements Screen, InputProcessor {
     public SpaceGame getGame() { return game; }
 
     public Camera getCamera() { return camera; }
+
+    public float getScaledSizeX(float defaultSize)
+    {
+        return (defaultSize / 1080.0f) * camera.viewportHeight;
+    }
+
+    public float getScaledSizeY(float defaultSize)
+    {
+        return (defaultSize / 1920.0f) * camera.viewportWidth;
+    }
+
+
 
 }

@@ -65,10 +65,11 @@ public class GameOverMenu extends TemplateMenu {
     @Override
     public void create() {
         retryBtn = new ImageButton(retryBtnDrawable);
-        retryBtn.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 400, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 1.2f);
+        retryBtn.setPosition(getScaledSizeX(600), getScaledSizeY(150));
+        retryBtn.setSize(getScaledSizeX(), getScaledSizeY());
 
         stage.addActor(retryBtn);
-        gameoverText.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 650, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 4.2f);
+        gameoverText.setPosition(getScaledSizeX(350), getScaledSizeY(600));
         stage.addActor(gameoverText);
     }
 
@@ -92,7 +93,7 @@ public class GameOverMenu extends TemplateMenu {
         menu.getGameScreen().preferences.putInteger("highscore", highScore);
         menu.getGameScreen().preferences.flush();
         scoreText = new Label("Score: " + score + ", Highscore: " + highScore ,new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
-        scoreText.setPosition((menu.getGameScreen().getCamera().viewportWidth / 2) - 570, menu.getGameScreen().getCamera().viewportHeight - menu.getGameScreen().getCamera().viewportHeight / 2.2f);
+        scoreText.setPosition(getScaledSizeX(500), getScaledSizeY(500));
         stage.addActor(scoreText);
         return this;
     }
@@ -113,5 +114,16 @@ public class GameOverMenu extends TemplateMenu {
     public void dispose() {
         stage.dispose();
     }
+
+    public float getScaledSizeX(float defaultSize)
+    {
+        return (defaultSize / 1080.0f) * menu.getGameScreen().getCamera().viewportHeight;
+    }
+
+    public float getScaledSizeY(float defaultSize)
+    {
+        return (defaultSize / 1920.0f) * menu.getGameScreen().getCamera().viewportWidth;
+    }
+
 
 }
