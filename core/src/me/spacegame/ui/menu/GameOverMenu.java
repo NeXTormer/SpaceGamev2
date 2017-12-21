@@ -66,10 +66,11 @@ public class GameOverMenu extends TemplateMenu {
     public void create() {
         retryBtn = new ImageButton(retryBtnDrawable);
         retryBtn.setPosition(getScaledSizeX(600), getScaledSizeY(150));
-        retryBtn.setSize(getScaledSizeX(), getScaledSizeY());
+        retryBtn.setSize(getScaledSizeX(800), getScaledSizeY(300));
 
         stage.addActor(retryBtn);
         gameoverText.setPosition(getScaledSizeX(350), getScaledSizeY(600));
+        gameoverText.setSize(getScaledSizeX(1300), getScaledSizeY(240));
         stage.addActor(gameoverText);
     }
 
@@ -81,7 +82,7 @@ public class GameOverMenu extends TemplateMenu {
 
         FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = 80;
+        parameter2.size = (int) getScaledSizeX(80);
 
         int highScore = menu.getGameScreen().preferences.getInteger("highscore");
         int score = menu.getGameScreen().player.score;

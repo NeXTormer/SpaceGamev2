@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Felix on 08-May-17.
@@ -65,9 +66,11 @@ public class MainMenuScreen implements Screen {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        startbtn.setPosition(580, 250);
+        startbtn.setPosition(Scale.getScaledSizeX(580), Scale.getScaledSizeY(250));
 
         stage = new Stage();
+
+        startbtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
         stage.addActor(startbtn);
 
         Gdx.input.setInputProcessor(stage);
@@ -84,15 +87,13 @@ public class MainMenuScreen implements Screen {
         if(startbtn.isPressed())
         {
             game.setScreen(new GameScreen(game));
-            //dispose();
-
         }
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(logo, 282, 700);
+        batch.draw(logo, Scale.getScaledSizeX(23), Scale.getScaledSizeY(900), Scale.getScaledSizeX(1276 * 2), Scale.getScaledSizeY(142 * 2));
         batch.end();
 
         stage.draw();
