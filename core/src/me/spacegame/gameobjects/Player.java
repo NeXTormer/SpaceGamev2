@@ -12,6 +12,7 @@ import java.util.List;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 15.05.2017.
@@ -38,8 +39,8 @@ public class Player {
 
     public Player(GameScreen screen)
     {
-        width = 150;
-        height = 120;
+        width = (int) Scale.getScaledSizeX(150);
+        height = (int) Scale.getScaledSizeY(120);
         score=0;
         x = SpaceGame.VIEWPORTWIDTH/3;
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);

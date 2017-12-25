@@ -12,6 +12,7 @@ import java.util.Random;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 10.05.2017.
@@ -57,7 +58,7 @@ public class Meteor {
         }
 
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
-        radius = GameScreen.random.nextInt(50)+50;
+        radius = Scale.getScaledSizeX(GameScreen.random.nextInt(50)+50);
         health = GameScreen.random.nextInt(90)+10;
         x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH+200;
         y = GameScreen.random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);

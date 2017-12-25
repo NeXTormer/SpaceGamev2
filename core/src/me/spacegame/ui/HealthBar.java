@@ -35,6 +35,7 @@ import me.spacegame.SpaceGame;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Felix on 19-May-17.
@@ -58,7 +59,7 @@ public class HealthBar {
     private float healthPercent = 100;
     private float healthPixel = 0;
     private float newHealthPercent = 100;
-    private float healthbarSmoothing = 5.42f;
+    private float healthbarSmoothing = 5.69f;
 
     private float powerUpCooldown = 0;
 
@@ -119,14 +120,14 @@ public class HealthBar {
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, 105f, game.getCamera().viewportHeight - 223, 160, 160);
+            batch.draw(game.currentPowerUp.texture, Scale.getScaledSizeX(105), Scale.getScaledSizeX(857), Scale.getScaledSizeY(160), Scale.getScaledSizeX(160));
         }
         else
         {
-            batch.draw(fbo.getColorBufferTexture(), 87f, game.getCamera().viewportHeight - 247);
+            batch.draw(fbo.getColorBufferTexture(), Scale.getScaledSizeX(87), Scale.getScaledSizeY(833), Scale.getScaledSizeX(200), Scale.getScaledSizeY(200));
         }
 
-        batch.draw(mainTexture, 62, game.getCamera().viewportHeight - 340);
+        batch.draw(mainTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
 
     }
 
@@ -163,8 +164,8 @@ public class HealthBar {
 
         healthBatch.begin();
 
-        healthBatch.draw(healthTexture, 62, game.getCamera().viewportHeight - 340);
-        healthBatch.draw(powerupCooldownTexture, 62, game.getCamera().viewportHeight - 340);
+        healthBatch.draw(healthTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
+        //healthBatch.draw(powerupCooldownTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
         healthBatch.end();
     }
 
@@ -208,7 +209,7 @@ public class HealthBar {
 
     private float convertPercentToPixel(float percent)
     {
-        return 270 + ((percent) * 5.7f);
+        return Scale.getScaledSizeX(255) + ((percent) * Scale.getScaledSizeX(5.7f));
     }
 
     /**

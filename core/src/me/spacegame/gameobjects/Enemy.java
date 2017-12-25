@@ -13,6 +13,7 @@ import java.util.Random;
 import me.spacegame.SpaceGame;
 import me.spacegame.animations.ExclaimationPoint;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 17.05.2017.
@@ -62,8 +63,8 @@ public class Enemy {
         enemyX = random.nextInt(1000)+ SpaceGame.VIEWPORTWIDTH+2000;
         warningX = SpaceGame.VIEWPORTWIDTH-50;
 
-        enemyWidth=150;
-        enemyHeight=150;
+        enemyWidth = (int) Scale.getScaledSizeX(150);
+        enemyHeight = (int) Scale.getScaledSizeY(150);
         enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
@@ -92,8 +93,8 @@ public class Enemy {
         player = p;
         shootTime = System.currentTimeMillis();
 
-        enemyWidth=150;
-        enemyHeight=150;
+        enemyWidth = (int) Scale.getScaledSizeX(150);
+        enemyHeight = (int) Scale.getScaledSizeY(150);
         enemyY = p.y;
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
@@ -188,7 +189,7 @@ public class Enemy {
             }
         }
 
-        if(enemyX>=1800 && enemyX <=1850)
+        if(enemyX>=Scale.getScaledSizeX(1800) && enemyX <= Scale.getScaledSizeX(1850))
         {
             rockets.add(new EnemyRocket(this));
         }
