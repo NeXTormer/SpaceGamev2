@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import me.spacegame.databases.Database;
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -96,6 +97,13 @@ public class GameOverMenu extends TemplateMenu {
         scoreText = new Label("Score: " + score + ", Highscore: " + highScore ,new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
         scoreText.setPosition(getScaledSizeX(500), getScaledSizeY(500));
         stage.addActor(scoreText);
+
+        Database db = menu.getGameScreen().getGame().database;
+
+        int userid = db.GetUserID(menu.getGameScreen().getGame().username);
+
+        db.AddScore(userid ,score);
+
         return this;
     }
 

@@ -588,7 +588,7 @@ public class GameScreen implements Screen, InputProcessor {
         player.health -= damage;
         healthBar.setAbsuloteHealth(player.health);
         shakeCam();
-        if (healthBar.getHealth() < 1) {
+        if (healthBar.getHealth() <= 0.2) {
             gameOver();
         }
     }

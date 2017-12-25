@@ -8,15 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.xml.transform.Result;
-
 /**
  * Created by Felix on 25/12/2017.
  */
 
 public class Database
 {
-
     private Driver m_Driver;
     private Connection m_Connection;
 
@@ -25,6 +22,7 @@ public class Database
     private String m_User;
     private String m_Password;
 
+    private int m_GameID;
 
     /**
      * Creates a database objects and connects using MySQL.
@@ -49,6 +47,7 @@ public class Database
         m_Password = password;
 
         Connect();
+        Init();
     }
 
     private void Connect()
@@ -64,6 +63,24 @@ public class Database
             return;
         }
         System.out.println("[Database] Successfully connected to the database.");
+    }
+
+    private void Init()
+    {
+        ResultSet rs = Query("SELECT id from games where name = \"spacegame\";");
+        try
+        {
+            while(rs.next())
+            {
+                m_GameID = rs.getInt(1);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("[Database] Game ID of this game is " + m_GameID);
     }
 
     /**
@@ -136,6 +153,11 @@ public class Database
      */
     public void PrintResultSet(ResultSet rs)
     {
+        if(rs == null)
+        {
+            System.out.println("[Database] ResultSet does not exist.");
+            return;
+        }
         try
         {
             int colCount = rs.getMetaData().getColumnCount();
@@ -155,5 +177,56 @@ public class Database
         }
     }
 
+    /**
+     * Returns the first value of the ResultSet. Useful for queries like (SELECT id FROM players WHERE name = "test";)
+     * @param rs ResultSet to use.
+     * @return First value of the ResultSet as String.
+     */
+    public String FirstValue(ResultSet rs)
+    {
+        if(rs == null) return "[Database] ResultSet does not exist.";
+        String result = "";
+        try
+        {
+            if(rs.next())
+            {
+                result = rs.getString(1);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return "ERROR";
+        }
+        return result;
+    }
+
+    /**
+     * Creates a user in the database of none exists by that name and / or returns the Primary Key (ID) of the user.
+     * @param username Username.
+     * @return Primary Key (ID) of the user.
+     */
+    public int GetUserID(String username)
+    {
+        String id = FirstValue(Query("SELECT id FROM players WHERE name = \"" + username + "\" ;"));
+        int pid = -1;
+        if(id == "")
+        {
+            int playerID = Update("INSERT INTO players (name, regdate) VALUES (?, now());", username);
+            pid = playerID;
+        }
+        else
+        {
+            pid = Integer.parseInt(id);
+        }
+
+        System.out.println("Player exists with ID: " + pid);
+        return pid;
+    }
+
+    public void AddScore(int userid, double score)
+    {
+        Update("INSERT INTO scores (score, player_id, game_id) VALUES (?, ?, ?);", Double.toString(score), userid + "", m_GameID + "");
+    }
 
 }

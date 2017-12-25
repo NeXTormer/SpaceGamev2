@@ -42,7 +42,11 @@ public class SpaceGame extends Game {
 	public static int VIEWPORTWIDTH;
 	public static int VIEWPORTHEIGHT;
 
+	public String username = "";
+	public Database database;
+
 	private AssetManager manager;
+
 	private HashMap<String, String> assetKeys = new HashMap<String, String>();
 
 	@Override
@@ -60,13 +64,7 @@ public class SpaceGame extends Game {
 		loadAssets();
 
 		setScreen(new MainMenuScreen(this));
-
-
-		Database db = new Database("10.0.0.254:3306", "gamedata", "user", "PeterRendl69!");
-
-		ResultSet rs = db.Query("SELECT * FROM players");
-		db.PrintResultSet(rs);
-
+		database = new Database("10.0.0.254:3306", "gamedata", "user", "PeterRendl69!");
 	}
 
 

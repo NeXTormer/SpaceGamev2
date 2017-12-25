@@ -1,13 +1,16 @@
 package me.spacegame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -17,6 +20,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import me.spacegame.SpaceGame;
@@ -43,10 +47,13 @@ public class MainMenuScreen implements Screen {
 
     private Stage stage;
     private ImageButton startbtn;
+    private TextField textField;
+
+    private Preferences preferences = Gdx.app.getPreferences("sgusername");
 
 
-    public MainMenuScreen(SpaceGame game)
-    {
+
+    public MainMenuScreen(SpaceGame game) {
         this.game = game;
 
         camera = new OrthographicCamera();
@@ -73,6 +80,36 @@ public class MainMenuScreen implements Screen {
         startbtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
         stage.addActor(startbtn);
 
+        TextField.TextFieldStyle tfs = new TextField.TextFieldStyle();
+
+        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = (int) Scale.getScaledSizeX(64);
+
+        tfs.font = ftfg2.generateFont(parameter2);
+        tfs.fontColor = Color.RED;
+
+        String prefuser = preferences.getString("username");
+
+        String username;
+        if (prefuser == "")
+        {
+            username = "DefaultUser";
+        }
+        else
+        {
+            username = prefuser;
+        }
+
+        textField = new TextField(username, tfs);
+        textField.setPosition(Scale.getScaledSizeX(700), Scale.getScaledSizeY(700));
+        textField.setSize(500, 100);
+
+        textField.setMaxLength(16);
+
+
+
+        stage.addActor(textField);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -87,6 +124,10 @@ public class MainMenuScreen implements Screen {
         if(startbtn.isPressed())
         {
             game.setScreen(new GameScreen(game));
+            String username = textField.getText();
+            game.username = username;
+            preferences.putString("username", username);
+            preferences.flush();
         }
 
         batch.setProjectionMatrix(camera.combined);
