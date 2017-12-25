@@ -29,8 +29,10 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.PerformanceCounter;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 
+import me.spacegame.databases.Database;
 import me.spacegame.screens.MainMenuScreen;
 import me.spacegame.ui.menu.GameOverMenu;
 
@@ -58,6 +60,12 @@ public class SpaceGame extends Game {
 		loadAssets();
 
 		setScreen(new MainMenuScreen(this));
+
+
+		Database db = new Database("10.0.0.254:3306", "gamedata", "user", "PeterRendl69!");
+
+		ResultSet rs = db.Query("SELECT * FROM players");
+		db.PrintResultSet(rs);
 
 	}
 
