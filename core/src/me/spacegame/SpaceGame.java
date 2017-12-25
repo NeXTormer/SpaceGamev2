@@ -64,7 +64,7 @@ public class SpaceGame extends Game {
 		loadAssets();
 
 		setScreen(new MainMenuScreen(this));
-		database = new Database("10.0.0.254:3306", "gamedata", "user", "PeterRendl69!");
+		database = new Database("faoiltiarna.ddns.net:3306", "gamedata", "user", "PeterRendl69!");
 	}
 
 

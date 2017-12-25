@@ -17,9 +17,11 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
@@ -48,6 +50,8 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private ImageButton startbtn;
     private TextField textField;
+    private Label usernameLabel;
+    private Label infoLabel;
 
     private Preferences preferences = Gdx.app.getPreferences("sgusername");
 
@@ -55,6 +59,14 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(SpaceGame game) {
         this.game = game;
+
+
+        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = (int) Scale.getScaledSizeX(64);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter3.size = (int) Scale.getScaledSizeX(42);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -73,18 +85,21 @@ public class MainMenuScreen implements Screen {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        startbtn.setPosition(Scale.getScaledSizeX(580), Scale.getScaledSizeY(250));
+        startbtn.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(250));
 
         stage = new Stage();
 
         startbtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
         stage.addActor(startbtn);
 
-        TextField.TextFieldStyle tfs = new TextField.TextFieldStyle();
+        usernameLabel = new Label("Username: ", new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
+        usernameLabel.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(717));
 
-        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = (int) Scale.getScaledSizeX(64);
+        infoLabel = new Label("Click to edit username", new Label.LabelStyle(ftfg2.generateFont(parameter3), Color.RED));
+        infoLabel.setPosition(Scale.getScaledSizeX(840), Scale.getScaledSizeY(640));
+
+
+        TextField.TextFieldStyle tfs = new TextField.TextFieldStyle();
 
         tfs.font = ftfg2.generateFont(parameter2);
         tfs.fontColor = Color.RED;
@@ -102,14 +117,20 @@ public class MainMenuScreen implements Screen {
         }
 
         textField = new TextField(username, tfs);
-        textField.setPosition(Scale.getScaledSizeX(700), Scale.getScaledSizeY(700));
-        textField.setSize(500, 100);
+        textField.setPosition(Scale.getScaledSizeX(900), Scale.getScaledSizeY(700));
+        textField.setSize(600, 100);
 
         textField.setMaxLength(16);
 
 
+        if(username.equalsIgnoreCase("DefaultUser"))
+        {
+            stage.addActor(infoLabel);
+        }
 
+        stage.addActor(usernameLabel);
         stage.addActor(textField);
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -134,7 +155,7 @@ public class MainMenuScreen implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(logo, Scale.getScaledSizeX(23), Scale.getScaledSizeY(900), Scale.getScaledSizeX(1276 * 2), Scale.getScaledSizeY(142 * 2));
+        batch.draw(logo, Scale.getScaledSizeX(23), Scale.getScaledSizeY(880), Scale.getScaledSizeX(920 * 2), Scale.getScaledSizeY(102 * 2));
         batch.end();
 
         stage.draw();

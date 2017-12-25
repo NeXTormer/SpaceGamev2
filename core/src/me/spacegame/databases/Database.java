@@ -24,6 +24,8 @@ public class Database
 
     private int m_GameID;
 
+    public boolean connectionEstablished = false;
+
     /**
      * Creates a database objects and connects using MySQL.
      * @param host Hostname and port of the server separated by ':' in a single string.
@@ -38,6 +40,7 @@ public class Database
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Could not load JDBC Driver!");
+            connectionEstablished = false;
             return;
         }
 
@@ -56,13 +59,15 @@ public class Database
         {
             m_Connection = DriverManager.getConnection("jdbc:mysql://" + m_Host + "/" + m_Database, m_User, m_Password);
         }
-        catch(SQLException e)
+        catch(Exception e)
         {
             System.err.println("[Database] Could not connect to MySQL server.");
             e.printStackTrace();
+            connectionEstablished = false;
             return;
         }
         System.out.println("[Database] Successfully connected to the database.");
+        connectionEstablished = true;
     }
 
     private void Init()
@@ -75,9 +80,10 @@ public class Database
                 m_GameID = rs.getInt(1);
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
+            connectionEstablished = false;
             return;
         }
         System.out.println("[Database] Game ID of this game is " + m_GameID);
@@ -96,7 +102,7 @@ public class Database
             Statement statement = m_Connection.createStatement();
             result = statement.executeQuery(query);
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return null;
@@ -138,7 +144,7 @@ public class Database
                 key = result.getInt(1);
             }
         }
-        catch(SQLException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             return -1;
@@ -170,7 +176,7 @@ public class Database
                 System.out.println();
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return;
@@ -193,7 +199,7 @@ public class Database
                 result = rs.getString(1);
             }
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return "ERROR";

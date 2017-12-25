@@ -100,9 +100,16 @@ public class GameOverMenu extends TemplateMenu {
 
         Database db = menu.getGameScreen().getGame().database;
 
-        int userid = db.GetUserID(menu.getGameScreen().getGame().username);
+        if(db.connectionEstablished)
+        {
+            int userid = db.GetUserID(menu.getGameScreen().getGame().username);
 
-        db.AddScore(userid ,score);
+            db.AddScore(userid ,score);
+        }
+        else
+        {
+            System.out.println("[Error] Database not connected!");
+        }
 
         return this;
     }
