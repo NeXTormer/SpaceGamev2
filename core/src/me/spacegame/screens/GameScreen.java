@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -180,7 +181,7 @@ public class GameScreen implements Screen, InputProcessor {
         player = new Player(this);
 
         currentPowerUp = null;
-        //currentPowerUp = new PowerUpPacMan(player, this);
+        //currentPowerUp = new PowerUpClear(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -375,9 +376,13 @@ public class GameScreen implements Screen, InputProcessor {
                 }
             }
 
+            // Remove offscreen meteors
             if (meteors.get(i).x < -meteors.get(i).radius) {
+                if(!meteors.get(i).divided)
+                {
+                    meteors.add(new Meteor(this));
+                }
                 meteors.remove(i);
-                meteors.add(new Meteor(this));
             }
         }
 
@@ -387,6 +392,7 @@ public class GameScreen implements Screen, InputProcessor {
                 rockets.remove(rockets.get(i));
             }
         }
+
 
         //Rocket  -  Meteor collision
         outerloop:
@@ -404,8 +410,34 @@ public class GameScreen implements Screen, InputProcessor {
                         {
                             powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                         }
+
+                        //Pfusch, aber mit Methode gehts nit
+                        if(meteors.get(j).divided)
+                        {
+                            Meteor m1 = new Meteor(this);
+                            m1.x = meteors.get(j).x;
+                            m1.y = meteors.get(j).y;
+                            m1.radius = meteors.get(j).radius;
+                            m1.divided = false;
+                            m1.speedy = meteors.get(j).speed;
+                            m1.texture = meteors.get(j).texture;
+                            m1.meteorsprite = new Sprite(meteors.get(j).meteorsprite);
+                            meteors.add(m1);
+                            Meteor m2 = new Meteor(this);
+                            m2.x = meteors.get(j).x;
+                            m2.y = meteors.get(j).y;
+                            m2.divided = true;
+                            m2.speedy = -meteors.get(j).speed;
+                            m2.radius = meteors.get(j).radius;
+                            m2.texture = meteors.get(j).texture;
+                            m2.meteorsprite = new Sprite(meteors.get(j).meteorsprite);
+                            meteors.add(m2);
+                        }
+                        else
+                        {
+                            meteors.add(new Meteor(this));
+                        }
                         meteors.remove(j);
-                        meteors.add(new Meteor(this));
                         player.score+=100;
                     }
                     break outerloop;
@@ -557,9 +589,15 @@ public class GameScreen implements Screen, InputProcessor {
         }
 
         //update powerupobjects
+        outerloop:
         for(int i = 0; i<powerUpObjects.size(); i++)
         {
             powerUpObjects.get(i).update();
+            if(powerUpObjects.get(i).x+powerUpObjects.get(i).width<0)
+            {
+                powerUpObjects.remove(i);
+                break outerloop;
+            }
         }
 
         healthBar.update();
@@ -611,7 +649,6 @@ public class GameScreen implements Screen, InputProcessor {
             player.dead = true;
             healthBar.setAbsuloteHealth(0);
         }
-
     }
 
     @Override

@@ -32,14 +32,16 @@ public class Meteor {
     public float radius;
     public int damage;
     public int health;
+    public boolean divided;
 
     public long lastTimeHit = 0;
     public Circle box;
-    private Sprite meteorsprite;
+    public Sprite meteorsprite;
     public int speed;
+    public int speedy;
     private int saveSpeed;
     private int rotateSpeed;
-    private int texture;
+    public int texture;
 
     public Meteor(GameScreen screen)
     {
@@ -66,10 +68,20 @@ public class Meteor {
         box.setY(y+radius);
         box.setRadius(radius);
         speed = GameScreen.random.nextInt(12)+5;
+        speedy = 0;
         saveSpeed = speed;
         rotateSpeed = GameScreen.random.nextInt(2);
         damage = (int) radius / 6;
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
+
+        if(GameScreen.random.nextInt(10)==0)
+        {
+            divided = true;
+        }
+        else
+        {
+            divided = false;
+        }
 
         meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
         meteorsprite.setSize(radius * 2, radius * 2);
@@ -84,6 +96,7 @@ public class Meteor {
     public void update()
     {
         x -= speed;
+        y -= speedy;
         box.setX(x+radius);
         box.setY(y+radius);
 

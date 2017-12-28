@@ -33,7 +33,7 @@ public class ExclaimationPoint {
         if(!firstInit)
         {
             spritesheet = screen.getGame().getTexture("exclaimationpoint");
-            textureRegions = new TextureRegion[3 * 3];
+            textureRegions = new TextureRegion[5 * 1];
 
 
             TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
