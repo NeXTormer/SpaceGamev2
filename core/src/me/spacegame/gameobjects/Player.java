@@ -32,7 +32,7 @@ public class Player {
     public int baseSpeed = 12;
     private float newx;
     private float newy;
-    private Texture texture;
+    public Texture texture;
 
     public boolean visible = true;
     private GameScreen gameScreen;

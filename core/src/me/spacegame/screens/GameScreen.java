@@ -554,6 +554,12 @@ public class GameScreen implements Screen, InputProcessor {
             }
         }
 
+        //update powerupobjects
+        for(int i = 0; i<powerUpObjects.size(); i++)
+        {
+            powerUpObjects.get(i).update();
+        }
+
         healthBar.update();
         stage.act();
 

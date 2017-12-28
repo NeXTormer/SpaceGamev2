@@ -25,7 +25,7 @@ public class Meteor {
     private static Texture[] meteorDamaged;
     private boolean firstInit = false;
 
-    private static final int METEOR_TEXTURES = 5;
+    private static final int METEOR_TEXTURES = 6;
 
     public float x;
     public float y;

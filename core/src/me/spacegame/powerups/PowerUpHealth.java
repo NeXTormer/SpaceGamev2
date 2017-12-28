@@ -40,7 +40,7 @@ public class PowerUpHealth extends PowerUp {
             healed=true;
             //player.health+=health;
             //gameScreen.healthBar.addHealthByForce(100);
-            player.health += 20;
+            player.health += 25;
             gameScreen.healthBar.setAbsuloteHealth(player.health);
             return true;
         }

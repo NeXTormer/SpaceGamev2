@@ -35,7 +35,7 @@ public class PowerUpControl extends PowerUp {
         super(p, gameScreen);
         width = 50;
         height = 40;
-        duration = 6000;
+        duration = 5000;
         durationStart = System.currentTimeMillis();
         started=false;
         timer = 0;

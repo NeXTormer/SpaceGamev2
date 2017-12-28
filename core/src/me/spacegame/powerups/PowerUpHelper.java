@@ -31,7 +31,9 @@ public class PowerUpHelper extends PowerUp {
         super(player, gameScreen);
         helper = new Player(gameScreen);
         helper.x = -500;
-        helper.health = 3500;
+        helper.health = 3000;
+        helper.texture = gameScreen.getGame().getTexture("helpership");
+
         started = false;
         texture = gameScreen.getGame().getTexture("pwupHelperIcon");
         //texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
