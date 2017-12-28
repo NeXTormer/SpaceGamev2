@@ -57,7 +57,6 @@ public class Meteor {
             firstInit = true;
         }
 
-        texture = GameScreen.random.nextInt(METEOR_TEXTURES);
         radius = Scale.getScaledSizeX(GameScreen.random.nextInt(50)+50);
         health = GameScreen.random.nextInt(90)+10;
         x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH+200;
@@ -70,6 +69,7 @@ public class Meteor {
         saveSpeed = speed;
         rotateSpeed = GameScreen.random.nextInt(2);
         damage = (int) radius / 6;
+        texture = GameScreen.random.nextInt(METEOR_TEXTURES);
 
         meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
         meteorsprite.setSize(radius * 2, radius * 2);

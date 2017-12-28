@@ -528,9 +528,6 @@ public class GameScreen implements Screen, InputProcessor {
         {
             e.update();
         }
-        for (Meteor m : meteors) {
-            m.update();
-        }
         for (Rocket r : rockets) {
             r.update();
         }
@@ -552,6 +549,10 @@ public class GameScreen implements Screen, InputProcessor {
                 currentPowerUp=null;
                 break outerloop;
             }
+        }
+
+        for (Meteor m : meteors) {
+            m.update();
         }
 
         //update powerupobjects
