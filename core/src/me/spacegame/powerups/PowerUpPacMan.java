@@ -81,7 +81,7 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), gameScreen));
                     gameScreen.meteors.remove(i);
                     gameScreen.meteors.add(new Meteor(gameScreen));
-                    //healPlayer(1);
+                    healPlayer(15);
                     //System.out.println("healed" + " : "+player.health);
                     break outerloop;
                 }
