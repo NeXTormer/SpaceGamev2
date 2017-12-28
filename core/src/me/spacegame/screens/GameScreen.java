@@ -92,6 +92,7 @@ public class GameScreen implements Screen, InputProcessor {
     public HealthBar healthBar;
     private TextureRegion lastFrameBuffer;
     private Image lastFrameBufferImage;
+    private int powerUpDropRate = 12; // 1 : x  where x..value
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -179,7 +180,7 @@ public class GameScreen implements Screen, InputProcessor {
         player = new Player(this);
 
         currentPowerUp = null;
-        currentPowerUp = new PowerUpPacMan(player, this);
+        //currentPowerUp = new PowerUpPacMan(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -399,7 +400,7 @@ public class GameScreen implements Screen, InputProcessor {
 
                     //Spawn Powerup after destroy
                     if (meteors.get(j).health <= 0) {
-                        if(random.nextInt(10)==0)
+                        if(random.nextInt(powerUpDropRate)==0)
                         {
                             powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                         }

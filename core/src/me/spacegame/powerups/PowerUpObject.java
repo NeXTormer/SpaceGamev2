@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
+import me.spacegame.animations.QuestionMark;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.screens.GameScreen;
 
@@ -25,6 +26,8 @@ public class PowerUpObject {
     private Texture texture;
     private GameScreen gamescreen;
 
+    private QuestionMark qm;
+
     public PowerUpObject(Meteor m, GameScreen gs)
     {
         gamescreen = gs;
@@ -33,21 +36,24 @@ public class PowerUpObject {
         x = m.x;
         speed=m.speed;
         //texture = gs.hb.fbo.getColorBufferTexture();
-        texture = gamescreen.getGame().getTexture("questionmark");
-        width=texture.getWidth();
-        height=texture.getHeight();
+        qm = new QuestionMark(x, y, gs);
+       // texture = gamescreen.getGame().getTexture("questionmark");
+        width=100;
+        height=100;
         box = new Rectangle(x, y, width, height);
     }
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(texture, x, y, width, height);
+        qm.draw(batch);
     }
 
     public void update()
     {
+        qm.update();
         x-=speed;
         box.setX(x);
+        qm.setPosition(x, y);
     }
 
     public static void dispose()
