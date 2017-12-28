@@ -117,7 +117,7 @@ public class MainMenuScreen implements Screen {
         }
 
         textField = new TextField(username, tfs);
-        textField.setPosition(Scale.getScaledSizeX(900), Scale.getScaledSizeY(700));
+        textField.setPosition(Scale.getScaledSizeX(920), Scale.getScaledSizeY(704));
         textField.setSize(600, 100);
 
         textField.setMaxLength(16);
