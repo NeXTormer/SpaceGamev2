@@ -134,6 +134,7 @@ public class Enemy {
 
     public void update()
     {
+        ep.update();
         ep.setPosition( (int) warningX, (int) enemyY);
 
         if(type==0)

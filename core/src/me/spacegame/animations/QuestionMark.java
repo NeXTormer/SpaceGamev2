@@ -8,49 +8,55 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import me.spacegame.screens.GameScreen;
 
 /**
- * Created by Felix on 18-May-17.
+ * Created by Michi on 28-December-17.
  */
 
-public class ExclaimationPoint {
+public class QuestionMark {
 
-    private static int width = 50;
-    private static int height = 150;
+    private static Texture spritesheet;
     private static TextureRegion[] textureRegions;
 
-    private Texture spritesheet;
-    private boolean firstInit = false;
-
-
     private float elapsed = 0f;
-    private int x = 0;
-    private int y = 0;
+    private float x = 0;
+    private float y = 0;
+    private int width = 100;
+    private int height = 100;
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
-    public ExclaimationPoint(int x, int y, GameScreen screen)
+    private boolean firstInit = false;
+
+
+    public QuestionMark(float x, float y, GameScreen screen)
     {
         if(!firstInit)
         {
-            spritesheet = screen.getGame().getTexture("exclaimationpoint");
-            textureRegions = new TextureRegion[5 * 1];
+            spritesheet = screen.getGame().getTexture("questionmark1");
+            textureRegions = new TextureRegion[4 * 10];
 
 
             TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-            textureRegions = temp[0];
+            for(int i = 0; i < 4; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    textureRegions[i * 10 + j] = temp[i][j];
+                }
+            }
             firstInit = true;
         }
-
 
         this.x = x;
         this.y = y;
 
-        animation = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(10, textureRegions);
-        animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+        animation = new Animation<TextureRegion>(10, textureRegions);
+        animation.setPlayMode(Animation.PlayMode.LOOP);
         animation.setFrameDuration(frameDuration);
     }
 
-    public void setPosition(int x, int y)
+    public void setPosition(float x, float y)
     {
         this.x = x;
         this.y = y;
@@ -64,13 +70,19 @@ public class ExclaimationPoint {
     public void draw(SpriteBatch batch)
     {
         batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
-
     }
 
-    public void update()
+    public boolean update()
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
+
+        return true;
     }
 
+
+    public static void dispose()
+    {
+        spritesheet.dispose();
+    }
 }

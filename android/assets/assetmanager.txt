@@ -1,6 +1,7 @@
 #Name;Path
 exclaimationpoint;animations/exclaimationpoint.png
 explosion1;animations/explosion1.png
+questionmark1;animations/questionmark.png
 pacman;animations/pacman.png
 background;gameobjects/background_large.png
 enemy1;gameobjects/EnemyShip_02.png
