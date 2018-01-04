@@ -26,22 +26,15 @@ void main()
             discard;
         }
     }
-
-
-
-    // -> powerupcooldown
-    //else
-    //    {
-    //        if((1080.0 - gl_FragCoord.y) < 200.0)
-    //        {
-    //            //gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
-    //            gl_FragColor = vec4(1.0, 1.0, 1.0, 0.5);
-    //        }
-    //        else
-    //        {
-    //            //discard;
-    //            gl_FragColor = vec4(0.0, 0.4, 1.0, 1.0);
-    //        }
-    //        //gl_FragColor = vec4(0.0, (1080.0 - gl_FragCoord.y)/300.0, 1.0, 1.0);
-    //    }
+    else
+    {
+        if(gl_FragCoord.y < (powerupCooldown))
+        {
+            gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
+        }
+        else
+        {
+            discard;
+        }
+    }
 }

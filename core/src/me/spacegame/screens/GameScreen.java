@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -182,6 +183,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
+        currentPowerUp = new PowerUpHealth(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -211,7 +213,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
-        healthBar.setPowerUpCooldown(700);
+        healthBar.setPowerupCooldown(-100);
 
     }
 
@@ -572,6 +574,7 @@ public class GameScreen implements Screen, InputProcessor {
             }
         }
 
+        //update powerups
         //remove finished powerups
         outerloop:
         for(int i = 0; i<activePowerUps.size(); i++)
@@ -582,6 +585,13 @@ public class GameScreen implements Screen, InputProcessor {
                 currentPowerUp=null;
                 break outerloop;
             }
+
+            PowerUp powerup = activePowerUps.get(i);
+            double timer = powerup.duration - powerup.timer;
+            System.out.println(timer);                                  //-=sdfjkl;sdahfjksdfksdahfkdsjajf;ksldajfklsdajfkl;sadjfklsdajfkl;sdajfklsdajfkl;asdjfklds;ajf;klsadjfklsdjfklsda
+            double perc = (timer / powerup.duration) * 100;
+            if(perc < 4) perc = -100;
+            healthBar.setPowerupCooldown(perc);
         }
 
         for (Meteor m : meteors) {
@@ -617,7 +627,7 @@ public class GameScreen implements Screen, InputProcessor {
                 paused = !paused;
                 if(paused)
                 {
-                    //TODO: bad performance
+                    //TODO: bad perfornance
                     lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
                 }
                 camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
@@ -625,6 +635,8 @@ public class GameScreen implements Screen, InputProcessor {
                 pausebtnLastTimePressed = System.currentTimeMillis();
             }
         }
+        if(!player.dead)
+            healthBar.score = player.score + 1;
     }
 
 

@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -55,13 +56,17 @@ public class HealthBar {
     private SpriteBatch healthBatch;
     private ShaderProgram healthbarProgram;
 
+    private Label scoreLabel;
+
     // Health percentage
     private float healthPercent = 100;
     private float healthPixel = 0;
     private float newHealthPercent = 100;
     private float healthbarSmoothing = 5.69f;
 
-    private float powerUpCooldown = 0;
+    private float m_PowerupCooldownPixel = 0;
+
+    public int score = 0;
 
     //Questionmark
     public PerspectiveCamera cam;
@@ -78,6 +83,7 @@ public class HealthBar {
     public HealthBar(GameScreen game)
     {
         this.game = game;
+
         healthbarFrag = Gdx.files.internal("shader/ui/healthbar.frag");
         healthbarVert = Gdx.files.internal("shader/ui/healthbar.vert");
         mainTexture = game.getGame().getTexture("healthbarmain");
@@ -114,6 +120,15 @@ public class HealthBar {
 
         healthPixel = convertPercentToPixel(healthPercent);
 
+
+        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = (int) Scale.getScaledSizeX(50);
+
+        scoreLabel = new Label("Score: " + score, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.BLACK));
+
+        scoreLabel.setPosition(284, 834);
+
     }
 
     public void draw(SpriteBatch batch)
@@ -129,6 +144,8 @@ public class HealthBar {
 
         batch.draw(mainTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
 
+        scoreLabel.draw(batch, 1);
+
     }
 
     public float getHealth()
@@ -143,6 +160,7 @@ public class HealthBar {
         instance.transform.rotate(new Vector3(0, 1, 0), defaultRotationSpeed);
 
         healthPixel = convertPercentToPixel(healthPercent);
+        scoreLabel.setText("Score: " + score);
     }
 
     public void draw()
@@ -159,13 +177,13 @@ public class HealthBar {
 
         healthbarProgram.begin();
         healthbarProgram.setUniformf("health_t", healthPixel);
-        //healthbarProgram.setUniformf("powerupCooldown", powerUpCooldown);
+        healthbarProgram.setUniformf("powerupCooldown", m_PowerupCooldownPixel);
         healthbarProgram.end();
 
         healthBatch.begin();
 
         healthBatch.draw(healthTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
-        //healthBatch.draw(powerupCooldownTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
+        healthBatch.draw(powerupCooldownTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
         healthBatch.end();
     }
 
@@ -185,6 +203,11 @@ public class HealthBar {
         if(health < 0) health = 0;
         newHealthPercent = health;
         updateHealth();
+    }
+
+    public void setPowerupCooldown(double percent)
+    {
+        m_PowerupCooldownPixel = (game.getCamera().viewportHeight - convertPowerupCooldowntoPixel((float) (100 - percent)));
     }
 
     public void changeHalth(float dh)
@@ -212,15 +235,8 @@ public class HealthBar {
         return Scale.getScaledSizeX(255) + ((percent) * Scale.getScaledSizeX(5.7f));
     }
 
-    /**
-     * Sets the powerup cooldownbar (circle in healthbar) to the desired height
-     * @param px the amount of pixels in screen space where the cooldown texture should be drawn
-     */
-    public void setPowerUpCooldown(float px)
+    private float convertPowerupCooldowntoPixel(float percent)
     {
-        powerUpCooldown = px;
+        return Scale.getScaledSizeY(112) + ((percent) * Scale.getScaledSizeY(1.79f));
     }
-
-    public float getPowerUpCooldown() { return powerUpCooldown; }
-
 }
