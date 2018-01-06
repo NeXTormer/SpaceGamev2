@@ -5,7 +5,10 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.sql.rowset.serial.SerialRef;
 
 /**
  * Created by Felix on 25/12/2017.
@@ -232,6 +235,16 @@ public class Database
     public void AddScore(int userid, double score)
     {
         Update("INSERT INTO scores (score, player_id, game_id, date) VALUES (?, ?, ?, now());", Double.toString(score), userid + "", m_GameID + "");
+    }
+
+    public void CloseConnection()
+    {
+        try {
+            m_Connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Could not close MySQL connection.");
+        }
     }
 
 }

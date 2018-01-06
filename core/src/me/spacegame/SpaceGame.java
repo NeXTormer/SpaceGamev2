@@ -111,6 +111,7 @@ public class SpaceGame extends Game {
 	{
 		manager.clear();
 		manager.dispose();
+		database.CloseConnection();
 	}
 
 }
