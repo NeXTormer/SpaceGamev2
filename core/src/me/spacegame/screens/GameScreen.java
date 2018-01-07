@@ -49,6 +49,7 @@ import me.spacegame.powerups.PowerUpPacMan;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
 import me.spacegame.ui.menu.Menu;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Felix on 09-May-17.
@@ -130,7 +131,7 @@ public class GameScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
-        ex = new Explosion((int) getScaledSizeX(300), (int) getScaledSizeY(300), this);
+        ex = new Explosion((int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), this);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -152,7 +153,7 @@ public class GameScreen implements Screen, InputProcessor {
         touchpadStyle.knob = touchknob;
 
         touchpad = new Touchpad(0, touchpadStyle);
-        touchpad.setBounds(getScaledSizeX(90), getScaledSizeY(90), getScaledSizeX(400), getScaledSizeY(400));
+        touchpad.setBounds(Scale.getScaledSizeX(90), Scale.getScaledSizeY(90), Scale.getScaledSizeX(400), Scale.getScaledSizeY(400));
 
 
         stage.addActor(touchpad);
@@ -795,16 +796,6 @@ public class GameScreen implements Screen, InputProcessor {
     public SpaceGame getGame() { return game; }
 
     public Camera getCamera() { return camera; }
-
-    public float getScaledSizeX(float defaultSize)
-    {
-        return (defaultSize / 1080.0f) * camera.viewportHeight;
-    }
-
-    public float getScaledSizeY(float defaultSize)
-    {
-        return (defaultSize / 1920.0f) * camera.viewportWidth;
-    }
 
 
 

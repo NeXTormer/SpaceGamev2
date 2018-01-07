@@ -127,7 +127,7 @@ public class HealthBar {
 
         scoreLabel = new Label("Score: " + score, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.BLACK));
 
-        scoreLabel.setPosition(284, 834);
+        scoreLabel.setPosition(Scale.getScaledSizeX(284), Scale.getScaledSizeY(894));
 
     }
 
@@ -135,7 +135,7 @@ public class HealthBar {
     {
         if(game.currentPowerUp != null && game.currentPowerUp.texture != null)
         {
-            batch.draw(game.currentPowerUp.texture, Scale.getScaledSizeX(105), Scale.getScaledSizeX(857), Scale.getScaledSizeY(160), Scale.getScaledSizeX(160));
+            batch.draw(game.currentPowerUp.texture, Scale.getScaledSizeX(105), Scale.getScaledSizeY(857), Scale.getScaledSizeX(160), Scale.getScaledSizeY(160));
         }
         else
         {

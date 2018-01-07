@@ -24,6 +24,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.io.Console;
 
 import me.spacegame.SpaceGame;
 import me.spacegame.util.Scale;
@@ -85,7 +88,7 @@ public class MainMenuScreen implements Screen {
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        startbtn.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(250));
+        startbtn.setPosition(Scale.getScaledSizeX(625), Scale.getScaledSizeY(120));
 
         stage = new Stage();
 
@@ -93,10 +96,10 @@ public class MainMenuScreen implements Screen {
         stage.addActor(startbtn);
 
         usernameLabel = new Label("Username: ", new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
-        usernameLabel.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(717));
+        usernameLabel.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(657));
 
         infoLabel = new Label("Click to edit username", new Label.LabelStyle(ftfg2.generateFont(parameter3), Color.RED));
-        infoLabel.setPosition(Scale.getScaledSizeX(840), Scale.getScaledSizeY(640));
+        infoLabel.setPosition(Scale.getScaledSizeX(840), Scale.getScaledSizeY(610));
 
 
         TextField.TextFieldStyle tfs = new TextField.TextFieldStyle();
@@ -117,7 +120,7 @@ public class MainMenuScreen implements Screen {
         }
 
         textField = new TextField(username, tfs);
-        textField.setPosition(Scale.getScaledSizeX(920), Scale.getScaledSizeY(704));
+        textField.setPosition(Scale.getScaledSizeX(920), Scale.getScaledSizeY(645));
         textField.setSize(600, 100);
 
         textField.setMaxLength(16);
@@ -155,7 +158,9 @@ public class MainMenuScreen implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(logo, Scale.getScaledSizeX(23), Scale.getScaledSizeY(880), Scale.getScaledSizeX(920 * 2), Scale.getScaledSizeY(102 * 2));
+
+        batch.draw(logo, Scale.getScaledSizeX(400), Scale.getScaledSizeY(800), Scale.getScaledSizeX(920 * 1.4f), Scale.getScaledSizeY(102 * 1.4f));
+        //batch.draw(logo, 40, 1200);
         batch.end();
 
         stage.draw();

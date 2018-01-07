@@ -64,8 +64,8 @@ public class GameOverMenu extends TemplateMenu {
     @Override
     public void create() {
         retryBtn = new ImageButton(retryBtnDrawable);
-        retryBtn.setPosition(getScaledSizeX(600), getScaledSizeY(150));
-        retryBtn.setSize(getScaledSizeX(800), getScaledSizeY(300));
+        retryBtn.setPosition(Scale.getScaledSizeX(600), Scale.getScaledSizeY(150));
+        retryBtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
 
         stage.addActor(retryBtn);
     }
@@ -78,10 +78,10 @@ public class GameOverMenu extends TemplateMenu {
 
         FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = (int) getScaledSizeX(80);
+        parameter2.size = (int) Scale.getScaledSizeX(80);
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter3.size = (int) Scale.getScaledSizeX(200);
+        parameter3.size = (int) Scale.getScaledSizeX(150);
 
         int highScore = menu.getGameScreen().preferences.getInteger("highscore");
         int score = menu.getGameScreen().player.score;
@@ -93,10 +93,10 @@ public class GameOverMenu extends TemplateMenu {
         menu.getGameScreen().preferences.putInteger("highscore", highScore);
         menu.getGameScreen().preferences.flush();
         scoreText = new Label("Score: " + score + ", Highscore: " + highScore, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
-        scoreText.setPosition(getScaledSizeX(455), getScaledSizeY(500));
+        scoreText.setPosition(Scale.getScaledSizeX(455), Scale.getScaledSizeY(500));
 
         gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg2.generateFont(parameter3), Color.RED));
-        gameoverText.setPosition(getScaledSizeX(380), getScaledSizeY(600));
+        gameoverText.setPosition(Scale.getScaledSizeX(540), Scale.getScaledSizeY(600));
 
         stage.addActor(gameoverText);
         stage.addActor(scoreText);
@@ -133,16 +133,5 @@ public class GameOverMenu extends TemplateMenu {
     public void dispose() {
         stage.dispose();
     }
-
-    public float getScaledSizeX(float defaultSize)
-    {
-        return (defaultSize / 1080.0f) * menu.getGameScreen().getCamera().viewportHeight;
-    }
-
-    public float getScaledSizeY(float defaultSize)
-    {
-        return (defaultSize / 1920.0f) * menu.getGameScreen().getCamera().viewportWidth;
-    }
-
 
 }
