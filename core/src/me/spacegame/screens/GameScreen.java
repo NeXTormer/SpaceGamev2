@@ -381,7 +381,7 @@ public class GameScreen implements Screen, InputProcessor {
 
             // Remove offscreen meteors
             if (meteors.get(i).x < -meteors.get(i).radius) {
-                if(!meteors.get(i).divided)
+                if(!meteors.get(i).divided  || (meteors.get(i).speedy==0 && meteors.get(i).divided))
                 {
                     meteors.add(new Meteor(this));
                 }
@@ -588,11 +588,11 @@ public class GameScreen implements Screen, InputProcessor {
             }
 
             PowerUp powerup = activePowerUps.get(i);
-            double timer = powerup.duration - powerup.timer;
-            System.out.println(timer);                                  //-=sdfjkl;sdahfjksdfksdahfkdsjajf;ksldajfklsdajfkl;sadjfklsdajfkl;sdajfklsdajfkl;asdjfklds;ajf;klsadjfklsdjfklsda
-            double perc = (timer / powerup.duration) * 100;
-            if(perc < 4) perc = -100;
-            healthBar.setPowerupCooldown(perc);
+            //double timer = powerup.duration - powerup.timer;
+            System.out.println(100-powerup.getCooldown());                                  //-=sdfjkl;sdahfjksdfksdahfkdsjajf;ksldajfklsdajfkl;sadjfklsdajfkl;sdajfklsdajfkl;asdjfklds;ajf;klsadjfklsdjfklsda
+            //double perc = (timer / powerup.duration) * 100;
+            //if(perc < 4) perc = -100;
+            healthBar.setPowerupCooldown(100 - powerup.getCooldown());
         }
 
         for (Meteor m : meteors) {

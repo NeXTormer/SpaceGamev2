@@ -121,4 +121,9 @@ public class PowerUpHelper extends PowerUp {
     public void dispose() {
 
     }
+
+    @Override
+    public float getCooldown() {
+        return (float) (helper.health/duration)*100.0f;
+    }
 }

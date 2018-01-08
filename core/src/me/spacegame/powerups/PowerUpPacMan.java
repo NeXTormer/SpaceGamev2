@@ -142,4 +142,9 @@ public class PowerUpPacMan extends PowerUp {
     public void dispose() {
 
     }
+
+    @Override
+    public float getCooldown() {
+        return (float) (timer/duration)*100.0f;
+    }
 }

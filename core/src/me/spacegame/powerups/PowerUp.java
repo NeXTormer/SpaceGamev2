@@ -38,4 +38,6 @@ public abstract class PowerUp {
     public abstract boolean isFinished();
 
     public abstract void dispose();
+
+    public abstract float getCooldown();
 }

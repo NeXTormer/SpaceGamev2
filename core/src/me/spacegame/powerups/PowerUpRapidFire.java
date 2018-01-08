@@ -78,6 +78,11 @@ public class PowerUpRapidFire extends PowerUp {
     }
 
     @Override
+    public float getCooldown() {
+        return (float) (timer/duration)*100.0f;
+    }
+
+    @Override
     public void start()
     {
 

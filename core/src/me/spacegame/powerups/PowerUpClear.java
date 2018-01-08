@@ -72,4 +72,9 @@ public class PowerUpClear extends PowerUp {
     public void dispose() {
 
     }
+
+    @Override
+    public float getCooldown() {
+        return 0;
+    }
 }

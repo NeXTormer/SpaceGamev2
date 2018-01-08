@@ -59,4 +59,9 @@ public class PowerUpHealth extends PowerUp {
     public void dispose() {
 
     }
+
+    @Override
+    public float getCooldown() {
+        return 0;
+    }
 }
