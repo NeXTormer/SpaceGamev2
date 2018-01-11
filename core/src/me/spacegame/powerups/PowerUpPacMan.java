@@ -95,7 +95,7 @@ public class PowerUpPacMan extends PowerUp {
                     if(Intersector.overlaps(this.box, gameScreen.enemies.get(i).getRockets().get(j).box))
                     {
                         gameScreen.enemies.get(i).getRockets().remove(j);
-                        healPlayer(210);
+                        healPlayer(8);
                         break outerloop;
                     }
                 }
