@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
+import me.spacegame.util.Scale;
+
 /**
  * Created by Michi on 15.05.2017.
  */
 
 public class EnemyRocket {
 
-    private static Texture texture;
+    public Texture texture;
     private static boolean firstInit = false;
 
 
@@ -34,9 +36,9 @@ public class EnemyRocket {
             texture = p.getGameScreen().getGame().getTexture("enemyrocket1");
         }
         damage=15;
-        speed = 40;
-        width = 50;
-        height = 40;
+        speed = (int) Scale.getScaledSizeX(40);
+        width = (int) Scale.getScaledSizeX(50);
+        height = (int) Scale.getScaledSizeX(40);
         this.y = p.enemyY+(p.enemyHeight/2)-(height/2);
         this.x = p.enemyX-(width+2);
 
@@ -58,6 +60,6 @@ public class EnemyRocket {
 
     public static void dispose()
     {
-        texture.dispose();
+
     }
 }

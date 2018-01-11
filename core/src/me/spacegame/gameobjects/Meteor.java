@@ -59,7 +59,9 @@ public class Meteor {
             firstInit = true;
         }
 
-        radius = Scale.getScaledSizeX(GameScreen.random.nextInt(50)+50);
+        radius = GameScreen.random.nextInt(50)+50;
+        damage = (int) radius / 6;
+        radius = Scale.getScaledSizeX(radius);
         health = GameScreen.random.nextInt(90)+10;
         x = GameScreen.random.nextInt(400)+SpaceGame.VIEWPORTWIDTH+200;
         y = GameScreen.random.nextInt(SpaceGame.VIEWPORTHEIGHT-(int)radius);
@@ -67,11 +69,10 @@ public class Meteor {
         box.setX(x+radius);
         box.setY(y+radius);
         box.setRadius(radius);
-        speed = GameScreen.random.nextInt(12)+5;
+        speed = (int) Scale.getScaledSizeX(GameScreen.random.nextInt(12)+5);
         speedy = 0;
         saveSpeed = speed;
         rotateSpeed = GameScreen.random.nextInt(2);
-        damage = (int) radius / 6;
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
 
         if(GameScreen.random.nextInt(10)==0)

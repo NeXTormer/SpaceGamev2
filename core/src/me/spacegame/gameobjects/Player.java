@@ -29,7 +29,7 @@ public class Player {
     public boolean dead = false;
     public int score;
 
-    public int baseSpeed = 12;
+    public int baseSpeed;
     private float newx;
     private float newy;
     public Texture texture;
@@ -46,6 +46,7 @@ public class Player {
         y = SpaceGame.VIEWPORTHEIGHT/2-(height/2);
         box = new Rectangle(x, y, width, height);
         texture = screen.getGame().getTexture("spaceship1");
+        baseSpeed = (int) Scale.getScaledSizeX(15);
         gameScreen = screen;
     }
 
