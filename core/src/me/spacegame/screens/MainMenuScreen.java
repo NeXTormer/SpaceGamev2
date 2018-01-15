@@ -159,7 +159,7 @@ public class MainMenuScreen implements Screen {
         batch.begin();
         batch.draw(background, 0, 0);
 
-        batch.draw(logo, Scale.getScaledSizeX(400), Scale.getScaledSizeY(800), Scale.getScaledSizeX(920 * 1.4f), Scale.getScaledSizeY(102 * 1.4f));
+        batch.draw(logo, Scale.getScaledSizeX(100), Scale.getScaledSizeY(800), Scale.getScaledSizeX(170 * 11f), Scale.getScaledSizeY(16 * 11f));
         //batch.draw(logo, 40, 1200);
         batch.end();
 
