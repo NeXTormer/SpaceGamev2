@@ -67,7 +67,7 @@ public class Enemy {
         enemyHeight = (int) Scale.getScaledSizeY(150);
         enemyY = random.nextInt(SpaceGame.VIEWPORTHEIGHT-enemyHeight);
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
-        baseSpeed = 22;
+        baseSpeed = (int) Scale.getScaledSizeX(22);
         damage=20;
         health = 100;
         enemyTexture = screen.getGame().getTexture("enemy1");
@@ -143,7 +143,7 @@ public class Enemy {
         }
         if(type==1)
         {
-            if(enemyX<=100)
+            if(enemyX<=150)
             {
                 enemyX+=(baseSpeed-10);
             }
@@ -155,12 +155,13 @@ public class Enemy {
             {
                 enemyY+=3;
             }
-            if((System.currentTimeMillis()-shootTime) > 3000)
+            if((System.currentTimeMillis()-shootTime) > 4000)
             {
                 shootTime = System.currentTimeMillis();
 
                 //bot rocket
                 EnemyRocket r1 = new EnemyRocket(this);
+                r1.texture = gameScreen.getGame().getTexture("enemyrocket2");
                 r1.speed*=-1;
                 r1.x=enemyX+(enemyWidth/4*3);
                 r1.y=enemyY+(enemyHeight*2/28);
@@ -168,6 +169,7 @@ public class Enemy {
 
                 //top rocket
                 EnemyRocket r2 = new EnemyRocket(this);
+                r2.texture = gameScreen.getGame().getTexture("enemyrocket2");
                 r2.speed*=-1;
                 r2.x=enemyX+(enemyWidth/4*3);
                 r2.y=enemyY+(enemyHeight*20/28);

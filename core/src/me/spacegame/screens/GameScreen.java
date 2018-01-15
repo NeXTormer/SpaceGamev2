@@ -711,7 +711,7 @@ public class GameScreen implements Screen, InputProcessor {
             //float dx = (float) Math.pow(Math.abs(screenX-110), 2);
             //float dy = (float) Math.pow(Math.abs(screenY-880), 2);
             //System.out.println(screenX + " : "+screenY);
-            if(screenX>91 && screenX<270 && screenY>45 && screenY<220)
+            if(screenX>Scale.getScaledSizeX(91) && screenX<Scale.getScaledSizeX(270) && screenY>Scale.getScaledSizeY(45) && screenY<Scale.getScaledSizeY(220))
             //if((dx+dy)>250)
             {
                 if(currentPowerUp!=null && activePowerUps.size()==0)

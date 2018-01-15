@@ -7,6 +7,7 @@ background;gameobjects/background_large.png
 enemy1;gameobjects/EnemyShip_02.png
 enemy2;gameobjects/EnemyShip_03.png
 enemyrocket1;gameobjects/Rocket_02.png
+enemyrocket2;gameobjects/Rocket_03.png
 #
 meteor1;gameobjects/meteors/meteor1.png
 meteor2;gameobjects/meteors/meteor2.png
