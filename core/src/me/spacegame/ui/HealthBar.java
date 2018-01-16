@@ -207,7 +207,8 @@ public class HealthBar {
 
     public void setPowerupCooldown(double percent)
     {
-        m_PowerupCooldownPixel = (game.getCamera().viewportHeight - convertPowerupCooldowntoPixel((float) (100 - percent)));
+        if(percent > 98) percent = 200;
+        m_PowerupCooldownPixel = (convertPowerupCooldowntoPixel((float) (100 - percent)));
     }
 
     public void changeHalth(float dh)
@@ -237,6 +238,6 @@ public class HealthBar {
 
     private float convertPowerupCooldowntoPixel(float percent)
     {
-        return Scale.getScaledSizeY(112) + ((percent) * Scale.getScaledSizeY(1.79f));
+        return Scale.getScaledSizeY(852) + ((percent) * Scale.getScaledSizeY(1.82f));
     }
 }

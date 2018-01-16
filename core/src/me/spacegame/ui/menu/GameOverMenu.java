@@ -76,7 +76,7 @@ public class GameOverMenu extends TemplateMenu {
         retryBtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
 
         mainMenuButton = new ImageButton(mainMenuButtonDrawable);
-        mainMenuButton.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(880));
+        mainMenuButton.setPosition(Scale.getScaledSizeX(1600), Scale.getScaledSizeY(880));
         mainMenuButton.setSize(Scale.getScaledSizeX(200), Scale.getScaledSizeX(200));
 
         stage.addActor(mainMenuButton);
@@ -84,10 +84,10 @@ public class GameOverMenu extends TemplateMenu {
 
         FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = (int) Scale.getScaledSizeX(80);
+        parameter2.size = (int) Scale.getScaledSizeY(80);
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter3.size = (int) Scale.getScaledSizeX(150);
+        parameter3.size = (int) Scale.getScaledSizeY(130);
 
         f_font1 = ftfg2.generateFont(parameter2);
         f_font2 = ftfg2.generateFont(parameter3);

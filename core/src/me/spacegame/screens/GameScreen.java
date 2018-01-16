@@ -184,7 +184,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpHealth(player, this);
+        currentPowerUp = new PowerUpPacMan(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -214,7 +214,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         lastFrameBufferImage = new Image();
 
-        healthBar.setPowerupCooldown(-100);
+        healthBar.setPowerupCooldown(200);
 
     }
 
@@ -592,9 +592,10 @@ public class GameScreen implements Screen, InputProcessor {
             System.out.println(100-powerup.getCooldown());                                  //-=sdfjkl;sdahfjksdfksdahfkdsjajf;ksldajfklsdajfkl;sadjfklsdajfkl;sdajfklsdajfkl;asdjfklds;ajf;klsadjfklsdjfklsda
             //double perc = (timer / powerup.duration) * 100;
             //if(perc < 4) perc = -100;
-            healthBar.setPowerupCooldown(100 - powerup.getCooldown());
-        }
+            healthBar.setPowerupCooldown(powerup.getCooldown());
 
+        }
+        //healthBar.setPowerupCooldown(0);
         for (Meteor m : meteors) {
             m.update();
         }
