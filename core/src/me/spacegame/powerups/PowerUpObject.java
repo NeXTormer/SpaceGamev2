@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import me.spacegame.animations.QuestionMark;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 21.06.2017.
@@ -38,8 +39,8 @@ public class PowerUpObject {
         //texture = gs.hb.fbo.getColorBufferTexture();
         qm = new QuestionMark(x, y, gs);
        // texture = gamescreen.getGame().getTexture("questionmark");
-        width=100;
-        height=100;
+        width= Scale.getScaledSizeX(100);
+        height=Scale.getScaledSizeY(100);
         box = new Rectangle(x, y, width, height);
     }
 
