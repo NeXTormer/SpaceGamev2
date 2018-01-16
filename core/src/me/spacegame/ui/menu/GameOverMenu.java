@@ -3,6 +3,7 @@ package me.spacegame.ui.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,6 +30,9 @@ public class GameOverMenu extends TemplateMenu {
     private SpriteDrawable mainMenuButtonDrawable;
     private Label gameoverText;
     private Label scoreText;
+
+    private BitmapFont f_font1;
+    private BitmapFont f_font2;
 
     public static void loadText()
     {
@@ -77,6 +81,16 @@ public class GameOverMenu extends TemplateMenu {
 
         stage.addActor(mainMenuButton);
         stage.addActor(retryBtn);
+
+        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = (int) Scale.getScaledSizeX(80);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter3.size = (int) Scale.getScaledSizeX(150);
+
+        f_font1 = ftfg2.generateFont(parameter2);
+        f_font2 = ftfg2.generateFont(parameter3);
     }
 
     @Override
@@ -85,12 +99,7 @@ public class GameOverMenu extends TemplateMenu {
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().setProjectionMatrix(menu.getGameScreen().getCamera().combined);
 
-        FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter2.size = (int) Scale.getScaledSizeX(80);
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter3.size = (int) Scale.getScaledSizeX(150);
 
         int highScore = menu.getGameScreen().preferences.getInteger("highscore");
         int score = menu.getGameScreen().player.score;
@@ -101,10 +110,10 @@ public class GameOverMenu extends TemplateMenu {
         }
         menu.getGameScreen().preferences.putInteger("highscore", highScore);
         menu.getGameScreen().preferences.flush();
-        scoreText = new Label("Score: " + score + ", Highscore: " + highScore, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
+        scoreText = new Label("Score: " + score + ", Highscore: " + highScore, new Label.LabelStyle(f_font1, Color.RED));
         scoreText.setPosition(Scale.getScaledSizeX(455), Scale.getScaledSizeY(500));
 
-        gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg2.generateFont(parameter3), Color.RED));
+        gameoverText = new Label("Game Over", new Label.LabelStyle(f_font2, Color.RED));
         gameoverText.setPosition(Scale.getScaledSizeX(540), Scale.getScaledSizeY(600));
 
         stage.addActor(gameoverText);
