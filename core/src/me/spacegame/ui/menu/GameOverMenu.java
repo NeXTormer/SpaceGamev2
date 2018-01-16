@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import me.spacegame.databases.Database;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.screens.MainMenuScreen;
 import me.spacegame.util.Scale;
 
 /**
@@ -23,7 +24,9 @@ public class GameOverMenu extends TemplateMenu {
 
 
     private ImageButton retryBtn;
+    private ImageButton mainMenuButton;
     private SpriteDrawable retryBtnDrawable;
+    private SpriteDrawable mainMenuButtonDrawable;
     private Label gameoverText;
     private Label scoreText;
 
@@ -50,6 +53,7 @@ public class GameOverMenu extends TemplateMenu {
         vignetteImage = new Image(menu.getGameScreen().getGame().getTexture("vignetteEffect"));
 
         retryBtnDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton")));
+        mainMenuButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("homebutton")));
 
 
         vignetteImage.setSize(menu.getGameScreen().getCamera().viewportWidth, menu.getGameScreen().getCamera().viewportHeight);
@@ -67,6 +71,11 @@ public class GameOverMenu extends TemplateMenu {
         retryBtn.setPosition(Scale.getScaledSizeX(600), Scale.getScaledSizeY(150));
         retryBtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
 
+        mainMenuButton = new ImageButton(mainMenuButtonDrawable);
+        mainMenuButton.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(880));
+        mainMenuButton.setSize(Scale.getScaledSizeX(200), Scale.getScaledSizeX(200));
+
+        stage.addActor(mainMenuButton);
         stage.addActor(retryBtn);
     }
 
@@ -125,6 +134,10 @@ public class GameOverMenu extends TemplateMenu {
         if(retryBtn.isPressed())
         {
             menu.getGameScreen().getGame().setScreen(new GameScreen(menu.getGameScreen().getGame()));
+        }
+        if(mainMenuButton.isPressed())
+        {
+            menu.getGameScreen().getGame().setScreen(new MainMenuScreen(menu.getGameScreen().getGame()));
         }
 
     }

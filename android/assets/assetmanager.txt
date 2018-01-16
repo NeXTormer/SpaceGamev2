@@ -48,3 +48,5 @@ healthbarmain;ui/healthbarmain.png
 healthTexture;ui/health.png
 gameover;ui/gameover.png
 poweruptimer;ui/powerupcooldown.png
+mainmenubutton;ui/mainmenubtn.png
+homebutton;ui/home.png
