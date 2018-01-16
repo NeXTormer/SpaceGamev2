@@ -19,8 +19,8 @@ public class Explosion {
     private float elapsed = 0f;
     private int x = 0;
     private int y = 0;
-    private int width = 80;
-    private int height = 80;
+    private int width = 230;
+    private int height = 230;
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
@@ -29,7 +29,7 @@ public class Explosion {
     private boolean firstInit = false;
 
 
-    public Explosion(int x, int y, GameScreen screen)
+    public Explosion(int x, int y, int width, int height, GameScreen screen)
     {
         if(!firstInit)
         {
@@ -49,6 +49,8 @@ public class Explosion {
 
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
 
 
         animation = new Animation<TextureRegion>(10, textureRegions);
@@ -88,7 +90,7 @@ public class Explosion {
         }
         else
         {
-            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 230, 230);
+            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
         }
     }
 

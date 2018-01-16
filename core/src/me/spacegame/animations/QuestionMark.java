@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 28-December-17.
@@ -49,6 +50,7 @@ public class QuestionMark {
 
         this.x = x;
         this.y = y;
+
 
 
         animation = new Animation<TextureRegion>(10, textureRegions);

@@ -78,7 +78,7 @@ public class PowerUpPacMan extends PowerUp {
             for (int i = 0; i < gameScreen.meteors.size(); i++) {
                 if (Intersector.overlaps(gameScreen.meteors.get(i).box, this.box))
                 {
-                    gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), gameScreen));
+                    gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
                     gameScreen.meteors.add(new Meteor(gameScreen));
                     healPlayer(5);
@@ -101,7 +101,8 @@ public class PowerUpPacMan extends PowerUp {
                 }
                 if(Intersector.overlaps(this.box, gameScreen.enemies.get(i).box))
                 {
-                    gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20), gameScreen));
+                    gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20),
+                    (int) gameScreen.enemies.get(i).enemyWidth, (int) gameScreen.enemies.get(i).enemyHeight, gameScreen));
                     gameScreen.enemies.remove(i);
                     healPlayer(15);
                     break outerloop;

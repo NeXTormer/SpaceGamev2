@@ -131,7 +131,7 @@ public class GameScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
-        ex = new Explosion((int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), this);
+        ex = new Explosion((int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), (int) Scale.getScaledSizeX(230), (int) Scale.getScaledSizeY(230), this);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -359,7 +359,7 @@ public class GameScreen implements Screen, InputProcessor {
             {
                 if (Intersector.overlaps(meteors.get(i).box, enemies.get(j).box) && enemies.get(j).type==1) {
                     enemies.get(j).health -= 50;
-                    explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), this));
+                    explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), (int) enemies.get(j).enemyWidth, (int) enemies.get(j).enemyHeight, this));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
                         break outerloop;
@@ -405,7 +405,7 @@ public class GameScreen implements Screen, InputProcessor {
                     meteors.get(j).health -= rockets.get(i).damage;
                     rockets.remove(rockets.get(i));
                     meteors.get(j).updateTexture();
-                    explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
+                    explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), (int) meteors.get(j).radius*2, (int) meteors.get(j).radius*2, this));
 
                     //Spawn Powerup after destroy
                     if (meteors.get(j).health <= 0) {
@@ -456,7 +456,7 @@ public class GameScreen implements Screen, InputProcessor {
                 if (Intersector.overlaps(rockets.get(i).box, enemies.get(j).box)) {
                     rockets.remove(rockets.get(i));
                     enemies.get(j).health -= 50;
-                    explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), this));
+                    explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), (int) enemies.get(j).enemyWidth, enemies.get(j).enemyHeight, this));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
                         player.score+=500;
@@ -486,7 +486,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     if (Intersector.overlaps(meteors.get(j).box, er.box))
                     {
-                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), this));
+                        explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), (int) meteors.get(j).radius*2, (int) meteors.get(j).radius*2, this));
                         meteors.remove(j);
                         meteors.add(new Meteor(this));
                     }
@@ -512,7 +512,7 @@ public class GameScreen implements Screen, InputProcessor {
                 {
                     if(Intersector.overlaps(enemies.get(i).box, enemies.get(l).getRockets().get(h).box))
                     {
-                        explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), this));
+                        explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), (int) enemies.get(i).enemyWidth, (int) enemies.get(i).enemyHeight, this));
                         enemies.remove(i);
                         break outerloop;
                     }
