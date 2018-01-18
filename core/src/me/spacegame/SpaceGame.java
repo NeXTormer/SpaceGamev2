@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.PerformanceCounter;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import me.spacegame.databases.API;
 import me.spacegame.databases.Database;
 import me.spacegame.screens.MainMenuScreen;
 import me.spacegame.ui.menu.GameOverMenu;
@@ -64,7 +65,6 @@ public class SpaceGame extends Game {
 		loadAssets();
 
 		setScreen(new MainMenuScreen(this));
-		database = new Database("faoiltiarna.ddns.net:3306", "gamedata", "user", "PeterRendl69!");
 	}
 
 

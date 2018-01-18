@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import me.spacegame.databases.API;
 import me.spacegame.databases.Database;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.screens.MainMenuScreen;
@@ -119,18 +120,7 @@ public class GameOverMenu extends TemplateMenu {
         stage.addActor(gameoverText);
         stage.addActor(scoreText);
 
-        Database db = menu.getGameScreen().getGame().database;
-
-        if(db.connectionEstablished)
-        {
-            int userid = db.GetUserID(menu.getGameScreen().getGame().username);
-
-            db.AddScore(userid ,score);
-        }
-        else
-        {
-            System.out.println("[Error] Database not connected!");
-        }
+        API.send("https://games.htl-klu.at/anyway/addscore/9F412BDFA1D49B0D80/" + menu.getGameScreen().getGame().username + "/" + score + "/spacegame");
 
         return this;
     }
