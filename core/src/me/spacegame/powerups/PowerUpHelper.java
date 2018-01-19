@@ -124,6 +124,6 @@ public class PowerUpHelper extends PowerUp {
 
     @Override
     public float getCooldown() {
-        return (float) (helper.health/30.0f);
+        return (float) (100-(helper.health/30.0f));
     }
 }

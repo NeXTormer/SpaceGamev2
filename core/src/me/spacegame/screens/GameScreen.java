@@ -153,7 +153,7 @@ public class GameScreen implements Screen, InputProcessor {
         touchpadStyle.knob = touchknob;
 
         touchpad = new Touchpad(0, touchpadStyle);
-        touchpad.setBounds(Scale.getScaledSizeX(90), Scale.getScaledSizeY(90), Scale.getScaledSizeX(400), Scale.getScaledSizeY(400));
+        touchpad.setBounds(Scale.getScaledSizeX(90), Scale.getScaledSizeX(90), Scale.getScaledSizeX(400), Scale.getScaledSizeX(400));
 
 
         stage.addActor(touchpad);
@@ -184,7 +184,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpPacMan(player, this);
+        //currentPowerUp = new PowerUpPacMan(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
