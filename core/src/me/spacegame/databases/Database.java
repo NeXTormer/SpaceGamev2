@@ -14,6 +14,9 @@ import javax.sql.rowset.serial.SerialRef;
  * Created by Felix on 25/12/2017.
  */
 
+/**
+ * No longer in use as it has been replaced with the GameData-API
+ */
 public class Database
 {
     private Driver m_Driver;
