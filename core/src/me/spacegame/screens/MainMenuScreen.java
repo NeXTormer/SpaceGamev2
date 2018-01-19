@@ -56,6 +56,10 @@ public class MainMenuScreen implements Screen {
     private Label usernameLabel;
     private Label infoLabel;
 
+    private float logoscalex;
+    private float logoscaley;
+
+
     private Preferences preferences = Gdx.app.getPreferences("sgusername");
 
 
@@ -72,7 +76,7 @@ public class MainMenuScreen implements Screen {
         parameter3.size = (int) Scale.getScaledSizeX(42);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
+        camera.setToOrtho(false, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));
         batch = new SpriteBatch(4);
         game.finishLoadingAssets();
         background = game.getTexture("background");
@@ -120,7 +124,10 @@ public class MainMenuScreen implements Screen {
         }
 
         textField = new TextField(username, tfs);
-        textField.setPosition(Scale.getScaledSizeX(920), Scale.getScaledSizeY(645));
+
+        float offset = ((Gdx.graphics.getHeight()/1080.0f) - 1) * 60.0f;
+
+        textField.setPosition(Scale.getScaledSizeX(920), Scale.getScaledSizeY(645) + offset);
         textField.setSize(600, 100);
 
         textField.setMaxLength(16);
@@ -135,6 +142,17 @@ public class MainMenuScreen implements Screen {
         stage.addActor(textField);
 
         Gdx.input.setInputProcessor(stage);
+
+        if(Scale.getScaledSizeX(170 * 11f) > 1870)
+        {
+               logoscalex = 1870;
+               logoscaley = 176;
+        }
+        else
+        {
+            logoscalex = Scale.getScaledSizeX(170 * 11f);
+            logoscaley = Scale.getScaledSizeY(16 * 11f);
+        }
     }
 
     @Override
@@ -159,7 +177,7 @@ public class MainMenuScreen implements Screen {
         batch.begin();
         batch.draw(background, 0, 0);
 
-        batch.draw(logo, Scale.getScaledSizeX(100), Scale.getScaledSizeY(800), Scale.getScaledSizeX(170 * 11f), Scale.getScaledSizeY(16 * 11f));
+        batch.draw(logo, Scale.getScaledSizeX(100), Scale.getScaledSizeY(800), logoscalex, logoscaley);
         //batch.draw(logo, 40, 1200);
         batch.end();
 
