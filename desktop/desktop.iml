@@ -33,6 +33,7 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-platform-1.9.6-natives-desktop" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-box2d-platform-1.9.6-natives-desktop" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-freetype-platform-1.9.6-natives-desktop" level="project" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-gamesvcs-core-0.2.2" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-box2d-1.9.6" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-freetype-1.9.6" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-1.9.6" level="project" />
@@ -48,5 +49,13 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="jinput-platform-2.0.5-natives-linux" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="jinput-platform-2.0.5-natives-windows" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="jinput-platform-2.0.5-natives-osx" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
+    <orderEntry type="library" exported="" name="desktop.desktop-1.0" level="project" />
   </component>
 </module>

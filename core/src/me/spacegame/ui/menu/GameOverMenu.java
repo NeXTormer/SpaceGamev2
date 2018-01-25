@@ -35,19 +35,6 @@ public class GameOverMenu extends TemplateMenu {
     private BitmapFont f_font1;
     private BitmapFont f_font2;
 
-    public static void loadText()
-    {
-        //FreeTypeFontGenerator ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
-        //FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        //parameter.size = 270;
-
-
-
-        long peta = System.currentTimeMillis();
-        //gameoverText = new Label("Game Over", new Label.LabelStyle(ftfg.generateFont(parameter), Color.RED));
-        System.out.println("Game Over label loading time: " + (System.currentTimeMillis() - peta));
-    }
-
     private Image vignetteImage;
 
     public GameOverMenu(Menu menu)

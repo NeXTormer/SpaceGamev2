@@ -18,8 +18,6 @@ import me.spacegame.screens.GameScreen;
  * Created by Michi on 26.06.2017.
  */
 
-
-
 public class PowerUpHelper extends PowerUp {
 
     private Player helper;

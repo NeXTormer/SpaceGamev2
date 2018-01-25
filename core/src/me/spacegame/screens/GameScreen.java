@@ -63,10 +63,10 @@ public class GameScreen implements Screen, InputProcessor {
 
     public SpaceGame game;
 
-    private SpriteBatch batch;
+    private SpriteBatch batch = new SpriteBatch();
+    private Stage stage = new Stage();
 
 
-    private Stage stage;
     private OrthographicCamera camera;
     public List<Meteor> meteors = new ArrayList<Meteor>();
 
@@ -93,8 +93,6 @@ public class GameScreen implements Screen, InputProcessor {
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
-    private TextureRegion lastFrameBuffer;
-    private Image lastFrameBufferImage;
     private int powerUpDropRate = 12; // 1 : x  where x..value
 
     private InputMultiplexer inputMultiplexer;
@@ -126,8 +124,14 @@ public class GameScreen implements Screen, InputProcessor {
         this.game = game;
         background = new Background(this);
 
+        float wernertime = System.nanoTime();
+
         batch = new SpriteBatch();
         stage = new Stage();
+
+
+        System.out.println("Gamescreen load time (Batch and Stage): " + (System.nanoTime() - wernertime)/1000000000);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SpaceGame.VIEWPORTWIDTH, SpaceGame.VIEWPORTHEIGHT);
 
@@ -190,7 +194,11 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 
+        System.out.println("Gamescreen load time (Before Healthbar): " + (System.nanoTime() - wernertime)/1000000000);
+
         healthBar = new HealthBar(this);
+        System.out.println("Gamescreen load time (After Healthbar): " + (System.nanoTime() - wernertime)/1000000000);
+
         long timepeta = System.currentTimeMillis();
         menu = new Menu(this);
 
@@ -212,9 +220,8 @@ public class GameScreen implements Screen, InputProcessor {
         //settingsbtn.setPosition(camera.viewportWidth - 150, camera.viewportHeight - 150);
         //stage.addActor(settingsbtn);
 
-        lastFrameBufferImage = new Image();
-
         healthBar.setPowerupCooldown(200);
+        System.out.println("GameScreen load time (Complete Constructor): " + (System.nanoTime() - wernertime)/1000000000);
 
     }
 
@@ -624,18 +631,6 @@ public class GameScreen implements Screen, InputProcessor {
             stage.addActor(settingsbtn);
             settingsbtn.setPosition(1650, 928);
 
-            if(System.currentTimeMillis() - pausebtnLastTimePressed > 1000)
-            {
-                paused = !paused;
-                if(paused)
-                {
-                    //TODO: bad perfornance
-                    lastFrameBuffer = ScreenUtils.getFrameBufferTexture();
-                }
-                camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
-                menu.currentMenu = menu.screens.get("main").activate();
-                pausebtnLastTimePressed = System.currentTimeMillis();
-            }
         }
         if(!player.dead)
             healthBar.score = player.score + 1;

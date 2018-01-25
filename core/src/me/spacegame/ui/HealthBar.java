@@ -94,12 +94,12 @@ public class HealthBar {
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);
         if (!healthbarProgram.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + healthbarProgram.getLog());
 
-
         healthBatch = new SpriteBatch();
 
         healthBatch.setShader(healthbarProgram);
 
         fbo = new FrameBuffer(Pixmap.Format.RGBA8888, 200, 200, true);
+
         modelBatch = new ModelBatch();
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -112,14 +112,13 @@ public class HealthBar {
         cam.far = 300f;
         cam.update();
 
-        model = loader.loadModel(Gdx.files.internal("ui/fragezeichen.obj"));
+        model = game.getGame().getAssetManager().get("ui/fragezeichen.obj");
 
         instance = new ModelInstance(model);
         instance.transform.scl(4);
         instance.transform.rotate(0, 0, 1, 180);
 
         healthPixel = convertPercentToPixel(healthPercent);
-
 
         FreeTypeFontGenerator ftfg2 = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();

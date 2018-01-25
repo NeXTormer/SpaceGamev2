@@ -113,6 +113,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:0.2.2@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:C.\Dev\Projects\SpaceGamev2\android\dependencies\mysql-connector-java-5.1.14-bin.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.badlogicgames.gdx:gdx-freetype:1.9.6@jar" level="project" />
     <orderEntry type="library" name="com.badlogicgames.gdx:gdx-backend-android:1.9.6@jar" level="project" />

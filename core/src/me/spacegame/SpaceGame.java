@@ -1,41 +1,19 @@
 package me.spacegame;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
-import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.PerformanceCounter;
 
-import java.sql.ResultSet;
 import java.util.HashMap;
 
-import me.spacegame.databases.API;
+import de.golfgl.gdxgamesvcs.IGameServiceClient;
+import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import me.spacegame.databases.Database;
 import me.spacegame.screens.MainMenuScreen;
-import me.spacegame.ui.menu.GameOverMenu;
 
 public class SpaceGame extends Game {
 
@@ -48,12 +26,18 @@ public class SpaceGame extends Game {
 
 	private AssetManager manager;
 
+
 	private HashMap<String, String> assetKeys = new HashMap<String, String>();
+
+	public IGameServiceClient gsClient;
 
 	@Override
 	public void create ()
 	{
-		GameOverMenu.loadText();
+		if(gsClient == null)
+		{
+			gsClient = new NoGameServiceClient();
+		}
 
 		VIEWPORTWIDTH = Gdx.graphics.getWidth();
 		VIEWPORTHEIGHT = Gdx.graphics.getHeight();
@@ -82,14 +66,13 @@ public class SpaceGame extends Game {
 			assetKeys.put(data[0], path);
 			manager.load(path, Texture.class);
 		}
+		manager.load("ui/fragezeichen.obj", Model.class);
 		manager.update();
 		System.out.println("Load Time: " + (System.currentTimeMillis() - starttime));
-
 	}
 
 	public Texture getTexture(String name)
 	{
-		//System.out.println("Key: " + name + ", Value: " + assetKeys.get(name));
 		return manager.get(assetKeys.get(name));
 	}
 
@@ -112,6 +95,11 @@ public class SpaceGame extends Game {
 		manager.clear();
 		manager.dispose();
 		database.CloseConnection();
+	}
+
+	public AssetManager getAssetManager()
+	{
+		return manager;
 	}
 
 }
