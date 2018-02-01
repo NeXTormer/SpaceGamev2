@@ -75,6 +75,6 @@ public class PowerUpClear extends PowerUp {
 
     @Override
     public float getCooldown() {
-        return 0;
+        return 1000;
     }
 }
