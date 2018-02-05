@@ -11,26 +11,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import me.spacegame.SpaceGame;
-import me.spacegame.animations.ExclaimationPoint;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Enemy;
@@ -41,7 +37,6 @@ import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpClear;
 import me.spacegame.powerups.PowerUpControl;
-import me.spacegame.powerups.PowerUpFreeze;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpHelper;
 import me.spacegame.powerups.PowerUpObject;
@@ -55,7 +50,7 @@ import me.spacegame.util.Scale;
  * Created by Felix on 09-May-17.
  */
 
-public class GameScreen implements Screen, InputProcessor {
+public class GameScreen implements Screen, InputProcessor, GestureDetector.GestureListener {
 
 
     private Menu menu;
@@ -140,6 +135,7 @@ public class GameScreen implements Screen, InputProcessor {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(this);
+        inputMultiplexer.addProcessor(new GestureDetector(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
 
 
@@ -188,7 +184,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        //currentPowerUp = new PowerUpPacMan(player, this);
+        currentPowerUp = new PowerUpPacMan(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -675,6 +671,14 @@ public class GameScreen implements Screen, InputProcessor {
         return false;
     }
 
+    public void activatePowerUp()
+    {
+        if(currentPowerUp!=null && activePowerUps.size()==0)
+        {
+            activePowerUps.add(currentPowerUp);
+        }
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (screenX >= SpaceGame.VIEWPORTWIDTH / 2 && player.visible)
@@ -710,11 +714,7 @@ public class GameScreen implements Screen, InputProcessor {
             if(screenX>Scale.getScaledSizeX(91) && screenX<Scale.getScaledSizeX(270) && screenY>Scale.getScaledSizeY(45) && screenY<Scale.getScaledSizeY(220))
             //if((dx+dy)>250)
             {
-                if(currentPowerUp!=null && activePowerUps.size()==0)
-                {
-                    activePowerUps.add(currentPowerUp);
-                }
-
+                activatePowerUp();
             }
         }
         return true;
@@ -794,5 +794,53 @@ public class GameScreen implements Screen, InputProcessor {
     public Camera getCamera() { return camera; }
 
 
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
 
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+
+        if(velocityX * velocityX + velocityY * velocityY > 1700000)
+        {
+            activatePowerUp();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
+    }
 }
