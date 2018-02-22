@@ -812,7 +812,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        if(velocityX * velocityX + velocityY * velocityY > 1700000)
+        System.out.println((velocityX * velocityX + velocityY * velocityY) + ": " + Scale.getScaledSizeX(2000000));
+        if((velocityX * velocityX + velocityY * velocityY) > Scale.getScaledSizeX(100000))
         {
             activatePowerUp();
         }
