@@ -51,7 +51,11 @@ poweruptimer;ui/powerupcooldown.png
 mainmenubutton;ui/mainmenubtn.png
 homebutton;ui/home.png
 helpbutton;help/helpbutton.png
-#
+#help
 cs1;help/cs1.png
 cs2;help/cs2.png
 cs3;help/cs3.png
+#sounds
+damagesound;sounds/damage.wav
+shot1sound;sounds/shot1.mp3
+shot2csound;sounds/shot_contiuous2.mp3

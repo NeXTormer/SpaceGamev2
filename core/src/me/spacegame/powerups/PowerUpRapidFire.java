@@ -2,6 +2,7 @@ package me.spacegame.powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +23,9 @@ public class PowerUpRapidFire extends PowerUp {
     private double x;
     private double y;
     private boolean started;
+
+    private long soundID = 0;
+    private Sound sound;
 
 
 
@@ -61,6 +65,7 @@ public class PowerUpRapidFire extends PowerUp {
         }
         else
         {
+            sound.stop(soundID);
             return false;
         }
 
@@ -85,7 +90,9 @@ public class PowerUpRapidFire extends PowerUp {
     @Override
     public void start()
     {
-
+        sound = gameScreen.getGame().getSound("shot2csound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
     }
 
     @Override

@@ -184,7 +184,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpPacMan(player, this);
+        currentPowerUp = new PowerUpRapidFire(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -449,7 +449,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     break outerloop;
                 }
             }
-
         }
 
         //Rocket   -  Enemy Collision
@@ -618,18 +617,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar.update();
         stage.act();
 
-        //if(settingsbtn.isPressed())
-        if(false) /* settingsbutton is harter pfusch */
-        {
-            //Richtiger Pfusch, geht aber
-            settingsbtn.remove();
-            settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
-            stage.addActor(settingsbtn);
-            settingsbtn.setPosition(1650, 928);
-
-        }
         if(!player.dead)
+        {
             healthBar.score = player.score + 1;
+        }
     }
 
 
@@ -639,6 +630,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         player.health -= damage;
         healthBar.setAbsuloteHealth(player.health);
         shakeCam();
+        game.getSound("damagesound").play();
         if (healthBar.getHealth() <= 0.2) {
             gameOver();
         }
@@ -676,6 +668,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         if(currentPowerUp!=null && activePowerUps.size()==0)
         {
             activePowerUps.add(currentPowerUp);
+            currentPowerUp.start();
         }
     }
 
@@ -690,11 +683,13 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     if(rockets.size() < 5)
                     {
                         rockets.add(new Rocket(player));
+                        game.getSound("shot1sound").play();
                     }
                 }
                 else
                 {
                     rockets.add(new Rocket(player));
+                    game.getSound("shot1sound").play();
                 }
 
             }
@@ -703,6 +698,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 if(rockets.size() < 5)
                 {
                     rockets.add(new Rocket(player));
+                    game.getSound("shot1sound").play();
                 }
             }
         }

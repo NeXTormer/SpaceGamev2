@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
@@ -65,11 +66,11 @@ public class SpaceGame extends Game {
 			String[] data = uniqueAssets[i].split(";");
 			String path = data[1].split("\r")[0];
 			assetKeys.put(data[0], path);
-			String f[] = path.split(".");
+			String f[] = path.split("\\.");
 			String format = f[f.length-1];
 			if(format.equals("mp3") || format.equals("wav"))
 			{
-				manager.load("path", Sound.class);
+				manager.load(path, Sound.class);
 			}
 			else
 			{
@@ -82,6 +83,11 @@ public class SpaceGame extends Game {
 	}
 
 	public Texture getTexture(String name)
+	{
+		return manager.get(assetKeys.get(name));
+	}
+
+	public Sound getSound(String name)
 	{
 		return manager.get(assetKeys.get(name));
 	}
