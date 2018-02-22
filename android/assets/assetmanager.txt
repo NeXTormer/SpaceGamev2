@@ -51,3 +51,7 @@ poweruptimer;ui/powerupcooldown.png
 mainmenubutton;ui/mainmenubtn.png
 homebutton;ui/home.png
 helpbutton;help/helpbutton.png
+#
+cs1;help/cs1.png
+cs2;help/cs2.png
+cs3;help/cs3.png
