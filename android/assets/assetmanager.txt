@@ -50,3 +50,4 @@ gameover;ui/gameover.png
 poweruptimer;ui/powerupcooldown.png
 mainmenubutton;ui/mainmenubtn.png
 homebutton;ui/home.png
+helpbutton;help/helpbutton.png

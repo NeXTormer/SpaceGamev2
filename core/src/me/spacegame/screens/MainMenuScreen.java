@@ -40,18 +40,22 @@ public class MainMenuScreen implements Screen {
     private SpaceGame game;
 
     private OrthographicCamera camera;
-    private SpriteBatch batch;
+    public SpriteBatch batch;
 
     private Texture background;
     private Texture logo;
     private Texture startbuttonup;
     private Texture startbuttondown;
+    private Texture helpButton;
 
     private SpriteDrawable startButtonUpDrawable;
     private SpriteDrawable startButtonDownDrawable;
+    private SpriteDrawable helpButtonDrawable;
 
-    private Stage stage;
+    public Stage stage;
+
     private ImageButton startbtn;
+    private ImageButton helpbtn;
     private TextField textField;
     private Label usernameLabel;
     private Label infoLabel;
@@ -61,8 +65,6 @@ public class MainMenuScreen implements Screen {
 
 
     private Preferences preferences = Gdx.app.getPreferences("sgusername");
-
-
 
     public MainMenuScreen(SpaceGame game) {
         this.game = game;
@@ -83,16 +85,23 @@ public class MainMenuScreen implements Screen {
         logo = game.getTexture("logo");
         startbuttonup = game.getTexture("startButtonUp");
         startbuttondown = game.getTexture("startButtonDown");
+        helpButton = game.getTexture("helpbutton");
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
+        helpButtonDrawable = new SpriteDrawable();
 
         startButtonUpDrawable.setSprite(new Sprite(startbuttonup));
         startButtonDownDrawable.setSprite(new Sprite(startbuttondown));
+        helpButtonDrawable.setSprite(new Sprite(helpButton));
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
+        helpbtn = new ImageButton(helpButtonDrawable);
 
         startbtn.setPosition(Scale.getScaledSizeX(625), Scale.getScaledSizeY(120));
+
+        helpbtn.setPosition(Scale.getScaledSizeX(100), Scale.getScaledSizeY(550));
+        helpbtn.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeY(170));
 
         stage = new Stage();
 
@@ -153,12 +162,15 @@ public class MainMenuScreen implements Screen {
             logoscalex = Scale.getScaledSizeX(170 * 11f);
             logoscaley = Scale.getScaledSizeY(16 * 11f);
         }
+        stage.addActor(helpbtn);
     }
 
     @Override
     public void show() {
 
     }
+
+    public SpaceGame getGame() { return game; }
 
     @Override
     public void render(float delta) {
@@ -170,6 +182,10 @@ public class MainMenuScreen implements Screen {
             game.username = username;
             preferences.putString("username", username);
             preferences.flush();
+        }
+        if(helpbtn.isPressed())
+        {
+            game.setScreen(new HelpScreen(this));
         }
 
         batch.setProjectionMatrix(camera.combined);
