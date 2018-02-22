@@ -3,6 +3,7 @@ package me.spacegame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,7 +65,16 @@ public class SpaceGame extends Game {
 			String[] data = uniqueAssets[i].split(";");
 			String path = data[1].split("\r")[0];
 			assetKeys.put(data[0], path);
-			manager.load(path, Texture.class);
+			String f[] = path.split(".");
+			String format = f[f.length-1];
+			if(format.equals("mp3") || format.equals("wav"))
+			{
+				manager.load("path", Sound.class);
+			}
+			else
+			{
+				manager.load(path, Texture.class);
+			}
 		}
 		manager.load("ui/fragezeichen.obj", Model.class);
 		manager.update();
