@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "me.spacegame"
         minSdkVersion 9
-        targetSdkVersion 25
+        targetSdkVersion 26
     }
 }
 // called every time gradle gets executed, takes the native dependencies of
