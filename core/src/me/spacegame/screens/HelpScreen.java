@@ -31,9 +31,9 @@ public class HelpScreen implements Screen {
         this.batch = gamescreen.batch;
         slides = new Texture[3];
 
-        slides[0] = gamescreen.getGame().getTexture("pacman");
-        slides[1] = gamescreen.getGame().getTexture("logo");
-        slides[2] = gamescreen.getGame().getTexture("pwupClearIcon");
+        slides[0] = gamescreen.getGame().getTexture("cs1");
+        slides[1] = gamescreen.getGame().getTexture("cs2");
+        slides[2] = gamescreen.getGame().getTexture("cs3");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));
