@@ -3,6 +3,7 @@ exclaimationpoint;animations/exclaimationpoint.png
 explosion1;animations/explosion1.png
 questionmark1;animations/questionmark.png
 pacman;animations/pacman.png
+laser1;animations/LaserSprite_02.png
 background;gameobjects/background_large.png
 enemy1;gameobjects/EnemyShip_02.png
 enemy2;gameobjects/EnemyShip_03.png
@@ -31,11 +32,14 @@ pwupHealthIcon;gameobjects/HealthIcon.png
 pwupRapidFireIcon;gameobjects/RapidFireIcon.png
 pwupHelperIcon;gameobjects/HelperIcon.png
 pwupPacManIcon;gameobjects/PacManIcon.png
+pwupCometIcon;gameobjects/CometIcon.png
+pwupLaserIcon;gameobjects/LaserIcon.png
 #
 questionmark;gameobjects/Fragezeichen.png
 touchBackground;touchpad/touchbackground.png
 touchKnob;touchpad/touchknob.png
 helpership;gameobjects/SpaceShip_03.png
+comet;gameobjects/Comet.png
 #
 settingsButton;ui/settingsbtn.png
 logo;mainmenu/logo.png

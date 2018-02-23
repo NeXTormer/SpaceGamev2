@@ -29,6 +29,7 @@ import java.util.Random;
 import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Background;
+import me.spacegame.gameobjects.Comet;
 import me.spacegame.gameobjects.Enemy;
 import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
@@ -36,9 +37,11 @@ import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpClear;
+import me.spacegame.powerups.PowerUpComet;
 import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpHelper;
+import me.spacegame.powerups.PowerUpLaser;
 import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpPacMan;
 import me.spacegame.powerups.PowerUpRapidFire;
@@ -71,6 +74,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     public List<Enemy> enemies = new ArrayList<Enemy>();
     private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
     private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
+    public List<Comet> comets = new ArrayList<Comet>();
     private Background background;
 
     public static Random random = new Random();
@@ -184,7 +188,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpRapidFire(player, this);
+        currentPowerUp = new PowerUpLaser(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -532,8 +536,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 powerUpObjects.remove(powerUpObjects.get(i));
 
 
-                switch(random.nextInt(6))
+                switch(random.nextInt(7))
                 {
+                    case 6:
+                        currentPowerUp = new PowerUpComet(player, this);
+                        break outerloop;
                     case 5:
                         currentPowerUp = new PowerUpPacMan(player, this);
                         break outerloop;
