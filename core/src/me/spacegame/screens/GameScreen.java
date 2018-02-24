@@ -536,8 +536,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 powerUpObjects.remove(powerUpObjects.get(i));
 
 
-                switch(random.nextInt(7))
+                switch(random.nextInt(8))
                 {
+                    case 7:
+                        currentPowerUp = new PowerUpLaser(player, this);
+                        break outerloop;
                     case 6:
                         currentPowerUp = new PowerUpComet(player, this);
                         break outerloop;
