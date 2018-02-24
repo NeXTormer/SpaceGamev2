@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.awt.Rectangle;
+
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -18,11 +20,12 @@ public class Laser
     private static TextureRegion[] textureRegions;
 
     private float elapsed = 0f;
-    private float x = 0;
-    private float y = 0;
+    public float x = 0;
+    public float y = 0;
     private int width = 80;
-    private int height = 130;
+    public int height = 130;
     private float frameDuration = 1.4f;
+    public Rectangle box;
     public int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
@@ -50,7 +53,6 @@ public class Laser
 
         this.x = x;
         this.y = y;
-
 
         animation = new Animation<TextureRegion>(10, textureRegions);
         animation.setPlayMode(Animation.PlayMode.LOOP);
