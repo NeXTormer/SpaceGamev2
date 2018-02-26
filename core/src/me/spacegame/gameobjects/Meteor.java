@@ -40,7 +40,7 @@ public class Meteor {
     public int speed;
     public int speedy;
     private int saveSpeed;
-    private int rotateSpeed;
+    public int rotateSpeed;
     public int texture;
 
     public Meteor(GameScreen screen)

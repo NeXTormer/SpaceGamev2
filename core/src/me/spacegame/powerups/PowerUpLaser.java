@@ -42,11 +42,11 @@ public class PowerUpLaser extends PowerUp
         {
             lArray[i] = new Laser((int) x, (int) y, gameScreen);;
             lArray[i].setPosition(player.x+x+(i*30), player.y+y);
-            if(lasernumber==24)
+            if(lasernumber>33)
             {
                 lasernumber=0;
             }
-            lArray[i].elapsedFrames=0+lasernumber;
+            lArray[i].elapsedFrames+=lasernumber;
             lasernumber++;
         }
 
@@ -98,6 +98,7 @@ public class PowerUpLaser extends PowerUp
             if (Intersector.overlaps(gameScreen.meteors.get(i).box, this.box))
             {
                 gameScreen.meteors.get(i).health -= 2;
+                gameScreen.meteors.get(i).rotateSpeed+=1;
                 gameScreen.meteors.get(i).updateTexture();
                 if(gameScreen.meteors.get(i).health<=0)
                 {
