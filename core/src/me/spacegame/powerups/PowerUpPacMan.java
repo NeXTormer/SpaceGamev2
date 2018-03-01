@@ -1,5 +1,6 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -25,11 +26,11 @@ public class PowerUpPacMan extends PowerUp {
     private float y;
     private float width;
     private float height;
-    private static Texture pacManTexture;
     private Rectangle box;
 
     private PacMan pm;
-
+    private long soundID = 0;
+    private Sound sound;
 
     public PowerUpPacMan(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
@@ -113,6 +114,7 @@ public class PowerUpPacMan extends PowerUp {
         }
 
         player.setVisible(true);
+        sound.stop(soundID);
         return false;
     }
 
@@ -125,8 +127,11 @@ public class PowerUpPacMan extends PowerUp {
     }
 
     @Override
-    public void start() {
-
+    public void start()
+    {
+        sound = gameScreen.getGame().getSound("laser1sound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
     }
 
     @Override

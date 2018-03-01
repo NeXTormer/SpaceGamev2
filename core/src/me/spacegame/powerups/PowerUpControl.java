@@ -2,6 +2,7 @@ package me.spacegame.powerups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,8 @@ public class PowerUpControl extends PowerUp {
     private float height;
     private static Texture replaceTexture;
     private GameScreen gameScreen;
+    private long soundID = 0;
+    private Sound sound;
 
     static
     {
@@ -87,8 +90,9 @@ public class PowerUpControl extends PowerUp {
     }
 
     @Override
-    public void start() {
-
+    public void start()
+    {
+        sound = gameScreen.getGame().getSound("shot2sound");
     }
 
     @Override
