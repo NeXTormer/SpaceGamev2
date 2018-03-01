@@ -92,7 +92,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
-    private int powerUpDropRate = 12; // 1 : x  where x..value
+    private int powerUpDropRate = 3; // 1 : x  where x..value default:12
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -188,7 +188,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         currentPowerUp = null;
         //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpLaser(player, this);
+        currentPowerUp = new PowerUpClear(player, this);
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);

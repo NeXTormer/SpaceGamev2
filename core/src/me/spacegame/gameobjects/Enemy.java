@@ -166,6 +166,7 @@ public class Enemy {
                 r1.x=enemyX+(enemyWidth/4*3);
                 r1.y=enemyY+(enemyHeight*2/28);
                 rockets.add(r1);
+                gameScreen.game.getSound("shot3sound").play();
 
                 //top rocket
                 EnemyRocket r2 = new EnemyRocket(this);
@@ -174,6 +175,7 @@ public class Enemy {
                 r2.x=enemyX+(enemyWidth/4*3);
                 r2.y=enemyY+(enemyHeight*20/28);
                 rockets.add(r2);
+                gameScreen.game.getSound("shot3sound").play();
             }
         }
 
@@ -195,16 +197,19 @@ public class Enemy {
         if(enemyX>=Scale.getScaledSizeX(1800) && enemyX <= Scale.getScaledSizeX(1850))
         {
             rockets.add(new EnemyRocket(this));
+            gameScreen.game.getSound("shot3sound").play();
         }
 
         if(enemyX>=rocket1 && enemyX <=rocket1+50)
         {
             rockets.add(new EnemyRocket(this));
+            gameScreen.game.getSound("shot3sound").play();
         }
 
         if(enemyX>=rocket2 && enemyX <=rocket2+50)
         {
             rockets.add(new EnemyRocket(this));
+            gameScreen.game.getSound("shot3sound").play();
         }
 
         for(EnemyRocket rocket : rockets)

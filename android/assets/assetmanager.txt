@@ -68,10 +68,11 @@ creditsbutton;ui/creditsbutton.png
 damagesound;sounds/damage.wav
 shot1sound;sounds/shot1.mp3
 shot2sound;sounds/shot2.wav
+shot3sound;sounds/shot3.wav
 shot2csound;sounds/shot_contiuous2.mp3
 laser1sound;sounds/laser1.wav
 laser2sound;sounds/laser2.wav
-pacmansound;sounds/pacman.wav
+pacmansound;sounds/pacman2.wav
 healthupsound;sounds/healthup.wav
 cometsound;sounds/comet.wav
 explosion1sound;sounds/explosion1.wav
