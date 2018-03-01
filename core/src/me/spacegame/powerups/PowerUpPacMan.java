@@ -82,7 +82,8 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
                     gameScreen.meteors.add(new Meteor(gameScreen));
-                    healPlayer(5);
+                    gameScreen.game.getSound("explosion1sound").play();
+                    healPlayer(3);
                     //System.out.println("healed" + " : "+player.health);
                     break outerloop;
                 }
@@ -96,7 +97,7 @@ public class PowerUpPacMan extends PowerUp {
                     if(Intersector.overlaps(this.box, gameScreen.enemies.get(i).getRockets().get(j).box))
                     {
                         gameScreen.enemies.get(i).getRockets().remove(j);
-                        healPlayer(8);
+                        healPlayer(4);
                         break outerloop;
                     }
                 }
@@ -105,7 +106,8 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20),
                     (int) gameScreen.enemies.get(i).enemyWidth, (int) gameScreen.enemies.get(i).enemyHeight, gameScreen));
                     gameScreen.enemies.remove(i);
-                    healPlayer(15);
+                    gameScreen.game.getSound("explosion1sound").play();
+                    healPlayer(8);
                     break outerloop;
                 }
             }
@@ -129,7 +131,7 @@ public class PowerUpPacMan extends PowerUp {
     @Override
     public void start()
     {
-        sound = gameScreen.getGame().getSound("laser1sound");
+        sound = gameScreen.getGame().getSound("pacmansound");
         soundID = sound.play();
         sound.setLooping(soundID, true);
     }
