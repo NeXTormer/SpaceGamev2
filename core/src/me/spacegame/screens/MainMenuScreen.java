@@ -47,15 +47,18 @@ public class MainMenuScreen implements Screen {
     private Texture startbuttonup;
     private Texture startbuttondown;
     private Texture helpButton;
+    private Texture creditsbutton;
 
     private SpriteDrawable startButtonUpDrawable;
     private SpriteDrawable startButtonDownDrawable;
     private SpriteDrawable helpButtonDrawable;
+    private SpriteDrawable creditsButtonDrawable;
 
     public Stage stage;
 
     private ImageButton startbtn;
     private ImageButton helpbtn;
+    private ImageButton creditsbtn;
     private TextField textField;
     private Label usernameLabel;
     private Label infoLabel;
@@ -86,27 +89,36 @@ public class MainMenuScreen implements Screen {
         startbuttonup = game.getTexture("startButtonUp");
         startbuttondown = game.getTexture("startButtonDown");
         helpButton = game.getTexture("helpbutton");
+        creditsbutton = game.getTexture("creditsbutton");
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
         helpButtonDrawable = new SpriteDrawable();
+        creditsButtonDrawable = new SpriteDrawable();
 
         startButtonUpDrawable.setSprite(new Sprite(startbuttonup));
         startButtonDownDrawable.setSprite(new Sprite(startbuttondown));
         helpButtonDrawable.setSprite(new Sprite(helpButton));
+        creditsButtonDrawable.setSprite(new Sprite(creditsbutton));
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
         helpbtn = new ImageButton(helpButtonDrawable);
+        creditsbtn = new ImageButton(creditsButtonDrawable);
 
         startbtn.setPosition(Scale.getScaledSizeX(625), Scale.getScaledSizeY(120));
 
-        helpbtn.setPosition(Scale.getScaledSizeX(100), Scale.getScaledSizeY(550));
+        helpbtn.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(50));
         helpbtn.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeY(170));
+
+        creditsbtn.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(300));
+        creditsbtn.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeY(170));
+
 
         stage = new Stage();
 
         startbtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
         stage.addActor(startbtn);
+        stage.addActor(creditsbtn);
 
         usernameLabel = new Label("Username: ", new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.RED));
         usernameLabel.setPosition(Scale.getScaledSizeX(550), Scale.getScaledSizeY(657));
@@ -186,6 +198,10 @@ public class MainMenuScreen implements Screen {
         if(helpbtn.isPressed())
         {
             game.setScreen(new HelpScreen(this));
+        }
+        if(creditsbtn.isPressed())
+        {
+            game.setScreen(new CreditsScreen(this));
         }
 
         batch.setProjectionMatrix(camera.combined);
