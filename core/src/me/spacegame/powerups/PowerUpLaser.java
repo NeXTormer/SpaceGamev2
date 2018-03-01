@@ -1,5 +1,6 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -23,17 +24,17 @@ public class PowerUpLaser extends PowerUp
     private boolean started;
     private float x;
     private float y;
-    private float width;
-    private float height;
-    private static Texture laserTexture;
     private Rectangle box;
     private Laser[] lArray;
     private int lasernumber;
 
+    private long soundID = 0;
+    private Sound sound;
+
     public PowerUpLaser(Player player, GameScreen gameScreen)
     {
         super(player, gameScreen);
-        duration = 30000;
+        duration = 7000;
         texture = gameScreen.getGame().getTexture("pwupLaserIcon");
         lArray = new Laser[100];
         lasernumber = 0;
@@ -54,8 +55,11 @@ public class PowerUpLaser extends PowerUp
 
     }
     @Override
-    public void start() {
-
+    public void start()
+    {
+        sound = gameScreen.getGame().getSound("laser2sound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
     }
 
     @Override
@@ -136,6 +140,7 @@ public class PowerUpLaser extends PowerUp
         {
             return true;
         }
+        sound.stop(soundID);
         return false;
     }
 

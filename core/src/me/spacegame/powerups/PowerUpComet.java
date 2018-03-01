@@ -1,5 +1,6 @@
 package me.spacegame.powerups;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -22,10 +23,6 @@ public class PowerUpComet extends PowerUp
     private boolean started;
     private float x;
     private float y;
-    private float width;
-    private float height;
-    private static Texture cometTexture;
-    private Circle box;
     private Comet comet0;
     private Comet comet1;
     private Comet comet2;
@@ -33,6 +30,8 @@ public class PowerUpComet extends PowerUp
     private float deg0 = 90;
     private float deg1 = 89.5f;
     private float deg2 = 89.2f;
+    private long soundID = 0;
+    private Sound sound;
 
 
     public PowerUpComet(Player player, GameScreen gameScreen)
@@ -55,7 +54,9 @@ public class PowerUpComet extends PowerUp
     @Override
     public void start()
     {
-
+        sound = gameScreen.getGame().getSound("cometsound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
     }
 
     @Override
@@ -116,6 +117,7 @@ public class PowerUpComet extends PowerUp
         gameScreen.explosions.add(new Explosion((int) (comet2.x - comet2.radius), (int) (comet2.y-comet0.radius), (int) comet2.radius*2, (int) comet2.radius*2, gameScreen));
 
         gameScreen.comets.clear();
+        sound.stop(soundID);
         return false;
     }
 

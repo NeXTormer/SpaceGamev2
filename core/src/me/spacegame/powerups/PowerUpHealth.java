@@ -1,6 +1,7 @@
 package me.spacegame.powerups;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,6 +15,8 @@ import me.spacegame.screens.GameScreen;
 public class PowerUpHealth extends PowerUp {
     private double health;
     private boolean healed;
+    private long soundID = 0;
+    private Sound sound;
 
     public PowerUpHealth(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
@@ -24,8 +27,10 @@ public class PowerUpHealth extends PowerUp {
     }
 
     @Override
-    public void start() {
-
+    public void start()
+    {
+        sound = gameScreen.getGame().getSound("healthupsound");
+        soundID = sound.play();
     }
 
     @Override

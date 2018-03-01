@@ -28,7 +28,6 @@ public class PowerUpRapidFire extends PowerUp {
     private Sound sound;
 
 
-
     public PowerUpRapidFire(Player p, GameScreen gameScreen)
     {
         super(p, gameScreen);
