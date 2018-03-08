@@ -28,11 +28,9 @@ public class CreditsScreen implements Screen {
     public CreditsScreen(MainMenuScreen gamescreen) {
         this.menuscreen = gamescreen;
         this.batch = gamescreen.batch;
-        slides = new Texture[3];
+        slides = new Texture[1];
 
         slides[0] = gamescreen.getGame().getTexture("credits1");
-        slides[1] = gamescreen.getGame().getTexture("credits2");
-        slides[2] = gamescreen.getGame().getTexture("credits3");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));

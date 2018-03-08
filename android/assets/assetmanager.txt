@@ -61,8 +61,6 @@ cs2;help/cs2.png
 cs3;help/cs3.png
 #credits
 credits1;credits/c1.png
-credits2;credits/c2.png
-credits3;credits/c3.png
 creditsbutton;ui/creditsbutton.png
 #main menu buttons
 vibrationoff;ui/vibrationoff.png
