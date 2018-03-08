@@ -132,8 +132,8 @@ public class PowerUpPacMan extends PowerUp {
     public void start()
     {
         sound = gameScreen.getGame().getSound("pacmansound");
-        soundID = sound.play(gameScreen.game.soundVolume);
-        sound.setLooping(soundID, true);
+        soundID = sound.loop(gameScreen.game.soundVolume);
+        //sound.setLooping(soundID, true);
     }
 
     @Override
