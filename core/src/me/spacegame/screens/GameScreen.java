@@ -47,6 +47,7 @@ import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.powerups.PowerUpPacMan;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
+import me.spacegame.ui.menu.MainMenu;
 import me.spacegame.ui.menu.Menu;
 import me.spacegame.util.Scale;
 
@@ -92,7 +93,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private Enemy enemy0;
     private Enemy enemy1;
     public HealthBar healthBar;
-    private int powerUpDropRate = 3; // 1 : x  where x..value default:12
+    private int powerUpDropRate = 12; // 1 : x  where x..value default:12
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -180,8 +181,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         player = new Player(this);
 
         currentPowerUp = null;
-        //currentPowerUp = new PowerUpClear(player, this);
-        currentPowerUp = new PowerUpClear(player, this);
+        if(game.username.equalsIgnoreCase("RNDL"))
+        {
+            currentPowerUp = new PowerUpComet(player, this);
+        }
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -220,6 +223,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         backgroudMusic.setLooping(true);
         backgroudMusic.setVolume(game.soundVolume);
         backgroudMusic.play();
+
 
     }
 
