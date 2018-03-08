@@ -63,7 +63,7 @@ public class Comet
                 gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                 gameScreen.meteors.remove(i);
                 gameScreen.meteors.add(new Meteor(gameScreen));
-                gameScreen.game.getSound("explosion1sound").play();
+                gameScreen.game.getSound("explosion1sound").play(gameScreen.game.soundVolume);
                 player.score+=100;
 
                 break outerloop;
@@ -86,7 +86,7 @@ public class Comet
                 gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20),
                         (int) gameScreen.enemies.get(i).enemyWidth, (int) gameScreen.enemies.get(i).enemyHeight, gameScreen));
                 gameScreen.enemies.remove(i);
-                gameScreen.game.getSound("explosion1sound").play();
+                gameScreen.game.getSound("explosion1sound").play(gameScreen.game.soundVolume);
                 player.score+=500;
                 break outerloop;
             }

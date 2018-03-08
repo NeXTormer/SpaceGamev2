@@ -56,7 +56,7 @@ public class PowerUpClear extends PowerUp {
             }
             gameScreen.enemies.clear();
         }
-        gameScreen.game.getSound("explosion2sound").play();
+        gameScreen.game.getSound("explosion2sound").play(gameScreen.game.soundVolume);
         return false;
 
     }

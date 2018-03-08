@@ -71,7 +71,7 @@ public class PowerUpHelper extends PowerUp {
         if((System.currentTimeMillis()-shootTime) > 500) {
             shootTime = System.currentTimeMillis();
             gameScreen.rockets.add(new Rocket(helper));
-            gameScreen.game.getSound("shot1sound").play();
+            gameScreen.game.getSound("shot1sound").play(gameScreen.game.soundVolume);
         }
 
         //Meteor - Helper Collision

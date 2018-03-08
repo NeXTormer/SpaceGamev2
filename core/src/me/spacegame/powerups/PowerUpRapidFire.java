@@ -90,7 +90,7 @@ public class PowerUpRapidFire extends PowerUp {
     public void start()
     {
         sound = gameScreen.getGame().getSound("shot2csound");
-        soundID = sound.play();
+        soundID = sound.play(gameScreen.game.soundVolume);
         sound.setLooping(soundID, true);
     }
 

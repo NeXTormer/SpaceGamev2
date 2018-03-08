@@ -30,7 +30,7 @@ public class PowerUpHealth extends PowerUp {
     public void start()
     {
         sound = gameScreen.getGame().getSound("healthupsound");
-        soundID = sound.play();
+        soundID = sound.play(gameScreen.game.soundVolume);
     }
 
     @Override

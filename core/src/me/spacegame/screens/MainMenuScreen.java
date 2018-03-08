@@ -110,7 +110,7 @@ public class MainMenuScreen implements Screen {
         creditsButtonDrawable.setSprite(new Sprite(creditsbutton));
         volumeButtonDrawable_off.setSprite(new Sprite(volumeButton_off));
         volumeButtonDrawable_on.setSprite(new Sprite(volumeButton_on));
-        volumeButtonDrawable_off.setSprite(new Sprite(vibrationButton_off));
+        vibrationButtonDrawable_off.setSprite(new Sprite(vibrationButton_off));
         vibrationButtonDrawable_on.setSprite(new Sprite(vibrationButton_on));
 
         startbtn = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
@@ -225,11 +225,19 @@ public class MainMenuScreen implements Screen {
         {
             game.setScreen(new CreditsScreen(this));
         }
+        if(vibrationbtn.isPressed())
+        {
+            game.vibrationEnabled = !vibrationbtn.isChecked();
+        }
+        if(volumebtn.isPressed())
+        {
+            game.soundVolume = volumebtn.isChecked() ? 0.0f : 1.0f;
+        }
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(background, 0, 0);
+        batch.draw(background, 0, 0, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));
 
         batch.draw(logo, Scale.getScaledSizeX(100), Scale.getScaledSizeY(800), logoscalex, logoscaley);
         //batch.draw(logo, 40, 1200);

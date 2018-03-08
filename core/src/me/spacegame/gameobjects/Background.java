@@ -21,6 +21,10 @@ public class Background {
 
     private GameScreen gameScreen;
 
+    private float height = Scale.getScaledSizeX(1080);
+    private float width = Scale.getScaledSizeY(1920);
+
+
     public Background(GameScreen gameScreen)
         {
         this.gameScreen = gameScreen;
@@ -30,8 +34,8 @@ public class Background {
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(bg, x, 0);
-        batch.draw(bg, x + (bg.getWidth()), 0);
+        batch.draw(bg, x, 0, width, height);
+        batch.draw(bg, x + (width), 0, width, height);
     }
 
     public void update()

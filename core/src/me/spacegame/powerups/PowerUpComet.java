@@ -56,7 +56,7 @@ public class PowerUpComet extends PowerUp
     public void start()
     {
         sound = gameScreen.getGame().getSound("cometsound");
-        soundID = sound.play();
+        soundID = sound.play(gameScreen.game.soundVolume);
         sound.setLooping(soundID, true);
     }
 

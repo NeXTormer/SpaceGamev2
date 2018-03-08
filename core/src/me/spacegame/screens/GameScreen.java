@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -65,10 +66,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private Stage stage = new Stage();
 
 
+    private Music backgroudMusic;
     private OrthographicCamera camera;
+
     public List<Meteor> meteors = new ArrayList<Meteor>();
-
-
     public List<Rocket> rockets = new ArrayList<Rocket>();
     public List<Explosion> explosions = new ArrayList<Explosion>();
     public List<Enemy> enemies = new ArrayList<Enemy>();
@@ -113,6 +114,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     public GameScreen(SpaceGame game) {
         this.game = game;
         background = new Background(this);
+        backgroudMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backgroundmusic.mp3"));
 
         float wernertime = System.nanoTime();
 
@@ -214,7 +216,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar.setPowerupCooldown(200);
         System.out.println("GameScreen load time (Complete Constructor): " + (System.nanoTime() - wernertime)/1000000000);
 
-        game.getSound("startgamesound").play();
+        game.getSound("startgamesound").play(game.soundVolume);
+        backgroudMusic.setLooping(true);
+        backgroudMusic.setVolume(game.soundVolume);
+        backgroudMusic.play();
 
     }
 
@@ -362,7 +367,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     explosions.add(new Explosion((int) enemies.get(j).enemyX, (int) (enemies.get(j).enemyY), (int) enemies.get(j).enemyWidth, (int) enemies.get(j).enemyHeight, this));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        game.getSound("explosion1sound").play();
+                        game.getSound("explosion1sound").play(game.soundVolume);
                         break outerloop;
                     }
                 }
@@ -443,7 +448,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                             meteors.add(new Meteor(this));
                         }
                         meteors.remove(j);
-                        game.getSound("explosion1sound").play();
+                        game.getSound("explosion1sound").play(game.soundVolume);
                         player.score+=100;
                     }
                     break outerloop;
@@ -461,7 +466,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     explosions.add(new Explosion((int) enemies.get(j).enemyX - 70, (int) (enemies.get(j).enemyY - 20), (int) enemies.get(j).enemyWidth, enemies.get(j).enemyHeight, this));
                     if (enemies.get(j).health <= 0) {
                         enemies.remove(enemies.get(j));
-                        game.getSound("explosion1sound").play();
+                        game.getSound("explosion1sound").play(game.soundVolume);
                         player.score+=500;
                     }
                     break outerloop;
@@ -491,7 +496,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     {
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), (int) meteors.get(j).radius*2, (int) meteors.get(j).radius*2, this));
                         meteors.remove(j);
-                        game.getSound("explosion1sound").play();
+                        game.getSound("explosion1sound").play(game.soundVolume);
                         meteors.add(new Meteor(this));
                     }
                 }
@@ -518,7 +523,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     {
                         explosions.add(new Explosion((int) enemies.get(i).enemyX - 70, (int) (enemies.get(i).enemyY - 20), (int) enemies.get(i).enemyWidth, (int) enemies.get(i).enemyHeight, this));
                         enemies.remove(i);
-                        game.getSound("explosion1sound").play();
+                        game.getSound("explosion1sound").play(game.soundVolume);
                         break outerloop;
                     }
                 }
@@ -639,7 +644,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         player.health -= damage;
         healthBar.setAbsuloteHealth(player.health);
         shakeCam();
-        game.getSound("damagesound").play();
+        game.getSound("damagesound").play(game.soundVolume);
         if (healthBar.getHealth() <= 0.2) {
             gameOver();
         }
@@ -648,10 +653,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private void gameOver() {
         if(!player.dead)
         {
+            backgroudMusic.stop();
             player.setVisible(false);
             explosions.add(new Explosion((int) player.x, (int) player.y, true));
 
-            game.getSound("gameoversound").play();
+            game.getSound("gameoversound").play(game.soundVolume);
             menu.currentMenu = menu.screens.get("gameover").activate();
             player.dead = true;
             healthBar.setAbsuloteHealth(0);
@@ -695,18 +701,18 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                         rockets.add(new Rocket(player));
                         if(!(activePowerUps.get(0) instanceof PowerUpControl))
                         {
-                            game.getSound("shot1sound").play();
+                            game.getSound("shot1sound").play(game.soundVolume);
                         }
                         else
                         {
-                            game.getSound("shot2sound").play();
+                            game.getSound("shot2sound").play(game.soundVolume);
                         }
                     }
                 }
                 else
                 {
                     rockets.add(new Rocket(player));
-                    game.getSound("shot1sound").play();
+                    game.getSound("shot1sound").play(game.soundVolume);
                 }
 
             }
@@ -715,7 +721,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 if(rockets.size() < 5)
                 {
                     rockets.add(new Rocket(player));
-                    game.getSound("shot1sound").play();
+                    game.getSound("shot1sound").play(game.soundVolume);
                 }
             }
         }
@@ -777,6 +783,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     public void dispose() {
         batch.dispose();
         background.dispose();
+        backgroudMusic.dispose();
         Meteor.dispose();
         Rocket.dispose();
         Explosion.dispose();
