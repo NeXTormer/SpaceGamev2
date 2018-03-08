@@ -214,6 +214,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar.setPowerupCooldown(200);
         System.out.println("GameScreen load time (Complete Constructor): " + (System.nanoTime() - wernertime)/1000000000);
 
+        game.getSound("startgamesound").play();
+
     }
 
 
@@ -649,6 +651,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             player.setVisible(false);
             explosions.add(new Explosion((int) player.x, (int) player.y, true));
 
+            game.getSound("gameoversound").play();
             menu.currentMenu = menu.screens.get("gameover").activate();
             player.dead = true;
             healthBar.setAbsuloteHealth(0);

@@ -32,7 +32,8 @@ public class PowerUpPacMan extends PowerUp {
     private long soundID = 0;
     private Sound sound;
 
-    public PowerUpPacMan(Player player, GameScreen gameScreen) {
+    public PowerUpPacMan(Player player, GameScreen gameScreen)
+    {
         super(player, gameScreen);
         duration = 5000;
         x = player.x-50;
@@ -51,7 +52,6 @@ public class PowerUpPacMan extends PowerUp {
         if ((timer) < duration)
         {
             pm.draw(batch);
-            //batch.draw(pacManTexture, x, y, width, height);
         }
     }
 
@@ -82,8 +82,8 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
                     gameScreen.meteors.add(new Meteor(gameScreen));
-                    gameScreen.game.getSound("explosion1sound").play();
-                    healPlayer(3);
+                    gameScreen.game.getSound("pacman3sound").play();
+                    healPlayer(2);
                     //System.out.println("healed" + " : "+player.health);
                     break outerloop;
                 }
@@ -97,7 +97,7 @@ public class PowerUpPacMan extends PowerUp {
                     if(Intersector.overlaps(this.box, gameScreen.enemies.get(i).getRockets().get(j).box))
                     {
                         gameScreen.enemies.get(i).getRockets().remove(j);
-                        healPlayer(4);
+                        healPlayer(2);
                         break outerloop;
                     }
                 }
@@ -106,8 +106,8 @@ public class PowerUpPacMan extends PowerUp {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20),
                     (int) gameScreen.enemies.get(i).enemyWidth, (int) gameScreen.enemies.get(i).enemyHeight, gameScreen));
                     gameScreen.enemies.remove(i);
-                    gameScreen.game.getSound("explosion1sound").play();
-                    healPlayer(8);
+                    gameScreen.game.getSound("pacman3sound").play();
+                    healPlayer(5);
                     break outerloop;
                 }
             }

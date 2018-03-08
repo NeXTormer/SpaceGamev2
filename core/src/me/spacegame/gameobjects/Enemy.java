@@ -1,6 +1,7 @@
 package me.spacegame.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -50,6 +51,9 @@ public class Enemy {
     public float warningWidth;
     public float warningHeight;
 
+    private long soundID = 0;
+    private Sound sound;
+
 
     private ArrayList<EnemyRocket> rockets;
 
@@ -76,6 +80,9 @@ public class Enemy {
         warningY = enemyY;
         warningHeight = enemyHeight;
         warningWidth = 40;
+        sound = gameScreen.getGame().getSound("warningsound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
 
         ep = new ExclaimationPoint((int) warningX, (int) warningY, screen);
         rockets = new ArrayList<EnemyRocket>();
@@ -105,6 +112,9 @@ public class Enemy {
         warningY = enemyY;
         warningHeight = enemyHeight;
         warningWidth = 40;
+        sound = gameScreen.getGame().getSound("warningsound");
+        soundID = sound.play();
+        sound.setLooping(soundID, true);
 
         ep = new ExclaimationPoint((int) warningX, (int) warningY, screen);
         rockets = new ArrayList<EnemyRocket>();
@@ -137,13 +147,22 @@ public class Enemy {
         ep.update();
         ep.setPosition( (int) warningX, (int) enemyY);
 
+        if(type==0 && enemyX<Scale.getScaledSizeX(1920))
+        {
+            sound.stop(soundID);
+        }
+        if(type==1 && enemyX>0)
+        {
+            sound.stop(soundID);
+        }
+
         if(type==0)
         {
             enemyX-=baseSpeed;
         }
         if(type==1)
         {
-            if(enemyX<=150)
+            if(enemyX<=Scale.getScaledSizeX(150))
             {
                 enemyX+=(baseSpeed-10);
             }

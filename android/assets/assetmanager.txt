@@ -78,7 +78,11 @@ shot2csound;sounds/shot_contiuous2.mp3
 laser1sound;sounds/laser1.wav
 laser2sound;sounds/laser2.wav
 pacmansound;sounds/pacman2.wav
+pacman3sound;sounds/pacman3.wav
 healthupsound;sounds/healthup.wav
 cometsound;sounds/comet.wav
 explosion1sound;sounds/explosion1.wav
 explosion2sound;sounds/explosion2.wav
+warningsound;sounds/warning.wav
+gameoversound;sounds/gameover.wav
+startgamesound;sounds/startgame.wav

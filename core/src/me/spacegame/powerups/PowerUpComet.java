@@ -11,6 +11,7 @@ import me.spacegame.animations.PacMan;
 import me.spacegame.gameobjects.Comet;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 23.02.2018.
@@ -26,7 +27,7 @@ public class PowerUpComet extends PowerUp
     private Comet comet0;
     private Comet comet1;
     private Comet comet2;
-    private int length = 300;
+    private float length = Scale.getScaledSizeX(300);
     private float deg0 = 90;
     private float deg1 = 89.5f;
     private float deg2 = 89.2f;

@@ -76,7 +76,6 @@ public class PowerUpLaser extends PowerUp
             {
                 lArray[i].draw(batch);
             }
-            //batch.draw(pacManTexture, x, y, width, height);
         }
     }
 
@@ -85,7 +84,7 @@ public class PowerUpLaser extends PowerUp
     {
         for(int i = 0; i<lArray.length; i++)
         {
-            lArray[i].setPosition((player.x+player.width-50)+x+(i*30), player.y+y+10);
+            lArray[i].setPosition((player.x+player.width-Scale.getScaledSizeX(50))+x+(i*30), player.y+y+Scale.getScaledSizeY(10));
             box.set((int) lArray[0].x, (int) lArray[0].y, (int) Scale.getScaledSizeX(1920)-lArray[0].x, (int) lArray[0].height);
             lArray[i].update();
         }
