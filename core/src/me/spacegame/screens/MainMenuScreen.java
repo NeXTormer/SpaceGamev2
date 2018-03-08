@@ -193,8 +193,8 @@ public class MainMenuScreen implements Screen {
         }
         else
         {
-            logoscalex = Scale.getScaledSizeX(170 * 11f);
-            logoscaley = Scale.getScaledSizeY(16 * 11f);
+            logoscalex = Scale.getScaledSizeX(170 * 9f);
+            logoscaley = Scale.getScaledSizeY(16 * 9f);
         }
         stage.addActor(helpbtn);
     }
@@ -239,7 +239,7 @@ public class MainMenuScreen implements Screen {
         batch.begin();
         batch.draw(background, 0, 0, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));
 
-        batch.draw(logo, Scale.getScaledSizeX(100), Scale.getScaledSizeY(800), logoscalex, logoscaley);
+        batch.draw(logo, Scale.getScaledSizeX(250), Scale.getScaledSizeY(800), logoscalex, logoscaley);
         //batch.draw(logo, 40, 1200);
         batch.end();
 

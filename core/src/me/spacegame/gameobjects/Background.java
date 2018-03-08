@@ -21,12 +21,12 @@ public class Background {
 
     private GameScreen gameScreen;
 
-    private float height = Scale.getScaledSizeX(1080);
-    private float width = Scale.getScaledSizeY(1920);
+    private float height = Scale.getScaledSizeY(1080);
+    private float width = Scale.getScaledSizeX(1920);
 
 
     public Background(GameScreen gameScreen)
-        {
+    {
         this.gameScreen = gameScreen;
         bg = gameScreen.game.getTexture("background");
     }
@@ -41,7 +41,7 @@ public class Background {
     public void update()
     {
         x -= speed;
-        if(x <= -bg.getWidth()) x = 0;
+        if(x <= -width) x = 0;
     }
 
     public void dispose()
