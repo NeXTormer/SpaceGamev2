@@ -26,6 +26,9 @@ public class SpaceGame extends Game {
 	public String username = "";
 	public Database database;
 
+	public boolean vibrationEnabled = true;
+	public float soundVolume = 1.0f;
+
 	private AssetManager manager;
 
 

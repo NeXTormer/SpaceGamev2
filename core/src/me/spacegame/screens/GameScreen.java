@@ -80,7 +80,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     public static Random random = new Random();
 
     public PowerUp currentPowerUp;
-    public boolean vibration = true;
     private Touchpad touchpad;
 
     private Touchpad.TouchpadStyle touchpadStyle;
@@ -96,7 +95,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
-    private long pausebtnLastTimePressed;
     private Explosion ex;
 
     public boolean paused = false;
@@ -111,13 +109,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private double enemy0SpawnerSubtract;
     private double enemy0SpawnSubtractTimer;
     private double enemy0SpawnerSubtractValue;
-
-    //Pause Button
-    public ImageButton settingsbtn;
-    private Texture pausebtnup;
-    private Texture pausebtndown;
-    private SpriteDrawable pausebtnupdrawable;
-    private SpriteDrawable pausebtndowndrawable;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -798,8 +789,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         if(!player.dead)
         {
             shakeCamTimer = System.currentTimeMillis();
-            if(vibration)
+            if(game.vibrationEnabled)
+            {
                 Gdx.input.vibrate(SHAKETIME);
+            }
         }
     }
 
