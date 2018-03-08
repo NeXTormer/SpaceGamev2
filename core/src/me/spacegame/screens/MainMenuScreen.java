@@ -197,6 +197,21 @@ public class MainMenuScreen implements Screen {
             logoscaley = Scale.getScaledSizeY(16 * 9f);
         }
         stage.addActor(helpbtn);
+
+
+        if(!preferences.getBoolean("volumebddda", false))
+        {
+            volumebtn.toggle();
+            System.out.println("volume false");
+        }
+        if(!preferences.getBoolean("vibrationbbbb", false))
+        {
+            vibrationbtn.toggle();
+            System.out.println("vibration false");
+        }
+
+        game.vibrationEnabled = !vibrationbtn.isChecked();
+        game.soundVolume = volumebtn.isChecked() ? 0.0f : 1.0f;
     }
 
     @Override
@@ -228,12 +243,14 @@ public class MainMenuScreen implements Screen {
         if(vibrationbtn.isPressed())
         {
             game.vibrationEnabled = !vibrationbtn.isChecked();
-            preferences.putBoolean("vibration", game.vibrationEnabled);
+            preferences.putBoolean("vibrationbbbb", vibrationbtn.isChecked());
+            preferences.flush();
         }
         if(volumebtn.isPressed())
         {
             game.soundVolume = volumebtn.isChecked() ? 0.0f : 1.0f;
-            preferences.putFloat("vibration", game.soundVolume);
+            preferences.putBoolean("volumebddda", volumebtn.isChecked());
+            preferences.flush();
         }
 
         batch.setProjectionMatrix(camera.combined);
