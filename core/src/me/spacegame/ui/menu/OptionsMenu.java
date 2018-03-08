@@ -22,7 +22,7 @@ public class OptionsMenu extends TemplateMenu {
 
     @Override
     public void create() {
-        backButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/backbtn.png")))));
+        //backButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("ui/backbtn.png")))));
         backButton.setPosition(900, 500);
         stage.addActor(backButton);
     }

@@ -25,9 +25,9 @@ public class Menu {
         this.gameScreen = screen;
 
         //load all menuscreens
-        screens.put("main", new MainMenu(this));
+        //screens.put("main", new MainMenu(this));
         screens.put("empty", new EmptyMenu(this));
-        screens.put("options", new OptionsMenu(this));
+        //screens.put("options", new OptionsMenu(this));
         screens.put("gameover", new GameOverMenu(this));
 
         currentMenu = screens.get("empty").activate();

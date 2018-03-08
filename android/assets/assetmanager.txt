@@ -52,7 +52,6 @@ healthbarmain;ui/healthbarmain.png
 healthTexture;ui/health.png
 gameover;ui/gameover.png
 poweruptimer;ui/powerupcooldown.png
-mainmenubutton;ui/mainmenubtn.png
 homebutton;ui/home.png
 helpbutton;help/helpbutton.png
 #help
@@ -62,6 +61,7 @@ cs3;help/cs3.png
 #credits
 credits1;credits/c1.png
 creditsbutton;ui/creditsbutton.png
+highscorebutton;ui/highscorebutton.png
 #main menu buttons
 vibrationoff;ui/vibrationoff.png
 vibrationon;ui/vibrationon.png

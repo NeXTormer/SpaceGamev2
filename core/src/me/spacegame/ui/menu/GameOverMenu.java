@@ -27,6 +27,9 @@ public class GameOverMenu extends TemplateMenu {
 
     private ImageButton retryBtn;
     private ImageButton mainMenuButton;
+    private ImageButton scoreBtn;
+
+    private SpriteDrawable scoreButtonDrawable;
     private SpriteDrawable retryBtnDrawable;
     private SpriteDrawable mainMenuButtonDrawable;
     private Label gameoverText;
@@ -47,11 +50,17 @@ public class GameOverMenu extends TemplateMenu {
         retryBtnDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton")));
         mainMenuButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("homebutton")));
 
+        scoreButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("highscorebutton")));
+        scoreBtn = new ImageButton(scoreButtonDrawable);
+
+        scoreBtn.setSize(Scale.getScaledSizeX(200), Scale.getScaledSizeY(200));
+        scoreBtn.setPosition(Scale.getScaledSizeX(80), Scale.getScaledSizeY(800));
 
         vignetteImage.setSize(menu.getGameScreen().getCamera().viewportWidth, menu.getGameScreen().getCamera().viewportHeight);
 
         stage.getBatch().enableBlending();
         stage.addActor(vignetteImage);
+        stage.addActor(scoreBtn);
     }
 
 
