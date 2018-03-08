@@ -80,7 +80,7 @@ laser2sound;sounds/laser2.wav
 pacmansound;sounds/pacman2.wav
 pacman3sound;sounds/pacman3.wav
 healthupsound;sounds/healthup.wav
-cometsound;sounds/comet.wav
+cometsound;sounds/comet.mp3
 explosion1sound;sounds/explosion1.wav
 explosion2sound;sounds/explosion2.wav
 warningsound;sounds/warning.wav
