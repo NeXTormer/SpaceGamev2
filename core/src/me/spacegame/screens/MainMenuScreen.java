@@ -228,10 +228,12 @@ public class MainMenuScreen implements Screen {
         if(vibrationbtn.isPressed())
         {
             game.vibrationEnabled = !vibrationbtn.isChecked();
+            preferences.putBoolean("vibration", game.vibrationEnabled);
         }
         if(volumebtn.isPressed())
         {
             game.soundVolume = volumebtn.isChecked() ? 0.0f : 1.0f;
+            preferences.putFloat("vibration", game.soundVolume);
         }
 
         batch.setProjectionMatrix(camera.combined);

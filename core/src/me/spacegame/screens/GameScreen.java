@@ -223,8 +223,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         backgroudMusic.setLooping(true);
         backgroudMusic.setVolume(game.soundVolume);
         backgroudMusic.play();
-
-
     }
 
 
