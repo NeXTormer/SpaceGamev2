@@ -199,12 +199,12 @@ public class MainMenuScreen implements Screen {
         stage.addActor(helpbtn);
 
 
-        if(!preferences.getBoolean("volumebddda", false))
+        if(!preferences.getBoolean("volumebddda", true))
         {
             volumebtn.toggle();
             System.out.println("volume false");
         }
-        if(!preferences.getBoolean("vibrationbbbb", false))
+        if(!preferences.getBoolean("vibrationbbbb", true))
         {
             vibrationbtn.toggle();
             System.out.println("vibration false");
@@ -244,12 +244,14 @@ public class MainMenuScreen implements Screen {
         {
             game.vibrationEnabled = !vibrationbtn.isChecked();
             preferences.putBoolean("vibrationbbbb", vibrationbtn.isChecked());
+
             preferences.flush();
         }
         if(volumebtn.isPressed())
         {
             game.soundVolume = volumebtn.isChecked() ? 0.0f : 1.0f;
             preferences.putBoolean("volumebddda", volumebtn.isChecked());
+
             preferences.flush();
         }
 
