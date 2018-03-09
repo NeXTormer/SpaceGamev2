@@ -14,6 +14,7 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useAccelerometer = false;
 		config.useGyroscope = false;
 
+
 		initialize(new SpaceGame(), config);
 	}
 }

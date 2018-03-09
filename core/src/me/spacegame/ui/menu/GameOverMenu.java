@@ -1,15 +1,18 @@
 package me.spacegame.ui.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import me.spacegame.databases.API;
@@ -53,8 +56,8 @@ public class GameOverMenu extends TemplateMenu {
         scoreButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("highscorebutton")));
         scoreBtn = new ImageButton(scoreButtonDrawable);
 
-        scoreBtn.setSize(Scale.getScaledSizeX(200), Scale.getScaledSizeY(200));
-        scoreBtn.setPosition(Scale.getScaledSizeX(80), Scale.getScaledSizeY(800));
+        scoreBtn.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeY(170));
+        scoreBtn.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(300));
 
         vignetteImage.setSize(menu.getGameScreen().getCamera().viewportWidth, menu.getGameScreen().getCamera().viewportHeight);
 
@@ -73,8 +76,8 @@ public class GameOverMenu extends TemplateMenu {
         retryBtn.setSize(Scale.getScaledSizeX(800), Scale.getScaledSizeY(300));
 
         mainMenuButton = new ImageButton(mainMenuButtonDrawable);
-        mainMenuButton.setPosition(Scale.getScaledSizeX(1600), Scale.getScaledSizeY(880));
-        mainMenuButton.setSize(Scale.getScaledSizeX(200), Scale.getScaledSizeX(200));
+        mainMenuButton.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(50));
+        mainMenuButton.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeX(170));
 
         stage.addActor(mainMenuButton);
         stage.addActor(retryBtn);
@@ -133,6 +136,10 @@ public class GameOverMenu extends TemplateMenu {
         if(mainMenuButton.isPressed())
         {
             menu.getGameScreen().getGame().setScreen(new MainMenuScreen(menu.getGameScreen().getGame()));
+        }
+        if(scoreBtn.isPressed())
+        {
+            Gdx.net.openURI("https://games.htl-klu.at/anyway/playerhighscores.html");
         }
 
     }
