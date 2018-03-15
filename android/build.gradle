@@ -1,4 +1,12 @@
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'PeterRendl69!'
+            storeFile file('C:/Users/Felix/Desktop/deployment/keystore-spacegame.jks')
+            storePassword 'PeterRendl69!'
+        }
+    }
     buildToolsVersion '26.0.2'
     compileSdkVersion 25
     sourceSets {
@@ -123,5 +131,5 @@ idea {
     }
 }
 dependencies {
-    compile fileTree(dir: 'dependencies', include: '*.jar')
+    compile fileTree(include: '*.jar', dir: 'dependencies')
 }

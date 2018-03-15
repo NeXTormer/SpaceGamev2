@@ -792,8 +792,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         for (int i = 0; i < rockets.size(); i++) {
             rockets.get(i).dispose();
         }
-
-
     }
 
     public void shakeCam()
