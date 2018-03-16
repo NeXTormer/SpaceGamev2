@@ -223,6 +223,25 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         backgroudMusic.setLooping(true);
         backgroudMusic.setVolume(game.soundVolume);
         backgroudMusic.play();
+
+        if(game.username.equalsIgnoreCase("SchubWerner"))
+        {
+            powerUpDropRate = 6;
+        }
+        if(game.username.equalsIgnoreCase("Findenig"))
+        {
+            powerUpDropRate = 600;
+        }
+        if(game.username.equalsIgnoreCase("Werner"))
+        {
+            meteorSpawner = 1000;
+            enemy0Spawner = 1000;
+        }
+        if(game.username.equalsIgnoreCase("Schub"))
+        {
+            player.baseSpeed = 45;
+        }
+
     }
 
 
