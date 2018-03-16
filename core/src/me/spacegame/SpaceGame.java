@@ -24,7 +24,6 @@ public class SpaceGame extends Game {
 	public static int VIEWPORTHEIGHT;
 
 	public String username = "";
-	public Database database;
 
 	public boolean vibrationEnabled = true;
 	public float soundVolume = 1.0f;
@@ -113,7 +112,6 @@ public class SpaceGame extends Game {
 	{
 		manager.clear();
 		manager.dispose();
-		database.CloseConnection();
 	}
 
 	public AssetManager getAssetManager()

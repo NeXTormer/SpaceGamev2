@@ -43,6 +43,9 @@ public class GameOverMenu extends TemplateMenu {
 
     private Image vignetteImage;
 
+    private long lastButtonPress = 0;
+
+
     public GameOverMenu(Menu menu)
     {
         super(menu);
@@ -139,7 +142,11 @@ public class GameOverMenu extends TemplateMenu {
         }
         if(scoreBtn.isPressed())
         {
-            Gdx.net.openURI("https://games.htl-klu.at/anyway/playerhighscores.html");
+            if(System.currentTimeMillis() - lastButtonPress > 3000)
+            {
+                Gdx.net.openURI("https://games.htl-klu.at/anyway/playerhighscores.html");
+                lastButtonPress = System.currentTimeMillis();
+            }
         }
 
     }
