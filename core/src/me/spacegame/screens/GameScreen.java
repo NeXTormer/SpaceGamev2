@@ -186,6 +186,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
+        currentPowerUp = new PowerUpComet(player, this);
+
+
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -561,8 +564,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 powerUpObjects.remove(powerUpObjects.get(i));
 
 
-                switch(random.nextInt(8))
+                switch(random.nextInt(9))
                 {
+                    case 8:
+                        currentPowerUp = new PowerUpHealth(player, this);
+                        break outerloop;
                     case 7:
                         currentPowerUp = new PowerUpLaser(player, this);
                         break outerloop;
@@ -677,7 +683,15 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             backgroudMusic.stop();
             player.setVisible(false);
             explosions.add(new Explosion((int) player.x, (int) player.y, true));
+            player.x = -100;
+            enemy0Spawner = 1000000;
+            enemy1Spawner = 1000000;
+            meteorSpawner = 1000000;
 
+            for(PowerUp p : activePowerUps)
+            {
+                p.stop();
+            }
             game.getSound("gameoversound").play(game.soundVolume);
             menu.currentMenu = menu.screens.get("gameover").activate();
             player.dead = true;

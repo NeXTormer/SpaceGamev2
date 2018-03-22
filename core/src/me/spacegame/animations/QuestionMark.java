@@ -20,8 +20,8 @@ public class QuestionMark {
     private float elapsed = 0f;
     private float x = 0;
     private float y = 0;
-    private int width = 100;
-    private int height = 100;
+    public int width = 100;
+    public int height = 100;
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
@@ -35,8 +35,6 @@ public class QuestionMark {
         {
             spritesheet = screen.getGame().getTexture("questionmark1");
             textureRegions = new TextureRegion[4 * 10];
-
-
             TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
             for(int i = 0; i < 4; i++)
             {

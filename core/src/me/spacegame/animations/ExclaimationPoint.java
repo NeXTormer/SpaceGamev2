@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Felix on 18-May-17.

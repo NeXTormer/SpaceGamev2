@@ -111,7 +111,7 @@ public class Enemy {
 
         warningY = enemyY;
         warningHeight = enemyHeight;
-        warningWidth = 40;
+        warningWidth = Scale.getScaledSizeX(40);
         sound = gameScreen.getGame().getSound("warningsound");
         soundID = sound.play(gameScreen.game.soundVolume);
         sound.setLooping(soundID, true);

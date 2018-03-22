@@ -41,6 +41,8 @@ public class PowerUpObject {
        // texture = gamescreen.getGame().getTexture("questionmark");
         width= Scale.getScaledSizeX(100);
         height=Scale.getScaledSizeY(100);
+        qm.width = (int) width;
+        qm.height = (int) height;
         box = new Rectangle(x, y, width, height);
     }
 

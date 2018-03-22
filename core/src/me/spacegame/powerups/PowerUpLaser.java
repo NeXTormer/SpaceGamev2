@@ -58,13 +58,16 @@ public class PowerUpLaser extends PowerUp
     public void start()
     {
         sound = gameScreen.getGame().getSound("laser2sound");
-        soundID = sound.play(gameScreen.game.soundVolume);
-        sound.setLooping(soundID, true);
+        soundID = sound.loop(gameScreen.game.soundVolume);
+        //sound.setLooping(soundID, true);
     }
 
     @Override
-    public void stop() {
-
+    public void stop()
+    {
+        sound.stop(soundID);
+        timer = duration+=1;
+        durationStart= -duration;
     }
 
     @Override

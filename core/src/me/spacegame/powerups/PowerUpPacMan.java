@@ -137,8 +137,11 @@ public class PowerUpPacMan extends PowerUp {
     }
 
     @Override
-    public void stop() {
-
+    public void stop()
+    {
+        sound.stop(soundID);
+        timer = duration+=1;
+        durationStart= -duration;
     }
 
     @Override

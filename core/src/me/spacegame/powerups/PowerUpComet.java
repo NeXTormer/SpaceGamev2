@@ -63,7 +63,9 @@ public class PowerUpComet extends PowerUp
     @Override
     public void stop()
     {
-
+        sound.stop(soundID);
+        timer = duration+=1;
+        durationStart= -duration;
     }
 
     @Override
@@ -89,9 +91,9 @@ public class PowerUpComet extends PowerUp
             c.update();
         }
 
-        deg0+=0.08;
-        deg1+=0.08;
-        deg2+=0.08;
+        deg0+=0.12;
+        deg1+=0.12;
+        deg2+=0.12;
 
         timer = System.currentTimeMillis() - durationStart;
         if ((timer) < duration)
