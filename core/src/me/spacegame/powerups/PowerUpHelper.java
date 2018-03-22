@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 
+import java.util.Random;
+
 import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Enemy;
@@ -24,6 +26,8 @@ public class PowerUpHelper extends PowerUp {
     private double value;
     private float sinCount;
     private double shootTime;
+    private double shootSpawn = 500;
+    private static Random random = new Random();
 
     public PowerUpHelper(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
@@ -43,8 +47,9 @@ public class PowerUpHelper extends PowerUp {
     }
 
     @Override
-    public void stop() {
-
+    public void stop()
+    {
+        helper.health = 0;
     }
 
     @Override
@@ -68,8 +73,9 @@ public class PowerUpHelper extends PowerUp {
 
         helper.box.setPosition(helper.x, helper.y);
 
-        if((System.currentTimeMillis()-shootTime) > 500) {
+        if((System.currentTimeMillis()-shootTime) > shootSpawn) {
             shootTime = System.currentTimeMillis();
+            shootSpawn = random.nextInt(400)+100;
             gameScreen.rockets.add(new Rocket(helper));
             gameScreen.game.getSound("shot1sound").play(gameScreen.game.soundVolume);
         }

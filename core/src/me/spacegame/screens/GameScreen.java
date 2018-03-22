@@ -186,7 +186,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
-        currentPowerUp = new PowerUpComet(player, this);
+        currentPowerUp = new PowerUpHelper(player, this);
 
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
@@ -683,7 +683,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             backgroudMusic.stop();
             player.setVisible(false);
             explosions.add(new Explosion((int) player.x, (int) player.y, true));
-            player.x = -100;
+            player.y = -100;
             enemy0Spawner = 1000000;
             enemy1Spawner = 1000000;
             meteorSpawner = 1000000;
