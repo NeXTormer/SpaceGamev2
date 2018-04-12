@@ -39,6 +39,7 @@ public class Enemy {
     public int type;
     //type = 0 --> Enemy from Right
     //type = 1 --> Enemy from Left
+    //type = 2 --> Enemy from right with sinus
 
     private int baseSpeed;
     private Texture enemyTexture;
@@ -50,6 +51,12 @@ public class Enemy {
     public float warningY;
     public float warningWidth;
     public float warningHeight;
+
+    private double value;
+    private float sinCount;
+    private double shootTime2;
+    private double shootSpawn = 500;
+    private boolean started = false;
 
     private long soundID = 0;
     private Sound sound;
@@ -126,7 +133,7 @@ public class Enemy {
     public void draw(SpriteBatch batch)
     {
         batch.draw(enemyTexture, enemyX, enemyY, enemyWidth, enemyHeight);
-        if(enemyX>SpaceGame.VIEWPORTWIDTH && type==0)
+        if(enemyX>SpaceGame.VIEWPORTWIDTH && (type==0 || type==2 || type==3))
         {
             ep.draw(batch);
         }
@@ -147,7 +154,7 @@ public class Enemy {
         ep.update();
         ep.setPosition( (int) warningX, (int) enemyY);
 
-        if(type==0 && enemyX<Scale.getScaledSizeX(1920))
+        if((type==2 || type==0 || type==3) && enemyX<Scale.getScaledSizeX(1920))
         {
             sound.stop(soundID);
         }
@@ -198,6 +205,43 @@ public class Enemy {
             }
         }
 
+        if((type==3 || type==2))
+        {
+            if(!started)
+            {
+                shootTime2 = System.currentTimeMillis();
+                started = true;
+            }
+
+            sinCount+=0.05;
+
+            if(type==3)
+            {
+                if(enemyX>=Scale.getScaledSizeX(1600))
+                {
+                    enemyX-=(baseSpeed);
+                }
+
+            }
+            if(type==2)
+            {
+                enemyX-=(baseSpeed);
+            }
+
+            value = 300*Math.sin(sinCount);
+            enemyY = (float) value+(SpaceGame.VIEWPORTHEIGHT/2);
+
+            if((System.currentTimeMillis()-shootTime2) > shootSpawn) {
+                shootTime2 = System.currentTimeMillis();
+                shootSpawn = random.nextInt(400)+100;
+                if(enemyX<SpaceGame.VIEWPORTWIDTH)
+                {
+                    rockets.add(new EnemyRocket(this));
+                    gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
+                }
+            }
+        }
+
         box.setX(enemyX);
         box.setY(enemyY);
 
@@ -213,22 +257,25 @@ public class Enemy {
             }
         }
 
-        if(enemyX>=Scale.getScaledSizeX(1800) && enemyX <= Scale.getScaledSizeX(1850))
+        if(type==0)
         {
-            rockets.add(new EnemyRocket(this));
-            gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
-        }
+            if(enemyX>=Scale.getScaledSizeX(1800) && enemyX <= Scale.getScaledSizeX(1850))
+            {
+                rockets.add(new EnemyRocket(this));
+                gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
+            }
 
-        if(enemyX>=rocket1 && enemyX <=rocket1+50)
-        {
-            rockets.add(new EnemyRocket(this));
-            gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
-        }
+            if(enemyX>=rocket1 && enemyX <=rocket1+50)
+            {
+                rockets.add(new EnemyRocket(this));
+                gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
+            }
 
-        if(enemyX>=rocket2 && enemyX <=rocket2+50)
-        {
-            rockets.add(new EnemyRocket(this));
-            gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
+            if(enemyX>=rocket2 && enemyX <=rocket2+50)
+            {
+                rockets.add(new EnemyRocket(this));
+                gameScreen.game.getSound("shot3sound").play(gameScreen.game.soundVolume);
+            }
         }
 
         for(EnemyRocket rocket : rockets)

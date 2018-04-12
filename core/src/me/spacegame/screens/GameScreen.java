@@ -344,10 +344,33 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         player.updatePosition(touchpad);
 
-        //Spawn Enemy0 after Seconds
+        //Spawn Enemy0,2,3 after Seconds
         if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
         {
-            enemies.add(new Enemy(0, this));
+            if(random.nextInt(10)==1)
+            {
+                for(int i = 0; i<5; i++)
+                {
+                    Enemy e = new Enemy(0, this);
+                    e.enemyY = (SpaceGame.VIEWPORTHEIGHT/5)*i;
+                    enemies.add(e);
+                }
+            }
+            else
+            {
+                switch(random.nextInt(3))
+                {
+                    case 0:
+                        enemies.add(new Enemy(0, this));
+                        break;
+                    case 1:
+                        enemies.add(new Enemy(2, this));
+                        break;
+                    case 2:
+                        enemies.add(new Enemy(3, this));
+                        break;
+                }
+            }
             enemy0SpawnTimer=System.currentTimeMillis();
         }
 
@@ -388,7 +411,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Remove offscreen enemies
         for(int i = 0; i<enemies.size(); i++)
         {
-            if(enemies.get(i).type==0)
+            if(enemies.get(i).type==0 || enemies.get(i).type==2)
             {
                 if(enemies.get(i).enemyX<=-enemies.get(i).enemyWidth)
                 {
