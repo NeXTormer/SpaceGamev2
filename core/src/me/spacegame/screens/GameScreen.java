@@ -115,7 +115,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private double enemy0SpawnerSubtractValue;
 
     private double preExplosionTimer;
+    //State, when player is ready to explode
     private boolean explodePlayer = false;
+    //Counter for explosions when player is exploding
+    private int explosionCounter = 0;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -182,6 +185,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Timer, when new meteor will spawn
         meteorSpawner = 15000;
 
+        //Timer for preExplosion
         preExplosionTimer = 0;
 
 
@@ -193,7 +197,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
-        currentPowerUp = new PowerUpHelper(player, this);
+        //currentPowerUp = new PowerUpHealth(player, this);
 
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
@@ -288,11 +292,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             r.draw(batch);
         }
 
-        for(Explosion e : explosions)
-        {
-            e.draw(batch);
-        }
-
         //Render PowerUps
 
         for(PowerUp p : activePowerUps)
@@ -311,6 +310,12 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
 
         player.draw(batch);
+
+        for(Explosion e : explosions)
+        {
+            e.draw(batch);
+        }
+
         healthBar.draw(batch);
         batch.end();
 
@@ -681,14 +686,30 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
         if (healthBar.getHealth() <= 0.2)
         {
-            explodePlayer();
+            if(!explodePlayer)
+            {
+                preExplosionTimer = System.currentTimeMillis();
+                explodePlayer = true;
+            }
+        }
+        else
+        {
+            explodePlayer=false;
         }
 
         if(explodePlayer && !player.dead)
         {
-            if ((System.currentTimeMillis() - preExplosionTimer) > 5000)
+            if ((System.currentTimeMillis() - preExplosionTimer) > random.nextInt(70)+80)
             {
-                gameOver();
+                explosions.add(new Explosion((int) player.x-(int)Scale.getScaledSizeX(random.nextInt(130))-50, (int) player.y-(int)Scale.getScaledSizeY(random.nextInt(130)-50), false));
+                preExplosionTimer = System.currentTimeMillis();
+                shakeCam();
+                game.getSound("damagesound").play(game.soundVolume);
+                explosionCounter++;
+                if(explosionCounter>=15)
+                {
+                    gameOver();
+                }
             }
         }
 
@@ -710,7 +731,14 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         {
             backgroudMusic.stop();
             player.setVisible(false);
-            explodePlayer();
+            float deg = 0;
+            for(int i = 0; i<10; i++)
+            {
+                deg = (36*i)+random.nextInt(36);
+                ShipPart p = new ShipPart(player.x, player.y, deg, this);
+                p.speed = 7+random.nextInt(6);
+                shipparts.add(p);
+            }
             explosions.add(new Explosion((int) player.x-(int)Scale.getScaledSizeX(200), (int) player.y-(int)Scale.getScaledSizeY(200), true));
             player.y = -100;
             enemy0Spawner = 1000000;
@@ -868,22 +896,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
     }
 
-    public void explodePlayer()
-    {
-        if(!explodePlayer)
-        {
-            float deg = 0;
-            for(int i = 0; i<10; i++)
-            {
-                deg = (36*i)+random.nextInt(36);
-                ShipPart p = new ShipPart(player.x, player.y, deg, this);
-                p.speed = 7+random.nextInt(6);
-                shipparts.add(p);
-            }
-            preExplosionTimer = System.currentTimeMillis();
-            explodePlayer = true;
-        }
-    }
 
     public InputMultiplexer getInputMultiplexer()
     {
