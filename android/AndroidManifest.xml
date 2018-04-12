@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.spacegame"
     android:versionCode="2"
-    android:versionName="2.0" >
+    android:versionName="2.3" >
 
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="26" />
 

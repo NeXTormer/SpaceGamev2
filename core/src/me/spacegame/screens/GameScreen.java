@@ -699,7 +699,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         if(explodePlayer && !player.dead)
         {
-            if ((System.currentTimeMillis() - preExplosionTimer) > random.nextInt(70)+80)
+            if ((System.currentTimeMillis() - preExplosionTimer) > random.nextInt(70)+65)
             {
                 explosions.add(new Explosion((int) player.x-(int)Scale.getScaledSizeX(random.nextInt(130))-50, (int) player.y-(int)Scale.getScaledSizeY(random.nextInt(130)-50), false));
                 preExplosionTimer = System.currentTimeMillis();
