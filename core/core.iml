@@ -31,5 +31,21 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-freetype-1.9.6" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-gamesvcs-core-0.2.2" level="project" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="gdx-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="gdx-box2d-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="gdx-freetype-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="gdx-gamesvcs-core-0.2.2" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="gdx-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="gdx-box2d-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="gdx-freetype-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="gdx-gamesvcs-core-0.2.2" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="gdx-1.9.6" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
+    <orderEntry type="library" exported="" name="core.core-1.0" level="project" />
   </component>
 </module>

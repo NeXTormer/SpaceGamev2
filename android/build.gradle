@@ -7,8 +7,8 @@ android {
             storePassword 'PeterRendl69!'
         }
     }
-    buildToolsVersion '26.0.2'
-    compileSdkVersion 25
+    buildToolsVersion '27.0.3'
+    compileSdkVersion 26
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -20,7 +20,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
 
-        instrumentTest.setRoot('tests')
+        androidTest.setRoot('tests')
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
@@ -131,5 +131,5 @@ idea {
     }
 }
 dependencies {
-    compile fileTree(include: '*.jar', dir: 'dependencies')
+    implementation fileTree(include: '*.jar', dir: 'dependencies')
 }
