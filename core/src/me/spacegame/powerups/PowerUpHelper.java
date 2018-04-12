@@ -76,7 +76,10 @@ public class PowerUpHelper extends PowerUp {
         if((System.currentTimeMillis()-shootTime) > shootSpawn) {
             shootTime = System.currentTimeMillis();
             shootSpawn = random.nextInt(400)+100;
-            gameScreen.rockets.add(new Rocket(helper));
+            Rocket r = new Rocket(helper);
+            r.speed+=5;
+            r.damage+=20;
+            gameScreen.rockets.add(r);
             gameScreen.game.getSound("shot1sound").play(gameScreen.game.soundVolume);
         }
 

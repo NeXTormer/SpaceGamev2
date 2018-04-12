@@ -23,7 +23,7 @@ public class Rocket {
     private int width;
     private int height;
     public Rectangle box;
-    private int speed;
+    public int speed;
     public int damage;
 
     public Rocket(Player p)

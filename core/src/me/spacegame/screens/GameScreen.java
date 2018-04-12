@@ -36,6 +36,7 @@ import me.spacegame.gameobjects.EnemyRocket;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.gameobjects.Rocket;
+import me.spacegame.gameobjects.ShipPart;
 import me.spacegame.powerups.PowerUp;
 import me.spacegame.powerups.PowerUpClear;
 import me.spacegame.powerups.PowerUpComet;
@@ -77,6 +78,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private List<PowerUp> activePowerUps = new ArrayList<PowerUp>();
     private List<PowerUpObject> powerUpObjects = new ArrayList<PowerUpObject>();
     public List<Comet> comets = new ArrayList<Comet>();
+    private List<ShipPart> shipparts = new ArrayList<ShipPart>();
     private Background background;
 
     public static Random random = new Random();
@@ -111,6 +113,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private double enemy0SpawnerSubtract;
     private double enemy0SpawnSubtractTimer;
     private double enemy0SpawnerSubtractValue;
+
+    private double preExplosionTimer;
+    private boolean explodePlayer = false;
 
     public GameScreen(SpaceGame game) {
         this.game = game;
@@ -177,6 +182,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Timer, when new meteor will spawn
         meteorSpawner = 15000;
 
+        preExplosionTimer = 0;
+
 
         player = new Player(this);
 
@@ -186,7 +193,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
-       // currentPowerUp = new PowerUpHelper(player, this);
+        currentPowerUp = new PowerUpHelper(player, this);
 
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
@@ -294,6 +301,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
 
         for(PowerUpObject p : powerUpObjects)
+        {
+            p.draw(batch);
+        }
+
+        for(ShipPart p : shipparts)
         {
             p.draw(batch);
         }
@@ -655,6 +667,11 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             }
         }
 
+        for(ShipPart p : shipparts)
+        {
+            p.update();
+        }
+
         healthBar.update();
         stage.act();
 
@@ -662,6 +679,19 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         {
             healthBar.score = player.score + 1;
         }
+        if (healthBar.getHealth() <= 0.2)
+        {
+            explodePlayer();
+        }
+
+        if(explodePlayer && !player.dead)
+        {
+            if ((System.currentTimeMillis() - preExplosionTimer) > 5000)
+            {
+                gameOver();
+            }
+        }
+
     }
 
 
@@ -672,9 +702,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar.setAbsuloteHealth(player.health);
         shakeCam();
         game.getSound("damagesound").play(game.soundVolume);
-        if (healthBar.getHealth() <= 0.2) {
-            gameOver();
-        }
+
     }
 
     private void gameOver() {
@@ -682,7 +710,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         {
             backgroudMusic.stop();
             player.setVisible(false);
-            explosions.add(new Explosion((int) player.x, (int) player.y, true));
+            explodePlayer();
+            explosions.add(new Explosion((int) player.x-(int)Scale.getScaledSizeX(200), (int) player.y-(int)Scale.getScaledSizeY(200), true));
             player.y = -100;
             enemy0Spawner = 1000000;
             enemy1Spawner = 1000000;
@@ -692,9 +721,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             {
                 p.stop();
             }
+            player.dead = true;
             game.getSound("gameoversound").play(game.soundVolume);
             menu.currentMenu = menu.screens.get("gameover").activate();
-            player.dead = true;
             healthBar.setAbsuloteHealth(0);
         }
     }
@@ -836,6 +865,23 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             {
                 Gdx.input.vibrate(SHAKETIME);
             }
+        }
+    }
+
+    public void explodePlayer()
+    {
+        if(!explodePlayer)
+        {
+            float deg = 0;
+            for(int i = 0; i<10; i++)
+            {
+                deg = (36*i)+random.nextInt(36);
+                ShipPart p = new ShipPart(player.x, player.y, deg, this);
+                p.speed = 7+random.nextInt(6);
+                shipparts.add(p);
+            }
+            preExplosionTimer = System.currentTimeMillis();
+            explodePlayer = true;
         }
     }
 

@@ -40,6 +40,7 @@ touchBackground;touchpad/touchbackground.png
 touchKnob;touchpad/touchknob.png
 helpership;gameobjects/SpaceShip_03.png
 comet;gameobjects/Comet.png
+shippart;gameobjects/Shippart.png
 #
 settingsButton;ui/settingsbtn.png
 logo;mainmenu/logo.png
