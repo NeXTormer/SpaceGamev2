@@ -52,8 +52,8 @@ public class HealthUp {
         this.height = height;
 
 
-        animation = new Animation<TextureRegion>(20, textureRegions);
-        animation.setPlayMode(Animation.PlayMode.NORMAL);
+        animation = new Animation<TextureRegion>(10, textureRegions);
+        animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         animation.setFrameDuration(frameDuration);
     }
 

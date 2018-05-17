@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.spacegame.animations.HealthUp;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.screens.GameScreen;
+import me.spacegame.util.Scale;
 
 /**
  * Created by Michi on 26.06.2017.
@@ -22,11 +23,12 @@ public class PowerUpHealth extends PowerUp {
 
     public PowerUpHealth(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
-        duration = 3000;
+        duration = 600;
         health =  100;
         healed = false;
         texture = new Texture(Gdx.files.internal("gameobjects/HealthIcon.png"));
-        hup = new HealthUp((int) player.x, (int) player.y, 300, 300, gameScreen);
+        hup = new HealthUp((int) player.x-(int)Scale.getScaledSizeX(350), (int) player.y-(int)Scale.getScaledSizeY(350), (int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), gameScreen);
+        started = false;
 
     }
 
@@ -57,6 +59,7 @@ public class PowerUpHealth extends PowerUp {
         timer = System.currentTimeMillis() - durationStart;
         if ((timer) < duration)
         {
+            hup.setPosition((int) player.x-(int)Scale.getScaledSizeX(80), (int) player.y-(int)Scale.getScaledSizeY(80));
             if(!healed)
             {
                 healed=true;
