@@ -35,7 +35,7 @@ public class EnemyRocket {
         {
             texture = p.getGameScreen().getGame().getTexture("enemyrocket1");
         }
-        damage=15;
+        damage=10;
         speed = (int) Scale.getScaledSizeX(40);
         width = (int) Scale.getScaledSizeX(50);
         height = (int) Scale.getScaledSizeX(40);

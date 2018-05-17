@@ -96,6 +96,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private Enemy enemy1;
     public HealthBar healthBar;
     private int powerUpDropRate = 12; // 1 : x  where x..value default:12
+    public int meteorCount = 4;
 
     private InputMultiplexer inputMultiplexer;
     private long shakeCamTimer = 0;
@@ -164,7 +165,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
         stage.addActor(touchpad);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < meteorCount; i++) {
             meteors.add(new Meteor(this));
         }
 
@@ -175,13 +176,13 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         meteorSpawnTimer = System.currentTimeMillis();
 
         //Timer, when a new Enemy0 will spawn
-        enemy0Spawner = 9000;
+        enemy0Spawner = 10000;
         //Timer, when the enemy0Spawner gets lower
-        enemy0SpawnerSubtract = 10000;
+        enemy0SpawnerSubtract = 13000;
         //Value, which is subtstracted form enemy0Spawner after enemy0SpawnerSubtract+enemy0Spawner
         enemy0SpawnerSubtractValue = 500;
         //Timer, when enemy1 will spawn
-        enemy1Spawner = 19000;
+        enemy1Spawner = 23000;
         //Timer, when new meteor will spawn
         meteorSpawner = 15000;
 
@@ -197,7 +198,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
-        //currentPowerUp = new PowerUpHealth(player, this);
+        currentPowerUp = new PowerUpHealth(player, this);
 
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
@@ -347,7 +348,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Spawn Enemy0,2,3 after Seconds
         if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
         {
-            if(random.nextInt(10)==1)
+            if(random.nextInt(25)==1)
             {
                 for(int i = 0; i<5; i++)
                 {
@@ -393,7 +394,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Spawn new Meteors over time
         if((System.currentTimeMillis()-meteorSpawnTimer)>meteorSpawner)
         {
-            meteors.add(new Meteor(this));
+            //meteors.add(new Meteor(this));
+            meteorCount++;
             meteorSpawnTimer=System.currentTimeMillis();
         }
 
@@ -451,10 +453,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
             // Remove offscreen meteors
             if (meteors.get(i).x < -meteors.get(i).radius) {
-                if(!meteors.get(i).divided  || (meteors.get(i).speedy==0 && meteors.get(i).divided))
-                {
-                    meteors.add(new Meteor(this));
-                }
+                //if(!meteors.get(i).divided  || (meteors.get(i).speedy==0 && meteors.get(i).divided))
+                //{
+                //    meteors.add(new Meteor(this));
+                //}
                 meteors.remove(i);
 
             }
@@ -500,17 +502,17 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                             Meteor m2 = new Meteor(this);
                             m2.x = meteors.get(j).x;
                             m2.y = meteors.get(j).y;
-                            m2.divided = true;
+                            m2.divided = false;
                             m2.speedy = -meteors.get(j).speed;
                             m2.radius = meteors.get(j).radius;
                             m2.texture = meteors.get(j).texture;
                             m2.meteorsprite = new Sprite(meteors.get(j).meteorsprite);
                             meteors.add(m2);
                         }
-                        else
-                        {
-                            meteors.add(new Meteor(this));
-                        }
+                        //else
+                        //{
+                        //    meteors.add(new Meteor(this));
+                        //}
                         meteors.remove(j);
                         game.getSound("explosion1sound").play(game.soundVolume);
                         player.score+=100;
@@ -561,7 +563,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                         explosions.add(new Explosion((int) meteors.get(j).x - 70, (int) (meteors.get(j).y - 20), (int) meteors.get(j).radius*2, (int) meteors.get(j).radius*2, this));
                         meteors.remove(j);
                         game.getSound("explosion1sound").play(game.soundVolume);
-                        meteors.add(new Meteor(this));
+                        //meteors.add(new Meteor(this));
                     }
                 }
             }
@@ -638,6 +640,20 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                         break outerloop;
                 }
 
+            }
+        }
+
+        //Respawn dead meteors
+        outerloop:
+        for( ; ; )
+        {
+            if(meteors.size()<meteorCount)
+            {
+                meteors.add(new Meteor(this));
+            }
+            else
+            {
+                break outerloop;
             }
         }
 

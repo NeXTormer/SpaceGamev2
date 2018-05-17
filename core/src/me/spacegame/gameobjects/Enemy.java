@@ -40,6 +40,7 @@ public class Enemy {
     //type = 0 --> Enemy from Right
     //type = 1 --> Enemy from Left
     //type = 2 --> Enemy from right with sinus
+    //type = 3 --> Enemy from right to left with sinus
 
     private int baseSpeed;
     private Texture enemyTexture;
@@ -100,7 +101,7 @@ public class Enemy {
     public Enemy(int type, Player p, GameScreen screen)
     {
         gameScreen = screen;
-        enemyX = (random.nextInt(1000)*(-1))-1000;
+        enemyX = (random.nextInt(1000)*(-1))-1500;
         enemyTexture = screen.getGame().getTexture("enemy2");
         warningX = 50;
         this.type=type;
@@ -112,7 +113,7 @@ public class Enemy {
         enemyY = p.y;
         box = new Rectangle(enemyX, enemyY, enemyWidth, enemyHeight);
         baseSpeed = 22;
-        damage=40;
+        damage=15;
         health = 100;
 
 
@@ -233,7 +234,7 @@ public class Enemy {
 
             if((System.currentTimeMillis()-shootTime2) > shootSpawn) {
                 shootTime2 = System.currentTimeMillis();
-                shootSpawn = random.nextInt(400)+100;
+                shootSpawn = random.nextInt(1000)+1000;
                 if(enemyX<SpaceGame.VIEWPORTWIDTH)
                 {
                     rockets.add(new EnemyRocket(this));

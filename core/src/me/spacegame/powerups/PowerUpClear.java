@@ -46,10 +46,10 @@ public class PowerUpClear extends PowerUp {
                 gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), true));
             }
             gameScreen.meteors.clear();
-            for(int i = 0; i<count; i++)
-            {
-                gameScreen.meteors.add(new Meteor(gameScreen));
-            }
+            //for(int i = 0; i<count; i++)
+            //{
+            //    gameScreen.meteors.add(new Meteor(gameScreen));
+            //}
             for(int i = 0; i<gameScreen.enemies.size(); i++)
             {
                 gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20), true));

@@ -69,13 +69,13 @@ public class Meteor {
         box.setX(x+radius);
         box.setY(y+radius);
         box.setRadius(radius);
-        speed = (int) Scale.getScaledSizeX(GameScreen.random.nextInt(12)+5);
+        speed = (int) Scale.getScaledSizeX(GameScreen.random.nextInt(8)+5); // 8 instead of 12
         speedy = 0;
         saveSpeed = speed;
         rotateSpeed = GameScreen.random.nextInt(2);
         texture = GameScreen.random.nextInt(METEOR_TEXTURES);
 
-        if(GameScreen.random.nextInt(10)==0)
+        if(GameScreen.random.nextInt(8)==0)
         {
             divided = true;
         }

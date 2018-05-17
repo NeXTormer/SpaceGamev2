@@ -1,5 +1,6 @@
 #Name;Path
 exclaimationpoint;animations/exclaimationpoint.png
+healthupanimation;animations/HealthUpSprite.png
 explosion1;animations/explosion1.png
 questionmark1;animations/questionmark.png
 pacman;animations/pacman.png

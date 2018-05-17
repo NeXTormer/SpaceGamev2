@@ -81,7 +81,7 @@ public class PowerUpPacMan extends PowerUp {
                 {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
-                    gameScreen.meteors.add(new Meteor(gameScreen));
+                    //gameScreen.meteors.add(new Meteor(gameScreen));
                     gameScreen.game.getSound("pacman3sound").play(gameScreen.game.soundVolume);
                     healPlayer(2);
                     //System.out.println("healed" + " : "+player.health);
