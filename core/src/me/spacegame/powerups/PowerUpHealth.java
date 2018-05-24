@@ -27,7 +27,7 @@ public class PowerUpHealth extends PowerUp {
         health =  100;
         healed = false;
         texture = new Texture(Gdx.files.internal("gameobjects/HealthIcon.png"));
-        hup = new HealthUp((int) player.x-(int)Scale.getScaledSizeX(350), (int) player.y-(int)Scale.getScaledSizeY(350), (int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), gameScreen);
+        hup = new HealthUp((int) player.x-(int)Scale.getScaledSizeX(360), (int) player.y-(int)Scale.getScaledSizeY(350), (int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), gameScreen);
         started = false;
 
     }
