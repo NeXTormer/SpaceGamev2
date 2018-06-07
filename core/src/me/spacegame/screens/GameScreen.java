@@ -198,7 +198,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             currentPowerUp = new PowerUpComet(player, this);
         }
 
-        currentPowerUp = new PowerUpHealth(player, this);
+        //currentPowerUp = new PowerUpHealth(player, this);
 
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
