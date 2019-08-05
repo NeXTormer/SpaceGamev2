@@ -36,7 +36,7 @@ public class SpaceGame extends Game {
 	public IGameServiceClient gsClient;
 
 	@Override
-	public void create ()
+	public void create()
 	{
 		if(gsClient == null)
 		{
