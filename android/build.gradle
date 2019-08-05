@@ -3,12 +3,11 @@ android {
         config {
             keyAlias 'key0'
             keyPassword 'PeterRendl69!'
-            storeFile file('C:/Users/Felix/Desktop/deployment/keystore-spacegame.jks')
+            storeFile file('F:/Personal/Keys/keystore-spacegame.jks')
             storePassword 'PeterRendl69!'
         }
     }
-    buildToolsVersion '27.0.3'
-    compileSdkVersion 26
+    compileSdkVersion 28
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -27,8 +26,8 @@ android {
     }
     defaultConfig {
         applicationId "me.spacegame"
-        minSdkVersion 9
-        targetSdkVersion 26
+        minSdkVersion 14
+        targetSdkVersion 28
     }
 }
 // called every time gradle gets executed, takes the native dependencies of
