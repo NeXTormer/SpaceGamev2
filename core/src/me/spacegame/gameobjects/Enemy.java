@@ -48,12 +48,11 @@ public class Enemy {
     private int rocket1;
     private int rocket2;
 
-    public float warningX;
-    public float warningY;
-    public float warningWidth;
-    public float warningHeight;
+    private float warningX;
+    private float warningY;
+    private float warningWidth;
+    private float warningHeight;
 
-    private double value;
     private float sinCount;
     private double shootTime2;
     private double shootSpawn = 500;
@@ -229,7 +228,7 @@ public class Enemy {
                 enemyX-=(baseSpeed);
             }
 
-            value = 300*Math.sin(sinCount);
+            double value = 300*Math.sin(sinCount);
             enemyY = (float) value+(SpaceGame.VIEWPORTHEIGHT/2);
 
             if((System.currentTimeMillis()-shootTime2) > shootSpawn) {

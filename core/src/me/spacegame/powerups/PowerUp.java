@@ -12,7 +12,9 @@ import me.spacegame.screens.GameScreen;
  * Created by Michi on 07.06.2017.
  */
 
-public abstract class PowerUp {
+public abstract class PowerUp
+{
+
     protected Player player;
     protected GameScreen gameScreen;
     public Texture texture;

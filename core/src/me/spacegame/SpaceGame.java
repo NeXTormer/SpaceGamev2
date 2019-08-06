@@ -9,12 +9,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import de.golfgl.gdxgamesvcs.IGameServiceClient;
 import de.golfgl.gdxgamesvcs.NoGameServiceClient;
-import me.spacegame.databases.Database;
 import me.spacegame.screens.MainMenuScreen;
 
 public class SpaceGame extends Game {

@@ -64,8 +64,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
     public SpaceGame game;
 
-    private SpriteBatch batch = new SpriteBatch();
-    private Stage stage = new Stage();
+    private SpriteBatch batch;
+    private Stage stage;
 
 
     private Music backgroudMusic;
@@ -131,7 +131,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         batch = new SpriteBatch();
         stage = new Stage();
 
-
         System.out.println("Gamescreen load time (Batch and Stage): " + (System.nanoTime() - wernertime)/1000000000);
 
         camera = new OrthographicCamera();
@@ -168,7 +167,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         for (int i = 0; i < meteorCount; i++) {
             meteors.add(new Meteor(this));
         }
-
 
         enemy0SpawnTimer = System.currentTimeMillis();
         enemy0SpawnSubtractTimer = System.currentTimeMillis();
@@ -273,12 +271,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
     public void draw()
     {
-
         batch.begin();
-
         background.draw(batch);
-
-
 
         for(Enemy e : enemies)
         {
@@ -845,7 +839,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                     rockets.add(new Rocket(player));
                     game.getSound("shot1sound").play(game.soundVolume);
                 }
-
             }
             else
             {
@@ -858,11 +851,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
         else
         {
-            //float dx = (float) Math.pow(Math.abs(screenX-110), 2);
-            //float dy = (float) Math.pow(Math.abs(screenY-880), 2);
-            //System.out.println(screenX + " : "+screenY);
             if(screenX>Scale.getScaledSizeX(91) && screenX<Scale.getScaledSizeX(270) && screenY>Scale.getScaledSizeY(45) && screenY<Scale.getScaledSizeY(220))
-            //if((dx+dy)>250)
             {
                 activatePowerUp();
             }
@@ -896,22 +885,17 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         batch.dispose();
         background.dispose();
         backgroudMusic.dispose();
@@ -963,9 +947,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     }
 
     @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
+    public boolean fling(float velocityX, float velocityY, int button)
+    {
 
-        System.out.println((velocityX * velocityX + velocityY * velocityY) + ": " + Scale.getScaledSizeX(2000000));
         if((velocityX * velocityX + velocityY * velocityY) > Scale.getScaledSizeX(100000))
         {
             activatePowerUp();
@@ -989,12 +973,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     }
 
     @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        return false;
-    }
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) { return false; }
 
     @Override
-    public void pinchStop() {
-
-    }
+    public void pinchStop() { }
 }

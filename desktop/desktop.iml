@@ -33,8 +33,6 @@
     <orderEntry type="library" exported="" name="Gradle: gdx-box2d-platform-1.9.6-natives-desktop" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-freetype-platform-1.9.6-natives-desktop" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-gamesvcs-core-0.2.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: gdx-box2d-1.9.6" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: gdx-freetype-1.9.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-1.9.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: lwjgl_util-2.9.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: lwjgl-2.9.2" level="project" />
@@ -45,8 +43,12 @@
     <orderEntry type="library" exported="" name="Gradle: lwjgl-platform-2.9.2-natives-osx" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jinput-2.0.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jutils-1.0.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: gdx-box2d-1.9.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: gdx-freetype-1.9.6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="Gradle: jinput-platform-2.0.5-natives-linux" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="Gradle: jinput-platform-2.0.5-natives-windows" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="Gradle: jinput-platform-2.0.5-natives-osx" level="project" />
+    <orderEntry type="module" module-name="core" exported="" />
+    <orderEntry type="module" module-name="core" exported="" />
   </component>
 </module>
