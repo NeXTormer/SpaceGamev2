@@ -1,6 +1,7 @@
 package me.spacegame.powerups;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
@@ -22,6 +23,13 @@ import me.spacegame.screens.GameScreen;
 
 public class PowerUpHelper extends PowerUp {
 
+    private static Sound shotSound;
+
+    static
+    {
+        shotSound = SpaceGame.getInstance().getSound("shot1sound");
+    }
+
     private Player helper;
     private double value;
     private float sinCount;
@@ -38,7 +46,6 @@ public class PowerUpHelper extends PowerUp {
 
         started = false;
         texture = gameScreen.getGame().getTexture("pwupHelperIcon");
-        //texture = new Texture(Gdx.files.internal("gameobjects/SpaceShip_02.png"));
     }
 
     @Override
@@ -75,12 +82,12 @@ public class PowerUpHelper extends PowerUp {
 
         if((System.currentTimeMillis()-shootTime) > shootSpawn) {
             shootTime = System.currentTimeMillis();
-            shootSpawn = random.nextInt(400)+100;
+            shootSpawn = random.nextInt(200)+100;
             Rocket r = new Rocket(helper);
-            r.speed+=5;
-            r.damage+=20;
+            r.speed+=7;
+            r.damage+=100;
             gameScreen.rockets.add(r);
-            SpaceGame.getInstance().getSound("shot1sound").play(SpaceGame.getInstance().soundVolume);
+            shotSound.play(SpaceGame.getInstance().soundVolume);
         }
 
         //Meteor - Helper Collision
@@ -105,7 +112,6 @@ public class PowerUpHelper extends PowerUp {
             }
         }
 
-
         if(helper.health<=0)
         {
             gameScreen.explosions.add(new Explosion((int) helper.x - 70, (int) (helper.y - 70), true));
@@ -126,9 +132,7 @@ public class PowerUpHelper extends PowerUp {
     }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     @Override
     public float getCooldown() {

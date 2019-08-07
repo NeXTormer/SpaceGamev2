@@ -44,7 +44,6 @@ public class PowerUpPacMan extends PowerUp {
         texture = gameScreen.getGame().getTexture("pwupPacManIcon");
         pm = new PacMan((int) x, (int) y, gameScreen);;
         box = new Rectangle(x, y, width, height);
-
     }
 
     @Override
@@ -74,18 +73,14 @@ public class PowerUpPacMan extends PowerUp {
             pm.setPosition( (int) x, (int) y, (int) width, (int) height);
             box.setPosition(x, y);
 
-
-
             outerloop:
             for (int i = 0; i < gameScreen.meteors.size(); i++) {
                 if (Intersector.overlaps(gameScreen.meteors.get(i).box, this.box))
                 {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
-                    //gameScreen.meteors.add(new Meteor(gameScreen));
                     SpaceGame.getInstance().getSound("pacman3sound").play(SpaceGame.getInstance().soundVolume);
-                    healPlayer(2);
-                    //System.out.println("healed" + " : "+player.health);
+                    healPlayer(3);
                     break outerloop;
                 }
             }
@@ -134,7 +129,6 @@ public class PowerUpPacMan extends PowerUp {
     {
         sound = gameScreen.getGame().getSound("pacmansound");
         soundID = sound.loop(SpaceGame.getInstance().soundVolume);
-        //sound.setLooping(soundID, true);
     }
 
     @Override
@@ -151,9 +145,7 @@ public class PowerUpPacMan extends PowerUp {
     }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     @Override
     public float getCooldown() {

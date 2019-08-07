@@ -9,20 +9,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
-import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,12 +42,11 @@ import me.spacegame.powerups.PowerUpControl;
 import me.spacegame.powerups.PowerUpHealth;
 import me.spacegame.powerups.PowerUpHelper;
 import me.spacegame.powerups.PowerUpLaser;
-import me.spacegame.powerups.PowerUpObject;
+import me.spacegame.gameobjects.PowerUpObject;
 import me.spacegame.powerups.PowerUpPacMan;
 import me.spacegame.powerups.PowerUpRapidFire;
 import me.spacegame.ui.HealthBar;
-import me.spacegame.ui.menu.MainMenu;
-import me.spacegame.ui.menu.Menu;
+import me.spacegame.ui.menu.MenuManager;
 import me.spacegame.util.Scale;
 
 /**
@@ -62,7 +56,7 @@ import me.spacegame.util.Scale;
 public class GameScreen implements Screen, InputProcessor, GestureDetector.GestureListener {
 
 
-    private Menu menu;
+    private MenuManager menuManager;
     private static final int SHAKETIME = 150;
 
     private SpaceGame game;
@@ -189,7 +183,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         //Timer for preExplosion
         preExplosionTimer = 0;
 
-
         player = new Player(this);
 
         currentPowerUp = null;
@@ -197,9 +190,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         {
             currentPowerUp = new PowerUpComet(player, this);
         }
-
-        //currentPowerUp = new PowerUpHealth(player, this);
-
 
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -210,26 +200,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar = new HealthBar(this);
         System.out.println("Gamescreen load time (After Healthbar): " + (System.nanoTime() - wernertime)/1000000000);
 
-        long timepeta = System.currentTimeMillis();
-        menu = new Menu(this);
-
-        System.out.println("S" + (System.currentTimeMillis() - timepeta));
-
-        //Pause Button
-        //pausebtnup = game.getTexture("settingsButton");
-        //pausebtndown = game.getTexture("settingsButton");
-
-        //pausebtnupdrawable= new SpriteDrawable();
-        //pausebtndowndrawable = new SpriteDrawable();
-
-        //pausebtnupdrawable.setSprite(new Sprite(pausebtnup));
-        //pausebtndowndrawable.setSprite(new Sprite(pausebtndown));
-
-        /* settingsbutton buggy */
-        //settingsbtn = new ImageButton(pausebtnupdrawable, pausebtndowndrawable);
-
-        //settingsbtn.setPosition(camera.viewportWidth - 150, camera.viewportHeight - 150);
-        //stage.addActor(settingsbtn);
+        menuManager = new MenuManager(this);
 
         healthBar.setPowerupCooldown(200);
         System.out.println("GameScreen load time (Complete Constructor): " + (System.nanoTime() - wernertime)/1000000000);
@@ -317,7 +288,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         batch.end();
 
         stage.draw();
-        menu.draw();
+        menuManager.draw();
 
         healthBar.draw();
     }
@@ -405,7 +376,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             }
         }
 
-
         //Remove offscreen enemies
         for(int i = 0; i<enemies.size(); i++)
         {
@@ -448,13 +418,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             }
 
             // Remove offscreen meteors
-            if (meteors.get(i).x < -meteors.get(i).radius) {
-                //if(!meteors.get(i).divided  || (meteors.get(i).speedy==0 && meteors.get(i).divided))
-                //{
-                //    meteors.add(new Meteor(this));
-                //}
+            if (meteors.get(i).x < -meteors.get(i).radius)
+            {
                 meteors.remove(i);
-
             }
         }
 
@@ -464,7 +430,6 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                 rockets.remove(rockets.get(i));
             }
         }
-
 
         //Rocket  -  Meteor collision
         outerloop:
@@ -483,32 +448,8 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
                             powerUpObjects.add(new PowerUpObject(meteors.get(j), this));
                         }
 
-                        //Pfusch, aber mit Methode gehts nit
-                        if(meteors.get(j).divided)
-                        {
-                            Meteor m1 = new Meteor(this);
-                            m1.x = meteors.get(j).x;
-                            m1.y = meteors.get(j).y;
-                            m1.radius = meteors.get(j).radius;
-                            m1.divided = false;
-                            m1.speedy = meteors.get(j).speed;
-                            m1.texture = meteors.get(j).texture;
-                            m1.meteorsprite = new Sprite(meteors.get(j).meteorsprite);
-                            meteors.add(m1);
-                            Meteor m2 = new Meteor(this);
-                            m2.x = meteors.get(j).x;
-                            m2.y = meteors.get(j).y;
-                            m2.divided = false;
-                            m2.speedy = -meteors.get(j).speed;
-                            m2.radius = meteors.get(j).radius;
-                            m2.texture = meteors.get(j).texture;
-                            m2.meteorsprite = new Sprite(meteors.get(j).meteorsprite);
-                            meteors.add(m2);
-                        }
-                        //else
-                        //{
-                        //    meteors.add(new Meteor(this));
-                        //}
+                        meteors.get(j).divide();
+
                         meteors.remove(j);
                         game.getSound("explosion1sound").play(game.soundVolume);
                         player.score+=100;
@@ -786,7 +727,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             }
             player.dead = true;
             game.getSound("gameoversound").play(game.soundVolume);
-            menu.currentMenu = menu.screens.get("gameover").activate();
+            menuManager.currentMenu = menuManager.screens.get("gameover").activate();
             healthBar.setAbsuloteHealth(0);
         }
     }

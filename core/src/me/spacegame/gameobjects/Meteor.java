@@ -18,9 +18,8 @@ import me.spacegame.util.Scale;
  * Created by Michi on 10.05.2017.
  */
 
-public class Meteor {
-
-
+public class Meteor
+{
     private static Texture[] meteorFull;
     private static Texture[] meteorDamaged;
     private static final int METEOR_TEXTURES = 6;
@@ -41,17 +40,19 @@ public class Meteor {
     public float y;
     public float radius;
     public int damage;
-    public int health;
-    public boolean divided;
-
     public long lastTimeHit = 0;
     public Circle box;
-    public Sprite meteorsprite;
+    public int health;
     public int speed;
-    public int speedy;
-    private int saveSpeed;
     public int rotateSpeed;
-    public int texture;
+
+    private boolean divided;
+    private Sprite meteorsprite;
+    private int speedy;
+    private int saveSpeed;
+    private int texture;
+
+    private GameScreen gameScreen;
 
     public Meteor(GameScreen screen)
     {
@@ -83,6 +84,8 @@ public class Meteor {
         meteorsprite = new Sprite(health < 30 ? meteorDamaged[texture] : meteorFull[texture]);
         meteorsprite.setSize(radius * 2, radius * 2);
         meteorsprite.setOrigin(radius, radius);
+
+        this.gameScreen = screen;
     }
 
     public void draw(SpriteBatch batch)
@@ -99,6 +102,31 @@ public class Meteor {
 
         meteorsprite.rotate(rotateSpeed);
         meteorsprite.setPosition(x, y);
+    }
+
+    public void divide()
+    {
+        if(divided)
+        {
+            Meteor m1 = new Meteor(gameScreen);
+            m1.x = x;
+            m1.y = y;
+            m1.radius = radius;
+            m1.divided = false;
+            m1.speedy = speed;
+            m1.texture = texture;
+            m1.meteorsprite = new Sprite(meteorsprite);
+            gameScreen.meteors.add(m1);
+            Meteor m2 = new Meteor(gameScreen);
+            m2.x = x;
+            m2.y = y;
+            m2.divided = false;
+            m2.speedy = -speed;
+            m2.radius = radius;
+            m2.texture = texture;
+            m2.meteorsprite = new Sprite(meteorsprite);
+            gameScreen.meteors.add(m2);
+        }
     }
 
     public void updateTexture()

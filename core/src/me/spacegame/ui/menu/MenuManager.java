@@ -10,18 +10,18 @@ import me.spacegame.screens.GameScreen;
  * Created by Felix on 19-Jun-17.
  */
 
-public class Menu {
+public class MenuManager {
 
     public OrthographicCamera camera;
 
-    public HashMap<String, TemplateMenu> screens;
-    public TemplateMenu currentMenu;
+    public HashMap<String, MenuTemplate> screens;
+    public MenuTemplate currentMenu;
 
     private GameScreen gameScreen;
-    public Menu(GameScreen screen)
+    public MenuManager(GameScreen screen)
     {
         camera = new OrthographicCamera(1920, 1080);
-        screens = new HashMap<String, TemplateMenu>();
+        screens = new HashMap<String, MenuTemplate>();
         this.gameScreen = screen;
 
         //load all menuscreens
@@ -32,7 +32,7 @@ public class Menu {
 
         currentMenu = screens.get("empty").activate();
 
-        for(TemplateMenu menu : screens.values())
+        for(MenuTemplate menu : screens.values())
         {
             menu.create();
         }
@@ -45,7 +45,7 @@ public class Menu {
 
     public void dispose()
     {
-        for(TemplateMenu menu : screens.values())
+        for(MenuTemplate menu : screens.values())
         {
             menu.dispose();
         }

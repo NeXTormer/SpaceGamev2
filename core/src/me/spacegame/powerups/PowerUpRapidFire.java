@@ -68,7 +68,6 @@ public class PowerUpRapidFire extends PowerUp {
             sound.stop(soundID);
             return false;
         }
-
     }
 
     @Override
@@ -78,9 +77,7 @@ public class PowerUpRapidFire extends PowerUp {
     }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     @Override
     public float getCooldown() {

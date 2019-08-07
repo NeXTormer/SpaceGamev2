@@ -25,18 +25,16 @@ public class PowerUpHealth extends PowerUp {
     public PowerUpHealth(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
         duration = 600;
-        health =  100;
+        health =  40;
         healed = false;
         texture = new Texture(Gdx.files.internal("gameobjects/HealthIcon.png"));
         hup = new HealthUp((int) player.x-(int)Scale.getScaledSizeX(360), (int) player.y-(int)Scale.getScaledSizeY(350), (int) Scale.getScaledSizeX(300), (int) Scale.getScaledSizeY(300), gameScreen);
         started = false;
-
     }
 
     @Override
     public void start()
     {
-
         sound = gameScreen.getGame().getSound("healthupsound");
         soundID = sound.play(SpaceGame.getInstance().soundVolume);
     }
@@ -45,7 +43,6 @@ public class PowerUpHealth extends PowerUp {
     public void stop() {
         timer = duration+=1;
         durationStart= -duration;
-
     }
 
     @Override
@@ -64,9 +61,7 @@ public class PowerUpHealth extends PowerUp {
             if(!healed)
             {
                 healed=true;
-                //player.health+=health;
-                //gameScreen.healthBar.addHealthByForce(100);
-                player.health += 40;
+                player.health += health;
                 gameScreen.healthBar.setAbsuloteHealth(player.health);
             }
             return true;

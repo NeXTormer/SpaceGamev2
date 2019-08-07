@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.util.Scale;
 
 /**
@@ -22,31 +23,27 @@ public class HelpScreen implements Screen {
 
     private Texture slides[];
 
-
     private int index = 0;
-
 
     public HelpScreen(MainMenuScreen gamescreen) {
         this.menuscreen = gamescreen;
         this.batch = gamescreen.batch;
         slides = new Texture[3];
 
-        slides[0] = gamescreen.getGame().getTexture("cs1");
-        slides[1] = gamescreen.getGame().getTexture("cs2");
-        slides[2] = gamescreen.getGame().getTexture("cs3");
+        slides[0] = SpaceGame.getInstance().getTexture("cs1");
+        slides[1] = SpaceGame.getInstance().getTexture("cs2");
+        slides[2] = SpaceGame.getInstance().getTexture("cs3");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Scale.getScaledSizeX(1920), Scale.getScaledSizeY(1080));
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     @Override
-    public void render(float delta) {
-
+    public void render(float delta)
+    {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
@@ -65,30 +62,19 @@ public class HelpScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
-    public void dispose()
-    {
-
-    }
+    public void dispose() { }
 
 
 

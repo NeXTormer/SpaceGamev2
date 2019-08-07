@@ -19,7 +19,6 @@ public class PowerUpClear extends PowerUp {
     private boolean explosion;
     private int count;
 
-
     public PowerUpClear(Player player, GameScreen gameScreen) {
         super(player, gameScreen);
         explosion = false;

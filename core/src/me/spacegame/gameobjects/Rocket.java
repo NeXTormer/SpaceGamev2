@@ -16,13 +16,16 @@ import me.spacegame.util.Scale;
 
 public class Rocket {
 
-    public static Texture texture;
-
+    private static Texture normalRocketTexture;
+    private static Texture controlRocketTexture;
     static
     {
-        texture = SpaceGame.getInstance().getTexture("rocket1");
+        normalRocketTexture = SpaceGame.getInstance().getTexture("rocket1");
+        controlRocketTexture = new Texture(Gdx.files.internal("gameobjects/ControlRocket.png"));
     }
 
+
+    private Texture texture;
     public float x;
     public float y;
     private int width;
@@ -33,6 +36,7 @@ public class Rocket {
 
     public Rocket(Player p)
     {
+        texture = normalRocketTexture;
         speed = (int) Scale.getScaledSizeX(18);
         width = (int) Scale.getScaledSizeX(50);
         height = (int) Scale.getScaledSizeX(40);
@@ -43,10 +47,19 @@ public class Rocket {
         box = new Rectangle(x-5, y, width, height);
     }
 
-
     public void draw(SpriteBatch batch)
     {
         batch.draw(texture, x, y, width, height);
+    }
+
+    public void setNormalRocketTexture()
+    {
+        texture = normalRocketTexture;
+    }
+
+    public void setControlRocketTexture()
+    {
+        texture = controlRocketTexture;
     }
 
     public void update()
@@ -58,6 +71,7 @@ public class Rocket {
 
     public static void dispose()
     {
-        texture.dispose();
+        normalRocketTexture.dispose();
+        controlRocketTexture.dispose();
     }
 }

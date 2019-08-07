@@ -15,28 +15,16 @@ import me.spacegame.screens.GameScreen;
  * Created by Michi on 07.06.2017.
  */
 
-public class PowerUpControl extends PowerUp {
+public class PowerUpControl extends PowerUp
+{
 
-    private double rocketTimer;
-    private double rocketSpawn;
     private boolean started;
-    private float x;
-    private float y;
-    private float width;
     private float height;
-    private static Texture replaceTexture;
     private GameScreen gameScreen;
-    private long soundID = 0;
-    private Sound sound;
 
-    static
+    public PowerUpControl(Player p, GameScreen gameScreen)
     {
-        replaceTexture = new Texture(Gdx.files.internal("gameobjects/ControlRocket.png"));
-    }
-
-    public PowerUpControl(Player p, GameScreen gameScreen) {
         super(p, gameScreen);
-        width = 50;
         height = 40;
         duration = 5000;
         durationStart = System.currentTimeMillis();
@@ -48,26 +36,29 @@ public class PowerUpControl extends PowerUp {
 
 
     @Override
-    public boolean update() {
+    public boolean update()
+    {
         if(!started)
         {
             started = true;
-            rocketTimer = System.currentTimeMillis();
-            durationStart = System.currentTimeMillis();
         }
         timer = System.currentTimeMillis() - durationStart;
-        if ((timer) < duration) {
-            for (int i = 0; i < gameScreen.rockets.size(); i++) {
-                gameScreen.rockets.get(i).texture = replaceTexture;
+        if ((timer) < duration)
+        {
+            for (int i = 0; i < gameScreen.rockets.size(); i++)
+            {
+                gameScreen.rockets.get(i).setControlRocketTexture();
                 gameScreen.rockets.get(i).damage = 100;
                 gameScreen.rockets.get(i).y = gameScreen.player.y+(gameScreen.player.height/2)-(height/2);
             }
             return true;
         }
 
-        Rocket.texture = gameScreen.getGame().getTexture("rocket1");
+        for(int i = 0; i < gameScreen.rockets.size(); i++)
+        {
+            gameScreen.rockets.get(i).setNormalRocketTexture();
+        }
         return false;
-
     }
 
     @Override
@@ -79,21 +70,16 @@ public class PowerUpControl extends PowerUp {
     }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     @Override
-    public float getCooldown() {
-        return (float) (timer/duration)*100.0f;
-
-    }
-
-    @Override
-    public void start()
+    public float getCooldown()
     {
-        sound = gameScreen.getGame().getSound("shot2sound");
+        return (float) (timer/duration)*100.0f;
     }
+
+    @Override
+    public void start() { }
 
     @Override
     public void stop()
@@ -102,7 +88,4 @@ public class PowerUpControl extends PowerUp {
         timer = duration+=1;
         durationStart= -duration;
     }
-
-
-
 }

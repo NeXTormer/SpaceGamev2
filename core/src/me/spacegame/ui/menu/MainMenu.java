@@ -13,7 +13,7 @@ import me.spacegame.screens.GameScreen;
  * Created by Felix on 19-Jun-17.
  */
 
-public class MainMenu extends TemplateMenu {
+public class MainMenu extends MenuTemplate {
 
     private ImageButton resumeButton;
 
@@ -32,16 +32,16 @@ public class MainMenu extends TemplateMenu {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     //private Label vibrationText;
 
-    public MainMenu(Menu menu)
+    public MainMenu(MenuManager menuManager)
     {
-        super(menu);
-        stage.getBatch().setProjectionMatrix(menu.camera.combined);
+        super(menuManager);
+        stage.getBatch().setProjectionMatrix(menuManager.camera.combined);
     }
 
     @Override
     public void create() {
-        startbuttonup = menu.getGameScreen().getGame().getTexture("resumeButtonMenu");
-        startbuttondown = menu.getGameScreen().getGame().getTexture("resumeButtonMenu");
+        startbuttonup = menuManager.getGameScreen().getGame().getTexture("resumeButtonMenu");
+        startbuttondown = menuManager.getGameScreen().getGame().getTexture("resumeButtonMenu");
 
         startButtonUpDrawable = new SpriteDrawable();
         startButtonDownDrawable = new SpriteDrawable();
@@ -51,7 +51,7 @@ public class MainMenu extends TemplateMenu {
 
         resumeButton = new ImageButton(startButtonUpDrawable, startButtonDownDrawable);
 
-        retryButton = new ImageButton(new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton"))), new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton"))));
+        retryButton = new ImageButton(new SpriteDrawable(new Sprite(menuManager.getGameScreen().getGame().getTexture("retryButton"))), new SpriteDrawable(new Sprite(menuManager.getGameScreen().getGame().getTexture("retryButton"))));
         retryButton.setPosition(900, 500);
 
         resumeButton.setPosition(895, 180);
@@ -62,21 +62,18 @@ public class MainMenu extends TemplateMenu {
         ftfg = new FreeTypeFontGenerator(Gdx.files.internal("ui/font.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 140;
-
-        //vibrationText = new Label("Vibration", new Label.LabelStyle(ftfg.generateFont(parameter), Color.GREEN));
-        //vibrationText.setPosition(990, 570);
-        //stage.addActor(vibrationText);
     }
 
     @Override
-    public TemplateMenu activate()
+    public MenuTemplate activate()
     {
         Gdx.input.setInputProcessor(stage);
         return this;
     }
 
     @Override
-    public void draw() {
+    public void draw()
+    {
         stage.act();
         stage.draw();
 
@@ -85,16 +82,15 @@ public class MainMenu extends TemplateMenu {
             if(System.currentTimeMillis() - timers[0] > 1000)
             {
                 timers[0] = System.currentTimeMillis();
-
-                menu.getGameScreen().getGame().setScreen(new GameScreen(menu.getGameScreen().getGame()));
+                menuManager.getGameScreen().getGame().setScreen(new GameScreen(menuManager.getGameScreen().getGame()));
             }
         }
         if(resumeButton.isPressed())
         {
             if(System.currentTimeMillis() - timers[1] > 1000)
             {
-                menu.currentMenu = menu.screens.get("empty").activate();
-                menu.getGameScreen().paused = false;
+                menuManager.currentMenu = menuManager.screens.get("empty").activate();
+                menuManager.getGameScreen().paused = false;
                 timers[1] = System.currentTimeMillis();
             }
         }

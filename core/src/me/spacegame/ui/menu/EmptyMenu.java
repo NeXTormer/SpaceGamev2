@@ -6,18 +6,18 @@ import com.badlogic.gdx.Gdx;
  * Created by Felix on 19-Jun-17.
  */
 
-public class EmptyMenu extends TemplateMenu {
+public class EmptyMenu extends MenuTemplate {
 
 
-    public EmptyMenu(Menu menu) { super(menu); }
+    public EmptyMenu(MenuManager menuManager) { super(menuManager); }
 
     @Override
     public void create() { }
 
     @Override
-    public TemplateMenu activate()
+    public MenuTemplate activate()
     {
-        Gdx.input.setInputProcessor(menu.getGameScreen().getInputMultiplexer());
+        Gdx.input.setInputProcessor(menuManager.getGameScreen().getInputMultiplexer());
         return this;
     }
 

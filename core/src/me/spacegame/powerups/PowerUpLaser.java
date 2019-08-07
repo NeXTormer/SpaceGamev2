@@ -60,7 +60,6 @@ public class PowerUpLaser extends PowerUp
     {
         sound = gameScreen.getGame().getSound("laser2sound");
         soundID = sound.loop(SpaceGame.getInstance().soundVolume);
-        //sound.setLooping(soundID, true);
     }
 
     @Override
@@ -111,7 +110,6 @@ public class PowerUpLaser extends PowerUp
                 {
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
-                    //gameScreen.meteors.add(new Meteor(gameScreen));
                     SpaceGame.getInstance().getSound("explosion1sound").play(SpaceGame.getInstance().soundVolume);
                     player.score+=100;
                 }
@@ -155,9 +153,7 @@ public class PowerUpLaser extends PowerUp
     }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     @Override
     public float getCooldown()

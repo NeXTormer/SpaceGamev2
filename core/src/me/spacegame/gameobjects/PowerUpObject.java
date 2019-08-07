@@ -1,13 +1,10 @@
-package me.spacegame.powerups;
+package me.spacegame.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
 import me.spacegame.animations.QuestionMark;
-import me.spacegame.gameobjects.Meteor;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.util.Scale;
 
@@ -59,8 +56,5 @@ public class PowerUpObject {
         qm.setPosition(x, y);
     }
 
-    public static void dispose()
-    {
-
-    }
+    public static void dispose() { }
 }

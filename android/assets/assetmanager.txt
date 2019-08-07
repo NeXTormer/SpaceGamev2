@@ -64,7 +64,7 @@ cs3;help/cs3.png
 credits1;credits/c1.png
 creditsbutton;ui/creditsbutton.png
 highscorebutton;ui/highscorebutton.png
-#main menu buttons
+#main menuManager buttons
 vibrationoff;ui/vibrationoff.png
 vibrationon;ui/vibrationon.png
 soundoff;ui/soundoff.png

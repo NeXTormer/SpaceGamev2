@@ -1,22 +1,16 @@
 package me.spacegame.ui.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import me.spacegame.databases.API;
-import me.spacegame.databases.Database;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.screens.MainMenuScreen;
 import me.spacegame.util.Scale;
@@ -25,7 +19,7 @@ import me.spacegame.util.Scale;
  * Created by Iris on 25-Jun-17.
  */
 
-public class GameOverMenu extends TemplateMenu {
+public class GameOverMenu extends MenuTemplate {
 
 
     private ImageButton retryBtn;
@@ -46,23 +40,23 @@ public class GameOverMenu extends TemplateMenu {
     private long lastButtonPress = 0;
 
 
-    public GameOverMenu(Menu menu)
+    public GameOverMenu(MenuManager menuManager)
     {
-        super(menu);
-        //stage.getBatch().setProjectionMatrix(menu.camera.combined);
+        super(menuManager);
+        //stage.getBatch().setProjectionMatrix(menuManager.camera.combined);
 
-        vignetteImage = new Image(menu.getGameScreen().getGame().getTexture("vignetteEffect"));
+        vignetteImage = new Image(menuManager.getGameScreen().getGame().getTexture("vignetteEffect"));
 
-        retryBtnDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("retryButton")));
-        mainMenuButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("homebutton")));
+        retryBtnDrawable = new SpriteDrawable(new Sprite(menuManager.getGameScreen().getGame().getTexture("retryButton")));
+        mainMenuButtonDrawable = new SpriteDrawable(new Sprite(menuManager.getGameScreen().getGame().getTexture("homebutton")));
 
-        scoreButtonDrawable = new SpriteDrawable(new Sprite(menu.getGameScreen().getGame().getTexture("highscorebutton")));
+        scoreButtonDrawable = new SpriteDrawable(new Sprite(menuManager.getGameScreen().getGame().getTexture("highscorebutton")));
         scoreBtn = new ImageButton(scoreButtonDrawable);
 
         scoreBtn.setSize(Scale.getScaledSizeX(170), Scale.getScaledSizeY(170));
         scoreBtn.setPosition(Scale.getScaledSizeX(1700), Scale.getScaledSizeY(300));
 
-        vignetteImage.setSize(menu.getGameScreen().getCamera().viewportWidth, menu.getGameScreen().getCamera().viewportHeight);
+        vignetteImage.setSize(menuManager.getGameScreen().getCamera().viewportWidth, menuManager.getGameScreen().getCamera().viewportHeight);
 
         stage.getBatch().enableBlending();
         stage.addActor(vignetteImage);
@@ -97,22 +91,22 @@ public class GameOverMenu extends TemplateMenu {
     }
 
     @Override
-    public TemplateMenu activate()
+    public MenuTemplate activate()
     {
         Gdx.input.setInputProcessor(stage);
-        stage.getBatch().setProjectionMatrix(menu.getGameScreen().getCamera().combined);
+        stage.getBatch().setProjectionMatrix(menuManager.getGameScreen().getCamera().combined);
 
 
 
-        int highScore = menu.getGameScreen().preferences.getInteger("highscore");
-        int score = menu.getGameScreen().player.score;
+        int highScore = menuManager.getGameScreen().preferences.getInteger("highscore");
+        int score = menuManager.getGameScreen().player.score;
         System.err.println("highscore: " + highScore + ", score: " + score);
         if(score > highScore)
         {
             highScore = score;
         }
-        menu.getGameScreen().preferences.putInteger("highscore", highScore);
-        menu.getGameScreen().preferences.flush();
+        menuManager.getGameScreen().preferences.putInteger("highscore", highScore);
+        menuManager.getGameScreen().preferences.flush();
         scoreText = new Label("Score: " + score + ", Highscore: " + highScore, new Label.LabelStyle(f_font1, Color.RED));
         scoreText.setPosition(Scale.getScaledSizeX(455), Scale.getScaledSizeY(500));
 
@@ -122,7 +116,7 @@ public class GameOverMenu extends TemplateMenu {
         stage.addActor(gameoverText);
         stage.addActor(scoreText);
 
-        API.send("https://games.htl-klu.at/anyway/addscore/9F412BDFA1D49B0D80/" + menu.getGameScreen().getGame().username + "/" + score + "/spacegame");
+        API.send("https://games.htl-klu.at/anyway/addscore/9F412BDFA1D49B0D80/" + menuManager.getGameScreen().getGame().username + "/" + score + "/spacegame");
 
         return this;
     }
@@ -134,11 +128,11 @@ public class GameOverMenu extends TemplateMenu {
 
         if(retryBtn.isPressed())
         {
-            menu.getGameScreen().getGame().setScreen(new GameScreen(menu.getGameScreen().getGame()));
+            menuManager.getGameScreen().getGame().setScreen(new GameScreen(menuManager.getGameScreen().getGame()));
         }
         if(mainMenuButton.isPressed())
         {
-            menu.getGameScreen().getGame().setScreen(new MainMenuScreen(menu.getGameScreen().getGame()));
+            menuManager.getGameScreen().getGame().setScreen(new MainMenuScreen(menuManager.getGameScreen().getGame()));
         }
         if(scoreBtn.isPressed())
         {

@@ -51,7 +51,7 @@ public class MainMenuScreen implements Screen {
     private SpriteDrawable volumeButtonDrawable_on;
     private SpriteDrawable vibrationButtonDrawable_on;
 
-    public Stage stage;
+    private Stage stage;
 
     private ImageButton startbtn;
     private ImageButton helpbtn;
@@ -215,9 +215,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     public SpaceGame getGame() { return game; }
 
@@ -264,28 +262,19 @@ public class MainMenuScreen implements Screen {
         batch.end();
 
         stage.draw();
-
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose()
@@ -297,8 +286,4 @@ public class MainMenuScreen implements Screen {
         startbuttondown.dispose();
         stage.dispose();
     }
-
-
-
-
 }

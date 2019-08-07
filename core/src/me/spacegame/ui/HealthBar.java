@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,22 +17,14 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
-import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import me.spacegame.SpaceGame;
-import me.spacegame.powerups.PowerUp;
-import me.spacegame.powerups.PowerUpObject;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.util.Scale;
 
@@ -42,8 +32,8 @@ import me.spacegame.util.Scale;
  * Created by Felix on 19-May-17.
  */
 
-public class HealthBar {
-
+public class HealthBar
+{
     private GameScreen game;
 
     private Texture mainTexture;
@@ -64,21 +54,20 @@ public class HealthBar {
     private float newHealthPercent = 100;
     private float healthbarSmoothing = 5.69f;
 
-    private float m_PowerupCooldownPixel = 0;
+    private float powerupCooldownPixel = 0;
 
     public int score = 0;
 
     //Questionmark
-    public PerspectiveCamera cam;
-    public ModelBatch modelBatch;
-    public Model model;
-    public ModelInstance instance;
+    private PerspectiveCamera cam;
+    private ModelBatch modelBatch;
+    private Model model;
+    private ModelInstance instance;
     private ModelLoader loader = new ObjLoader();
-    public FrameBuffer fbo;
-    public Environment environment;
+    private FrameBuffer fbo;
+    private Environment environment;
 
     private float defaultRotationSpeed = 1.9f;
-
 
     public HealthBar(GameScreen game)
     {
@@ -89,7 +78,6 @@ public class HealthBar {
         mainTexture = game.getGame().getTexture("healthbarmain");
         healthTexture = game.getGame().getTexture("healthTexture");
         powerupCooldownTexture = game.getGame().getTexture("poweruptimer");
-
 
         healthbarProgram = new ShaderProgram(healthbarVert, healthbarFrag);
         if (!healthbarProgram.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + healthbarProgram.getLog());
@@ -127,7 +115,6 @@ public class HealthBar {
         scoreLabel = new Label("Score: " + score, new Label.LabelStyle(ftfg2.generateFont(parameter2), Color.BLACK));
 
         scoreLabel.setPosition(Scale.getScaledSizeX(284), Scale.getScaledSizeY(894));
-
     }
 
     public void draw(SpriteBatch batch)
@@ -144,7 +131,6 @@ public class HealthBar {
         batch.draw(mainTexture, Scale.getScaledSizeX(62), Scale.getScaledSizeY(740), Scale.getScaledSizeX(800), Scale.getScaledSizeY(400));
 
         scoreLabel.draw(batch, 1);
-
     }
 
     public float getHealth()
@@ -164,7 +150,6 @@ public class HealthBar {
 
     public void draw()
     {
-        //render to fbo
         fbo.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, 200, 200);
@@ -176,7 +161,7 @@ public class HealthBar {
 
         healthbarProgram.begin();
         healthbarProgram.setUniformf("health_t", healthPixel);
-        healthbarProgram.setUniformf("powerupCooldown", m_PowerupCooldownPixel);
+        healthbarProgram.setUniformf("powerupCooldown", powerupCooldownPixel);
         healthbarProgram.end();
 
         healthBatch.begin();
@@ -207,7 +192,7 @@ public class HealthBar {
     public void setPowerupCooldown(double percent)
     {
         if(percent > 98) percent = 200;
-        m_PowerupCooldownPixel = (convertPowerupCooldowntoPixel((float) (100 - percent)));
+        powerupCooldownPixel = (convertPowerupCooldowntoPixel((float) (100 - percent)));
     }
 
     public void changeHalth(float dh)

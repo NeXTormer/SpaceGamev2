@@ -1,23 +1,19 @@
 package me.spacegame.ui.menu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
  * Created by Felix on 19-Jun-17.
  */
 //not used weil pfusch
-public class OptionsMenu extends TemplateMenu {
+public class OptionsMenu extends MenuTemplate {
 
     private ImageButton backButton;
     private long timers[] = new long[1];
 
-    public OptionsMenu(Menu menu)
+    public OptionsMenu(MenuManager menuManager)
     {
-        super(menu);
+        super(menuManager);
     }
 
     @Override
@@ -36,8 +32,8 @@ public class OptionsMenu extends TemplateMenu {
         {
             if(System.currentTimeMillis() - timers[0] > 1000)
             {
-                //menu.getGameScreen().settingsbtn.setDisabled(false);
-                menu.currentMenu = menu.screens.get("main").activate();
+                //menuManager.getGameScreen().settingsbtn.setDisabled(false);
+                menuManager.currentMenu = menuManager.screens.get("main").activate();
                 timers[0] = System.currentTimeMillis();
             }
         }
