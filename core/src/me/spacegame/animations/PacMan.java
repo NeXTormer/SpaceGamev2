@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -16,14 +17,20 @@ public class PacMan {
     private static int width = 40;
     private static int height = 40;
 
+    private static TextureRegion[] textureRegions;
+    private static Texture spritesheet;
+
+    static
+    {
+        spritesheet = SpaceGame.getInstance().getTexture("pacman");
+        textureRegions = new TextureRegion[3];
+
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
+        textureRegions = temp[0];
+    }
+
     private int drawWidth;
     private int drawHeight;
-    private static TextureRegion[] textureRegions;
-
-    private Texture spritesheet;
-    private boolean firstInit = false;
-
-
     private float elapsed = 0f;
     private int x = 0;
     private int y = 0;
@@ -33,21 +40,6 @@ public class PacMan {
 
     public PacMan(int x, int y, GameScreen screen)
     {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("pacman");
-            textureRegions = new TextureRegion[3];
-
-
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-
-
-            textureRegions = temp[0];
-
-            firstInit = true;
-        }
-
-
         this.x = x;
         this.y = y;
         this.drawWidth=250;
@@ -80,5 +72,10 @@ public class PacMan {
     {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
+    }
+
+    public static void dispose()
+    {
+        spritesheet.dispose();
     }
 }

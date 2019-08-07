@@ -22,6 +22,16 @@ import me.spacegame.util.Scale;
 
 public class Enemy {
 
+    private static Texture enemyTexture;
+    private static Sound sound;
+    private static Random random = new Random();
+
+    static
+    {
+        enemyTexture = SpaceGame.getInstance().getTexture("enemy1");
+        sound = SpaceGame.getInstance().getSound("warningsound");
+    }
+
     private GameScreen gameScreen;
 
     public float enemyX;
@@ -43,8 +53,6 @@ public class Enemy {
     //type = 3 --> Enemy from right to left with sinus
 
     private int baseSpeed;
-    private Texture enemyTexture;
-    private static Random random = new Random();
     private int rocket1;
     private int rocket2;
 
@@ -59,13 +67,10 @@ public class Enemy {
     private boolean started = false;
 
     private long soundID = 0;
-    private Sound sound;
-
 
     private ArrayList<EnemyRocket> rockets;
 
-    public ExclaimationPoint ep;
-
+    private ExclaimationPoint ep;
 
     public Enemy(int type, GameScreen screen)
     {
@@ -81,13 +86,10 @@ public class Enemy {
         baseSpeed = (int) Scale.getScaledSizeX(22);
         damage=20;
         health = 100;
-        enemyTexture = screen.getGame().getTexture("enemy1");
-
 
         warningY = enemyY;
         warningHeight = enemyHeight;
         warningWidth = 40;
-        sound = gameScreen.getGame().getSound("warningsound");
         soundID = sound.play(SpaceGame.getInstance().soundVolume);
         sound.setLooping(soundID, true);
 
@@ -282,7 +284,6 @@ public class Enemy {
         {
             rocket.update();
         }
-
     }
 
     public GameScreen getGameScreen()

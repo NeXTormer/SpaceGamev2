@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -17,6 +18,21 @@ public class HealthUp {
     private static Texture spritesheet;
     private static TextureRegion[] textureRegions;
 
+    static
+    {
+        spritesheet = SpaceGame.getInstance().getTexture("healthupanimation");
+        textureRegions = new TextureRegion[3 * 3];
+
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                textureRegions[i * 3 + j] = temp[i][j];
+            }
+        }
+    }
+
     private float elapsed = 0f;
     private float x = 0;
     private float y = 0;
@@ -25,27 +41,10 @@ public class HealthUp {
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
-    private boolean firstInit = false;
 
 
     public HealthUp(int x, int y, int width, int height, GameScreen screen)
     {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("healthupanimation");
-            textureRegions = new TextureRegion[3 * 3];
-
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
-            for(int i = 0; i < 3; i++)
-            {
-                for(int j = 0; j < 3; j++)
-                {
-                    textureRegions[i * 3 + j] = temp[i][j];
-                }
-            }
-            firstInit = true;
-        }
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -81,7 +80,6 @@ public class HealthUp {
 
         return animation.isAnimationFinished(elapsedFrames);
     }
-
 
     public static void dispose()
     {

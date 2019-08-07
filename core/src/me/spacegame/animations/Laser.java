@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.awt.Rectangle;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -19,38 +20,35 @@ public class Laser
     private static Texture spritesheet;
     private static TextureRegion[] textureRegions;
 
+    private static int width = 80;
+    public static int height = 130;
+
+    static
+    {
+        spritesheet = SpaceGame.getInstance().getTexture("laser1");
+        textureRegions = new TextureRegion[4 * 6];
+
+
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 6; j++)
+            {
+                textureRegions[i * 6 + j] = temp[i][j];
+            }
+        }
+    }
+
     private float elapsed = 0f;
     public float x = 0;
     public float y = 0;
-    private int width = 80;
-    public int height = 130;
     private float frameDuration = 1.4f;
     public Rectangle box;
     public int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
-    private boolean firstInit = false;
-
-
     public Laser(float x, float y, GameScreen screen)
     {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("laser1");
-            textureRegions = new TextureRegion[4 * 6];
-
-
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-            for(int i = 0; i < 4; i++)
-            {
-                for(int j = 0; j < 6; j++)
-                {
-                    textureRegions[i * 6 + j] = temp[i][j];
-                }
-            }
-            firstInit = true;
-        }
-
         this.x = x;
         this.y = y;
 

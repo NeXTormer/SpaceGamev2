@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.util.Scale;
 
@@ -17,39 +18,34 @@ public class QuestionMark {
     private static Texture spritesheet;
     private static TextureRegion[] textureRegions;
 
+    public static int width = 100;
+    public static int height = 100;
+
+    static
+    {
+        spritesheet = SpaceGame.getInstance().getTexture("questionmark1");
+        textureRegions = new TextureRegion[4 * 10];
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                textureRegions[i * 10 + j] = temp[i][j];
+            }
+        }
+    }
+
     private float elapsed = 0f;
     private float x = 0;
     private float y = 0;
-    public int width = 100;
-    public int height = 100;
     private float frameDuration = 1.9f;
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
-    private boolean firstInit = false;
-
-
     public QuestionMark(float x, float y, GameScreen screen)
     {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("questionmark1");
-            textureRegions = new TextureRegion[4 * 10];
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-            for(int i = 0; i < 4; i++)
-            {
-                for(int j = 0; j < 10; j++)
-                {
-                    textureRegions[i * 10 + j] = temp[i][j];
-                }
-            }
-            firstInit = true;
-        }
-
         this.x = x;
         this.y = y;
-
-
 
         animation = new Animation<TextureRegion>(10, textureRegions);
         animation.setPlayMode(Animation.PlayMode.LOOP);
@@ -79,7 +75,6 @@ public class QuestionMark {
 
         return true;
     }
-
 
     public static void dispose()
     {

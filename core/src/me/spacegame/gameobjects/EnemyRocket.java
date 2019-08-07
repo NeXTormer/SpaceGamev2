@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.util.Scale;
 
 /**
@@ -15,9 +16,12 @@ import me.spacegame.util.Scale;
 
 public class EnemyRocket {
 
-    public Texture texture;
-    private static boolean firstInit = false;
+    public static Texture texture;
 
+    static
+    {
+        texture = SpaceGame.getInstance().getTexture("enemyrocket1");
+    }
 
     public float x;
     public float y;
@@ -31,10 +35,6 @@ public class EnemyRocket {
 
     public EnemyRocket(Enemy p)
     {
-        if(!firstInit)
-        {
-            texture = p.getGameScreen().getGame().getTexture("enemyrocket1");
-        }
         damage=10;
         speed = (int) Scale.getScaledSizeX(40);
         width = (int) Scale.getScaledSizeX(50);
@@ -60,6 +60,6 @@ public class EnemyRocket {
 
     public static void dispose()
     {
-
+        texture.dispose();
     }
 }

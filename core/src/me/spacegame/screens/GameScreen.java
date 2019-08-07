@@ -28,7 +28,10 @@ import java.util.List;
 import java.util.Random;
 
 import me.spacegame.SpaceGame;
+import me.spacegame.animations.ExclaimationPoint;
 import me.spacegame.animations.Explosion;
+import me.spacegame.animations.HealthUp;
+import me.spacegame.animations.QuestionMark;
 import me.spacegame.gameobjects.Background;
 import me.spacegame.gameobjects.Comet;
 import me.spacegame.gameobjects.Enemy;
@@ -898,12 +901,18 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         batch.dispose();
         background.dispose();
         backgroudMusic.dispose();
+
         Meteor.dispose();
         Rocket.dispose();
         Explosion.dispose();
-        for (int i = 0; i < rockets.size(); i++) {
-            rockets.get(i).dispose();
-        }
+        ExclaimationPoint.dispose();
+        HealthUp.dispose();
+        QuestionMark.dispose();
+
+        Rocket.dispose();
+        Comet.dispose();
+
+
     }
 
     public void shakeCam()

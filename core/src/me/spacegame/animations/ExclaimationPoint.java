@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.util.Scale;
 
@@ -16,11 +17,17 @@ public class ExclaimationPoint {
 
     private static int width = 50;
     private static int height = 150;
+
     private static TextureRegion[] textureRegions;
+    private static Texture spritesheet;
 
-    private Texture spritesheet;
-    private boolean firstInit = false;
+    static {
+        spritesheet = SpaceGame.getInstance().getTexture("exclaimationpoint");
+        textureRegions = new TextureRegion[5 * 1];
 
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
+        textureRegions = temp[0];
+    }
 
     private float elapsed = 0f;
     private int x = 0;
@@ -29,20 +36,7 @@ public class ExclaimationPoint {
     private int elapsedFrames = 0;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
 
-    public ExclaimationPoint(int x, int y, GameScreen screen)
-    {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("exclaimationpoint");
-            textureRegions = new TextureRegion[5 * 1];
-
-
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, width, height);
-            textureRegions = temp[0];
-            firstInit = true;
-        }
-
-
+    public ExclaimationPoint(int x, int y, GameScreen screen) {
         this.x = x;
         this.y = y;
 
@@ -51,27 +45,27 @@ public class ExclaimationPoint {
         animation.setFrameDuration(frameDuration);
     }
 
-    public void setPosition(int x, int y)
-    {
+    public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public void setFrameDuration(float duration)
-    {
+    public void setFrameDuration(float duration) {
         frameDuration = duration;
     }
 
-    public void draw(SpriteBatch batch)
-    {
+    public void draw(SpriteBatch batch) {
         batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width, height);
 
     }
 
-    public void update()
-    {
+    public void update() {
         elapsedFrames++;
         elapsed += Gdx.graphics.getDeltaTime();
     }
 
+    public static void dispose()
+    {
+        spritesheet.dispose();
+    }
 }

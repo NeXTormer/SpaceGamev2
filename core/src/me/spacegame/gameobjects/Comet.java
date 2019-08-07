@@ -18,7 +18,11 @@ import me.spacegame.util.Scale;
 public class Comet
 {
     public static Texture texture;
-    private boolean firstInit = false;
+
+    static
+    {
+        texture = SpaceGame.getInstance().getTexture("comet");
+    }
 
     public float x;
     public float y;
@@ -33,10 +37,6 @@ public class Comet
     {
         player = p;
         gameScreen = player.getGameScreen();
-        if(!firstInit)
-        {
-            texture = player.getGameScreen().getGame().getTexture("comet");
-        }
 
         x = player.x+(player.width/2)+100;
         y = player.y+(player.height/2)+100;

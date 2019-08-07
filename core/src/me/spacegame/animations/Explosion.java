@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 
 /**
@@ -16,6 +17,21 @@ public class Explosion {
     private static Texture spritesheet;
     private static TextureRegion[] textureRegions;
 
+    static
+    {
+        spritesheet = SpaceGame.getInstance().getTexture("explosion1");
+        textureRegions = new TextureRegion[3 * 3];
+
+        TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                textureRegions[i * 3 + j] = temp[i][j];
+            }
+        }
+    }
+
     private float elapsed = 0f;
     private int x = 0;
     private int y = 0;
@@ -26,27 +42,8 @@ public class Explosion {
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> animation;
     private boolean big = false;
 
-    private boolean firstInit = false;
-
-
     public Explosion(int x, int y, int width, int height, GameScreen screen)
     {
-        if(!firstInit)
-        {
-            spritesheet = screen.getGame().getTexture("explosion1");
-            textureRegions = new TextureRegion[3 * 3];
-
-            TextureRegion[][] temp = TextureRegion.split(spritesheet, 80, 80);
-            for(int i = 0; i < 3; i++)
-            {
-                for(int j = 0; j < 3; j++)
-                {
-                    textureRegions[i * 3 + j] = temp[i][j];
-                }
-            }
-            firstInit = true;
-        }
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -86,7 +83,7 @@ public class Explosion {
     {
         if(big)
         {
-            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, 700, 700);
+            batch.draw(animation.getKeyFrame(elapsedFrames), x, y, width * 3, height * 3);
         }
         else
         {
@@ -101,7 +98,6 @@ public class Explosion {
 
         return animation.isAnimationFinished(elapsedFrames);
     }
-
 
     public static void dispose()
     {

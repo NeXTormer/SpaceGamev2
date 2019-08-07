@@ -23,9 +23,19 @@ public class Meteor {
 
     private static Texture[] meteorFull;
     private static Texture[] meteorDamaged;
-    private boolean firstInit = false;
-
     private static final int METEOR_TEXTURES = 6;
+
+    static
+    {
+        meteorFull = new Texture[METEOR_TEXTURES];
+        meteorDamaged = new Texture[METEOR_TEXTURES];
+
+        for(int i = 0; i < METEOR_TEXTURES; i++)
+        {
+            meteorFull[i] = SpaceGame.getInstance().getTexture("meteor" + (i + 1));
+            meteorDamaged[i] = SpaceGame.getInstance().getTexture("meteor" + (i + 1) + "_damaged");
+        }
+    }
 
     public float x;
     public float y;
@@ -45,20 +55,6 @@ public class Meteor {
 
     public Meteor(GameScreen screen)
     {
-        if(!firstInit)
-        {
-            meteorFull = new Texture[METEOR_TEXTURES];
-            meteorDamaged = new Texture[METEOR_TEXTURES];
-
-            for(int i = 0; i < METEOR_TEXTURES; i++)
-            {
-                meteorFull[i] = screen.getGame().getTexture("meteor" + (i + 1));
-                meteorDamaged[i] = screen.getGame().getTexture("meteor" + (i + 1) + "_damaged");
-            }
-
-            firstInit = true;
-        }
-
         radius = GameScreen.random.nextInt(50)+50;
         damage = (int) radius / 6;
         radius = Scale.getScaledSizeX(radius);
