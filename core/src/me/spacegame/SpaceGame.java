@@ -17,6 +17,7 @@ import me.spacegame.screens.MainMenuScreen;
 
 public class SpaceGame extends Game {
 
+	private static SpaceGame instance;
 
 	public static int VIEWPORTWIDTH;
 	public static int VIEWPORTHEIGHT;
@@ -33,9 +34,17 @@ public class SpaceGame extends Game {
 
 	public IGameServiceClient gsClient;
 
+	public static SpaceGame getInstance() { return instance; }
+
+	public static void log(String msg, Object... o)
+	{
+		System.out.format(msg + "\n", o);
+	}
+
 	@Override
 	public void create()
 	{
+		instance = this;
 		if(gsClient == null)
 		{
 			gsClient = new NoGameServiceClient();
@@ -79,7 +88,7 @@ public class SpaceGame extends Game {
 		}
 		manager.load("ui/fragezeichen.obj", Model.class);
 		manager.update();
-		System.out.println("Load Time: " + (System.currentTimeMillis() - starttime));
+		log("Load Time (ms): %s", (System.currentTimeMillis() - starttime));
 	}
 
 	public Texture getTexture(String name)
@@ -93,7 +102,7 @@ public class SpaceGame extends Game {
 	}
 
 	@Override
-	public void render ()
+	public void render()
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -106,10 +115,11 @@ public class SpaceGame extends Game {
 	}
 	
 	@Override
-	public void dispose ()
+	public void dispose()
 	{
 		manager.clear();
 		manager.dispose();
+		getScreen().dispose();
 	}
 
 	public AssetManager getAssetManager()

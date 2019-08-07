@@ -62,11 +62,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
     private Menu menu;
     private static final int SHAKETIME = 150;
 
-    public SpaceGame game;
+    private SpaceGame game;
 
     private SpriteBatch batch;
     private Stage stage;
-
 
     private Music backgroudMusic;
     private OrthographicCamera camera;

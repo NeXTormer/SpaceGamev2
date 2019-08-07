@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.gameobjects.Meteor;
 import me.spacegame.gameobjects.Player;
@@ -56,7 +57,7 @@ public class PowerUpClear extends PowerUp {
             }
             gameScreen.enemies.clear();
         }
-        gameScreen.game.getSound("explosion2sound").play(gameScreen.game.soundVolume);
+        SpaceGame.getInstance().getSound("explosion2sound").play(SpaceGame.getInstance().soundVolume);
         return false;
 
     }

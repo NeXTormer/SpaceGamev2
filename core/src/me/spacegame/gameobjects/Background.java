@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.screens.GameScreen;
 import me.spacegame.util.Scale;
 
@@ -28,7 +29,7 @@ public class Background {
     public Background(GameScreen gameScreen)
     {
         this.gameScreen = gameScreen;
-        bg = gameScreen.game.getTexture("background");
+        bg = SpaceGame.getInstance().getTexture("background");
     }
 
 

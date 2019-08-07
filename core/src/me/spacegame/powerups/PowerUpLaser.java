@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.animations.Laser;
 import me.spacegame.gameobjects.Comet;
@@ -58,7 +59,7 @@ public class PowerUpLaser extends PowerUp
     public void start()
     {
         sound = gameScreen.getGame().getSound("laser2sound");
-        soundID = sound.loop(gameScreen.game.soundVolume);
+        soundID = sound.loop(SpaceGame.getInstance().soundVolume);
         //sound.setLooping(soundID, true);
     }
 
@@ -111,7 +112,7 @@ public class PowerUpLaser extends PowerUp
                     gameScreen.explosions.add(new Explosion((int) gameScreen.meteors.get(i).x - 70, (int) (gameScreen.meteors.get(i).y - 20), (int) gameScreen.meteors.get(i).radius*2, (int) gameScreen.meteors.get(i).radius*2, gameScreen));
                     gameScreen.meteors.remove(i);
                     //gameScreen.meteors.add(new Meteor(gameScreen));
-                    gameScreen.game.getSound("explosion1sound").play(gameScreen.game.soundVolume);
+                    SpaceGame.getInstance().getSound("explosion1sound").play(SpaceGame.getInstance().soundVolume);
                     player.score+=100;
                 }
                 break outerloop;
@@ -134,7 +135,7 @@ public class PowerUpLaser extends PowerUp
                 gameScreen.explosions.add(new Explosion((int) gameScreen.enemies.get(i).enemyX - 70, (int) (gameScreen.enemies.get(i).enemyY - 20),
                         (int) gameScreen.enemies.get(i).enemyWidth, (int) gameScreen.enemies.get(i).enemyHeight, gameScreen));
                 gameScreen.enemies.remove(i);
-                gameScreen.game.getSound("explosion1sound").play(gameScreen.game.soundVolume);
+                SpaceGame.getInstance().getSound("explosion1sound").play(SpaceGame.getInstance().soundVolume);
                 player.score+=500;
                 break outerloop;
             }

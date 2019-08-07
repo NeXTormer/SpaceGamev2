@@ -80,7 +80,7 @@ public class PowerUpHelper extends PowerUp {
             r.speed+=5;
             r.damage+=20;
             gameScreen.rockets.add(r);
-            gameScreen.game.getSound("shot1sound").play(gameScreen.game.soundVolume);
+            SpaceGame.getInstance().getSound("shot1sound").play(SpaceGame.getInstance().soundVolume);
         }
 
         //Meteor - Helper Collision

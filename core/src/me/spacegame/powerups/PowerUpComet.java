@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.animations.Explosion;
 import me.spacegame.animations.PacMan;
 import me.spacegame.gameobjects.Comet;
@@ -56,7 +57,7 @@ public class PowerUpComet extends PowerUp
     public void start()
     {
         sound = gameScreen.getGame().getSound("cometsound");
-        soundID = sound.loop(gameScreen.game.soundVolume);
+        soundID = sound.loop(SpaceGame.getInstance().soundVolume);
         //sound.setLooping(soundID, true);
     }
 

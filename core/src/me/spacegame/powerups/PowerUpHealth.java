@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import me.spacegame.SpaceGame;
 import me.spacegame.animations.HealthUp;
 import me.spacegame.gameobjects.Player;
 import me.spacegame.screens.GameScreen;
@@ -37,7 +38,7 @@ public class PowerUpHealth extends PowerUp {
     {
 
         sound = gameScreen.getGame().getSound("healthupsound");
-        soundID = sound.play(gameScreen.game.soundVolume);
+        soundID = sound.play(SpaceGame.getInstance().soundVolume);
     }
 
     @Override
