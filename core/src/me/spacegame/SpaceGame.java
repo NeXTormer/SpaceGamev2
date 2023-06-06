@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.g3d.Model;
 
 import java.util.HashMap;
 
-import de.golfgl.gdxgamesvcs.IGameServiceClient;
-import de.golfgl.gdxgamesvcs.NoGameServiceClient;
+//import de.golfgl.gdxgamesvcs.IGameServiceClient;
+//import de.golfgl.gdxgamesvcs.NoGameServiceClient;
 import me.spacegame.screens.MainMenuScreen;
 
 public class SpaceGame extends Game {
@@ -32,7 +32,7 @@ public class SpaceGame extends Game {
 
 	private HashMap<String, String> assetKeys = new HashMap<String, String>();
 
-	public IGameServiceClient gsClient;
+//	public IGameServiceClient gsClient;
 
 	public static SpaceGame getInstance() { return instance; }
 
@@ -45,10 +45,10 @@ public class SpaceGame extends Game {
 	public void create()
 	{
 		instance = this;
-		if(gsClient == null)
-		{
-			gsClient = new NoGameServiceClient();
-		}
+//		if(gsClient == null)
+//		{
+//			gsClient = new NoGameServiceClient();
+//		}
 
 		VIEWPORTWIDTH = Gdx.graphics.getWidth();
 		VIEWPORTHEIGHT = Gdx.graphics.getHeight();
