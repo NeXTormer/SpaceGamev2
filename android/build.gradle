@@ -18,11 +18,11 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "me.fholz.spacegame"
+        applicationId "me.spacegame"
         minSdkVersion 14
         targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "2.6"
     }
     buildTypes {
         release {
@@ -83,7 +83,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'me.fholz.spacegame/me.fholz.spacegame.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'me.spacegame/me.spacegame.AndroidLauncher'
 }
 
 eclipse.project.name = appName + "-android"

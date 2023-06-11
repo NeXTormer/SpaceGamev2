@@ -116,7 +116,7 @@ public class GameOverMenu extends MenuTemplate {
         stage.addActor(gameoverText);
         stage.addActor(scoreText);
 
-        API.send("https://games.htl-klu.at/anyway/addscore/9F412BDFA1D49B0D80/" + menuManager.getGameScreen().getGame().username + "/" + score + "/spacegame");
+        //API.send("https://games.htl-klu.at/anyway/addscore/9F412BDFA1D49B0D80/" + menuManager.getGameScreen().getGame().username + "/" + score + "/spacegame");
 
         return this;
     }
