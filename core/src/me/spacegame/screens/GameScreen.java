@@ -238,7 +238,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
     @Override
     public void render(float delta) {
-        update();
+        float normalizedDelta = delta / (1.0f / 60.0f);
+
+        update(normalizedDelta);
         draw();
     }
 
@@ -293,9 +295,9 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         healthBar.draw();
     }
 
-    public void update()
+    public void update(float delta)
     {
-        player.score+=1;
+        player.score += Math.round(1 * delta);
 
         //update
         if (System.currentTimeMillis() - shakeCamTimer < SHAKETIME)
@@ -310,7 +312,7 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
         }
         camera.position.set(SpaceGame.VIEWPORTWIDTH/2, SpaceGame.VIEWPORTHEIGHT/2, 0);
 
-        player.updatePosition(touchpad);
+        player.updatePosition(touchpad, delta);
 
         //Spawn Enemy0,2,3 after Seconds
         if((System.currentTimeMillis()-enemy0SpawnTimer)>enemy0Spawner)
@@ -594,14 +596,14 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
             }
         }
 
-        background.update();
+        background.update(delta);
 
         for(Enemy e : enemies)
         {
-            e.update();
+            e.update(delta);
         }
         for (Rocket r : rockets) {
-            r.update();
+            r.update(delta);
         }
         for(int i = 0; i < explosions.size(); i++)
         {
@@ -694,12 +696,10 @@ public class GameScreen implements Screen, InputProcessor, GestureDetector.Gestu
 
     public void damagePlayer(int damage)
     {
-        //damage = 4;
         player.health -= damage;
         healthBar.setAbsuloteHealth(player.health);
         shakeCam();
         game.getSound("damagesound").play(game.soundVolume);
-
     }
 
     private void gameOver() {

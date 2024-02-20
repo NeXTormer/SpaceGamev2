@@ -56,10 +56,10 @@ public class Player {
             batch.draw(texture, x, y, width, height);
     }
 
-    public void updatePosition(Touchpad touchpad)
+    public void updatePosition(Touchpad touchpad, float delta)
     {
-        newx=touchpad.getKnobPercentX() * baseSpeed+x;
-        newy=touchpad.getKnobPercentY() * baseSpeed+y;
+        newx=touchpad.getKnobPercentX() * baseSpeed * delta + x;
+        newy=touchpad.getKnobPercentY() * baseSpeed * delta + y;
         if(newx+width<SpaceGame.VIEWPORTWIDTH && newx>0)
         {
             x = newx;

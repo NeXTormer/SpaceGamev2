@@ -39,9 +39,9 @@ public class Background {
         batch.draw(bg, x + (width), 0, width, height);
     }
 
-    public void update()
+    public void update(float delta)
     {
-        x -= speed;
+        x -= Math.round(speed * delta);
         if(x <= -width) x = 0;
     }
 

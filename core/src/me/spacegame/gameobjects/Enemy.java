@@ -151,7 +151,7 @@ public class Enemy {
         }
     }
 
-    public void update()
+    public void update(float delta)
     {
         ep.update();
         ep.setPosition( (int) warningX, (int) enemyY);
@@ -167,21 +167,21 @@ public class Enemy {
 
         if(type==0)
         {
-            enemyX-=baseSpeed;
+            enemyX -= Math.round(baseSpeed * delta);
         }
         if(type==1)
         {
             if(enemyX<=Scale.getScaledSizeX(150))
             {
-                enemyX+=(baseSpeed-10);
+                enemyX += Math.round(delta * (baseSpeed-10));
             }
             if(player.y<enemyY)
             {
-                enemyY-=3;
+                enemyY -= Math.round(3 * delta);
             }
             if(player.y>enemyY)
             {
-                enemyY+=3;
+                enemyY += Math.round(3 * delta);
             }
             if((System.currentTimeMillis()-shootTime) > 4000)
             {
@@ -191,8 +191,8 @@ public class Enemy {
                 EnemyRocket r1 = new EnemyRocket(this);
                 r1.texture = gameScreen.getGame().getTexture("enemyrocket2");
                 r1.speed*=-1;
-                r1.x=enemyX+(enemyWidth/4*3);
-                r1.y=enemyY+(enemyHeight*2/28);
+                r1.x = enemyX + (enemyWidth/4*3);
+                r1.y = enemyY + (enemyHeight*2/28);
                 rockets.add(r1);
                 SpaceGame.getInstance().getSound("shot3sound").play(SpaceGame.getInstance().soundVolume);
 
@@ -215,19 +215,19 @@ public class Enemy {
                 started = true;
             }
 
-            sinCount+=0.05;
+            sinCount += (float) (0.05 * delta);
 
             if(type==3)
             {
                 if(enemyX>=Scale.getScaledSizeX(1600))
                 {
-                    enemyX-=(baseSpeed);
+                    enemyX -= Math.round(baseSpeed * delta);
                 }
 
             }
             if(type==2)
             {
-                enemyX-=(baseSpeed);
+                enemyX -= Math.round(baseSpeed * delta);
             }
 
             double value = 300*Math.sin(sinCount);
@@ -282,7 +282,7 @@ public class Enemy {
 
         for(EnemyRocket rocket : rockets)
         {
-            rocket.update();
+            rocket.update(delta);
         }
     }
 

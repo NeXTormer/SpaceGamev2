@@ -62,9 +62,9 @@ public class Rocket {
         texture = controlRocketTexture;
     }
 
-    public void update()
+    public void update(float delta)
     {
-        x+=speed;
+        x += Math.round(speed * delta);
         box.setX(x-5);
         box.setY(y);
     }

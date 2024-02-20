@@ -41,7 +41,7 @@ public class PowerUpHelper extends PowerUp {
         super(player, gameScreen);
         helper = new Player(gameScreen);
         helper.x = -500;
-        helper.health = 3000;
+        helper.health = 500;
         helper.texture = gameScreen.getGame().getTexture("helpership");
 
         started = false;

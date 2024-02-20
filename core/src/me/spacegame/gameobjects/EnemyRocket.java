@@ -51,9 +51,9 @@ public class EnemyRocket {
         batch.draw(texture, x, y, width, height);
     }
 
-    public void update()
+    public void update(float delta)
     {
-        x-=speed;
+        x -= Math.round(speed * delta);
         box.setX(x+5);
         box.setY(y);
     }
